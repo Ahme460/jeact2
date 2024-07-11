@@ -43,7 +43,6 @@ from django.db.models.signals import post_save
 
 from django.core.mail import send_mail
 from django.dispatch import receiver 
-from .models import SenderEmail
 from django.conf import settings
 from .tasks import send_email_task
 class sender_email(models.Model):
