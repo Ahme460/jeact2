@@ -56,7 +56,8 @@ class sender_email(models.Model):
 @receiver(post_save, sender=sender_email)
 def send_message(sender, instance, created, **kwargs):
     if created:
-        send_email_task.delay(instance.subject, instance.content)
+        send_email_task(instance.subject, instance.content)
+        
 
 
 

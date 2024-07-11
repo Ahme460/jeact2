@@ -35,15 +35,10 @@ def send_reset_password_email(user):
         return False
  
     
-@shared_task
+from django.core.mail import send_mass_mail
 def send_email_task(subject, message):
     users = Customer_user.objects.all()
-    for user in users:
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [user.email],
-            fail_silently=False,
-        )
+    email_list = [user.email for user in users]
 
+    message = (subject, message, settings.DEFAULT_FROM_EMAIL, email_list)
+    send_mass_mail((message,), fail_silently=False)
