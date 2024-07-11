@@ -1,0 +1,265 @@
+from rest_framework import generics, permissions, status
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import get_user_model
+from .serializers import SingUpSerializer
+from .serializers import *
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.exceptions import ValidationError
+from django.contrib.auth.hashers import make_password
+from rest_framework.viewsets import ModelViewSet
+import os
+from django.shortcuts import redirect
+import importlib
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .tasks import *
+import time
+from .models import *
+from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.tokens import default_token_generator
+from .pymob import pay
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+
+from .serializers import PasswordResetRequestSerializer, PasswordResetSerializer
+
+
+
+User = get_user_model()
+
+@api_view(['POST'])
+def register(request):
+    data = request.data
+    print(data)
+    serializer = SingUpSerializer(data=data)
+    if serializer.is_valid():
+        if not User.objects.filter(username=data['username']).exists():
+            user = serializer.save()
+            # استدعاء مهمة إرسال البريد الإلكتروني
+            from django.core.mail import EmailMessage
+            email_sender = EmailMessage(
+                subject="permit to work",
+                body="Welcome",
+                to=[
+                    f"{user.email}"
+                ]
+            )
+            email_sender.send()
+            return Response(
+                {'details': 'Your account registered successfully!'},
+                status=status.HTTP_201_CREATED
+            )
+        else:
+            return Response(
+                {'error': 'This email already exists!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def login(request):
+    serializer = LoginSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    user = serializer.validated_data['user']
+    refresh = RefreshToken.for_user(user)
+    
+    return Response({
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    })
+
+
+# @api_view(['GET'])
+# def product_list_view(request):
+#     products = Products.objects.all()
+#     if "color" in request.query_params:
+#         colors = request.query_params['color']
+#         products = products.filter(color__color__in=colors)
+#     serializer = ProductSerializer(products, many=True)
+#     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class RequestPasswordResetView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = PasswordResetRequestSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"detail": "Password reset link has been sent to your email."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PasswordResetView(APIView):
+    def post(self, request, uidb64, token, *args, **kwargs):
+        serializer = PasswordResetSerializer(data={**request.data, 'uidb64': uidb64, 'token': token})
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"detail": "Password has been reset successfully."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# @api_view(['GET'])
+# def product_detail(request, pk):
+#     try:
+#         product = Products.objects.get(pk=pk)
+#     except Products.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
+#     serializer = ProductSerializer_detal(product)
+#     return Response(serializer.data)
+
+
+class CartViewSet(ModelViewSet):
+    queryset = CartModel.objects.all()
+    serializer_class = CartSer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return CartItemSerializer
+        return CartSer
+
+    def get_queryset(self):
+        return CartModel.objects.filter(customer=self.request.user)
+
+#@api_view(['GET'])
+#def user_cart(request, user_id):
+ ##  total_price = 0
+   # for item in cart_items:
+    #    total_price += item.product.price * item.quantity
+    #serializer = CartItemSerializer(cart_items, many=True)
+    #data = serializer.data
+    #for i in range(len(data)):
+     #   data[i]['total_price'] = cart_items[i].product.price * cart_items[i].quantity
+    #return Response(data)
+
+#@api_view(['DELETE'])
+#def delete_cart_item(request, cart_item_id):
+ #   try:
+  #      cart_item = CartItem.objects.get(pk=cart_item_id)
+   #3 except CartItem.DoesNotExist:
+    #    return Response(status=status.HTTP_404_NOT_FOUND)
+
+    #cart_item.delete()
+    #return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ProductViewSet(ModelViewSet):
+    queryset = Products.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['colors__color', 'sizes__size']
+    search_fields = ['name', 'details']
+    ordering_fields = ['price', 'id']
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+
+
+
+class ContactUsViewSet(ModelViewSet):
+    queryset = ContactUs.objects.all()
+    serializer_class = ContactUsSerializer()
+
+
+
+
+
+
+class AddressViewSet(ModelViewSet):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Address.objects.filter(user=user)
+
+    def perform_create(self, serializer):
+        address = serializer.save(user=self.request.user)
+        
+        # Get the province details
+        province = address.province
+        province_serializer = ProvinceSerializer(province)
+
+        return Response({
+            'address': serializer.data,
+            'province': province_serializer.data,
+            'delivery_price': province.delivery_price
+        }, status=status.HTTP_201_CREATED)
+
+    def list(self, request, *args, **kwargs):
+        user_country = self.request.user.country
+        provinces = Province.objects.filter(country__name=user_country)
+        province_serializer = ProvinceSerializer(provinces, many=True)
+        return Response(province_serializer.data)
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
+from .models import CartModel, CartItem, Orders, Customer_user, Address
+from .pymob import pay  # افترض أنك قمت بتعريف دالة `pay` في مكان ما في utils
+
+
+class PaymentView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        try:
+            cart = CartModel.objects.get(customer=user)
+            address = Address.objects.get(user=user)
+            province = address.province
+            delivery_price = province.delivery_price
+
+            if delivery_price:
+                total_price = cart.total_price + delivery_price
+                api_key = "ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1Rnek5URTRMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkud1dHbXNsUlBsYVRXWVRkU2h6dXVfbFJhTkxiMTVoVUNBOFFJRDNYLUNqby12RjVlQ3Jkall0NS1ydzVRb01fOHczMmhXM3hYNVdLRmNweTg3aTlaU2c="
+                payment_url = pay(api_key, total_price, user)
+                return Response({'payment_url': payment_url}, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": "not delivery_price for this Province"}, status=status.HTTP_400_BAD_REQUEST)
+        except CartModel.DoesNotExist:
+            return Response({'error': 'Cart not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class PaymobCallbackView(APIView):
+    def post(self, request):
+        try:
+            data = request.data
+            payment_status = data.get('success', False)
+            transaction_id = data.get('id', None)
+            user_id = data.get('order', {}).get('merchant_order_id', None)
+
+            if payment_status:
+                user = Customer_user.objects.get(id=user_id)
+                cart = get_object_or_404(CartModel, customer=user)
+                address = Address.objects.get(user=user)
+                
+                order_details = "\n".join([f"{item.quantity} x {item.product.name} ({item.size}, {item.color})" for item in cart.items.all()])
+
+                order = Orders.objects.create(
+                    order=order_details,
+                    customer=user,
+                    phone_user=address.phone,
+                    email=user.email,
+                    location=address.location
+                )
+
+                cart.items.all().delete()
+                cart.delete()
+
+                return Response({'message': 'Payment successful and order created'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'Payment failed'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
