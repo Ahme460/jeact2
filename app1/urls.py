@@ -11,8 +11,8 @@ urlpatterns = [
     path('sing/', register, name='sing up'),
     path('login/', login, name='login'),
     path('payment/', PaymentView.as_view(), name='payment'),
-    path('request-reset-password/', RequestPasswordResetView, name='request-reset-password'),
-    path('reset-password/<uidb64>/<token>/', PasswordResetView, name='reset-password'),
+     path('request-reset-password/', RequestPasswordResetView.as_view(), name='request-reset-password'),
+    path('reset-password/<uidb64>/<token>/', PasswordResetView.as_view(), name='reset-password'),
     path('api/', include(router.urls)),
     path('payment-callback/', PaymobCallbackView.as_view(), name='payment-callback'),
 ]
