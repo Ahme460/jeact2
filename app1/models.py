@@ -40,7 +40,7 @@ class Customer_user(AbstractUser, PermissionsMixin):
 
 
 from django.db.models.signals import post_save
-from .models import Email
+
 from django.core.mail import send_mail
 from django.dispatch import receiver 
 from .models import SenderEmail
