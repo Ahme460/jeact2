@@ -14,5 +14,6 @@ admin.site.register(CartModel)
 admin.site.register(CartItem)
 admin.site.register(ContactUs)
 admin.site.register(Address)
+admin.site.register(sender_email)
 # Register your models here.
 # admin.site.register(Customer_user)
