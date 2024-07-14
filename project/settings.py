@@ -61,6 +61,27 @@ MIDDLEWARE = [
  
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+
+# السماح برؤوس محددة إذا لزم الأمر
+CORS_ALLOW_HEADERS = [
+    'authorization',
+    'content-type',
+    'accept',
+]
+
+# السماح بالطرق المحددة إذا لزم الأمر
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
+
+
+
 ROOT_URLCONF = 'project.urls'
 
 TEMPLATES = [
