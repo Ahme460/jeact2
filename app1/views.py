@@ -162,8 +162,7 @@ class ProductViewSet(ModelViewSet):
 
 class ContactUsViewSet(ModelViewSet):
     queryset = ContactUs.objects.all()
-    serializer_class = ContactUsSerializer()
-
+    serializer_class = ContactUsSerializer
 
 
 
