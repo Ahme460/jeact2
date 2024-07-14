@@ -62,13 +62,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
-
+CORS_ALLOW_CREDENTIALS = True
 # السماح برؤوس محددة إذا لزم الأمر
-CORS_ALLOW_HEADERS = [
-    'authorization',
-    'content-type',
-    'accept',
-]
 
 # السماح بالطرق المحددة إذا لزم الأمر
 CORS_ALLOW_METHODS = [
