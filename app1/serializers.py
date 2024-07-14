@@ -201,5 +201,5 @@ class AddressSerializer(serializers.ModelSerializer):
 
 class ContactUsSerializer(serializers.ModelSerializer):
     class Meta:
-        model=ContactUs
-        fields="__all__"
+        model = ContactUs
+        fields = '__all__'
