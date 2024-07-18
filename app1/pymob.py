@@ -18,7 +18,7 @@ def generate_random_name():
 def pay(api_: str, total_price, user):
     cart = CartModel.objects.get(customer=user)
     cart_items = CartItem.objects.filter(cart=cart)
-    currency = Customer_user.objects.get(email=user.email).currency
+    currency = Customer_user.objects.get(email=user.email).currence
     email = user.email
     first_name = user.first_name
     last_name=generate_random_name()
