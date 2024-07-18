@@ -2,6 +2,10 @@ import requests as re
 import random
 import string
 from .models import CartModel, Customer_user, CartItem
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 
 def generate_random_phone_number():
     prefix = "+2010"
@@ -21,13 +25,13 @@ def pay(api_: str, total_price, user):
     currency = Customer_user.objects.get(email=user.email).currence
     email = user.email
     first_name = user.first_name
-    last_name=generate_random_name()
+    last_name = generate_random_name()
     
     items = []
     for item in cart_items:
         items.append({
             "name": item.product.name,
-            "amount_cents": int(item.product.price * 100),  # تحويل السعر إلى سنت
+            "amount_cents": int(item.product.price * 100),  # Convert price to cents
             "description": item.product.about_product,
             "quantity": item.quantity
         })
@@ -39,7 +43,13 @@ def pay(api_: str, total_price, user):
         url="https://accept.paymob.com/api/auth/tokens",
         json={"api_key": api}
     )
-    api_token = token_response.json().get("token", None)
+    token_data = token_response.json()
+    api_token = token_data.get("token", None)
+    
+    print("Token Response:", token_data)  # Debugging statement
+
+    if not api_token:
+        return None
     
     order_payload = {
         "auth_token": api_token,
@@ -55,8 +65,13 @@ def pay(api_: str, total_price, user):
         url="https://accept.paymob.com/api/ecommerce/orders",
         json=order_payload
     )
+    order_data = order_response.json()
+    order_id = order_data.get('id', None)
     
-    order_id = order_response.json().get('id', None)
+    print("Order Response:", order_data)  # Debugging statement
+
+    if not order_id:
+        return None
     
     payment_key_payload = {
         "auth_token": api_token,
@@ -79,15 +94,20 @@ def pay(api_: str, total_price, user):
             "state": ""
         },
         "currency": currency,
-        "integration_id": 4603869  # هذا معرف التكامل الخاص بك من حساب باي موب
+        "integration_id": 4603869  # Your integration ID from Paymob account
     }
     
     payment_key_response = re.post(
         url="https://accept.paymob.com/api/acceptance/payment_keys",
         json=payment_key_payload
     )
+    payment_key_data = payment_key_response.json()
+    payment_token = payment_key_data.get('token', None)
     
-    payment_token = payment_key_response.json().get('token', None)
+    print("Payment Key Response:", payment_key_data)  # Debugging statement
+
+    if not payment_token:
+        return None
     
     payment_url = f"https://accept.paymob.com/api/acceptance/iframes/854152?payment_token={payment_token}"
     

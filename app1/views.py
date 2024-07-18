@@ -215,16 +215,19 @@ class PaymentView(APIView):
 
             if delivery_price:
                 total_price = cart.total_price + delivery_price
-                api_key = "ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1Rnek5URTRMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkud1dHbXNsUlBsYVRXWVRkU2h6dXVfbFJhTkxiMTVoVUNBOFFJRDNYLUNqby12RjVlQ3Jkall0NS1ydzVRb01fOHczMmhXM3hYNVdLRmNweTg3aTlaU2c="
+                api_key = "YOUR_API_KEY"
                 payment_url = pay(api_key, total_price, user)
+                
+                if not payment_url:
+                    return Response({"error": "Failed to generate payment URL"}, status=status.HTTP_400_BAD_REQUEST)
+                
                 return Response({'payment_url': payment_url}, status=status.HTTP_200_OK)
             else:
-                return Response({"error": "not delivery_price for this Province"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"error": "No delivery price for this province"}, status=status.HTTP_400_BAD_REQUEST)
         except CartModel.DoesNotExist:
             return Response({'error': 'Cart not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class PaymobCallbackView(APIView):
