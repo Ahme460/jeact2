@@ -41,11 +41,10 @@ def register(request):
             # استدعاء مهمة إرسال البريد الإلكتروني
             from django.core.mail import EmailMessage
             email_sender = EmailMessage(
-                subject="permit to work",
+                subject="Permit to Work",
                 body="Welcome",
-                to=[
-                    f"{user.email}"
-                ]
+                from_email='bentagwy2121@gmail.com',  # Ensure this is set
+                to=[user.email]
             )
             email_sender.send()
             return Response(
