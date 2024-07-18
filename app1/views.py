@@ -30,6 +30,7 @@ from .serializers import PasswordResetRequestSerializer, PasswordResetSerializer
 
 User = get_user_model()
 
+
 @api_view(['POST'])
 def register(request):
     data = request.data
@@ -38,15 +39,14 @@ def register(request):
     if serializer.is_valid():
         if not User.objects.filter(username=data['username']).exists():
             user = serializer.save()
-            # استدعاء مهمة إرسال البريد الإلكتروني
-            from django.core.mail import EmailMessage
-            email_sender = EmailMessage(
+            # استخدام send_mail بدلاً من EmailMessage
+            send_mail(
                 subject="Permit to Work",
-                body="Welcome",
-                from_email='bentagwy2121@gmail.com',  # Ensure this is set
-                to=[user.email]
+                message="Welcome",
+                from_email='info@bantayga.wtf',
+                recipient_list=[user.email],
+                fail_silently=False,
             )
-            email_sender.send()
             return Response(
                 {'details': 'Your account registered successfully!'},
                 status=status.HTTP_201_CREATED
@@ -58,7 +58,6 @@ def register(request):
             )
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 @api_view(['POST'])
 def login(request):
