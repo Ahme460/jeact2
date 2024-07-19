@@ -214,8 +214,12 @@ class PaymentView(APIView):
             delivery_price = province.delivery_price
 
             if delivery_price:
-                total_price = cart.total_price + delivery_price
-                api_key = "YOUR_API_KEY"
+                total_price = cart.total_price 
+                #+ delivery_price
+               # api_key ="ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2TnpReU5qWTFMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkuR29Qem90Q1AyRDZrSHRXS2JKUHNNMG9rU1piNlFVbHBWOEdsZFpVOF9iSURnekNQb1FtN1hvdW9CMi04YzNmOG9mVlJJYm82TXhPX0g5RmZsR1U0N0E="
+                api_key="ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1Rnek5URTRMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkud1dHbXNsUlBsYVRXWVRkU2h6dXVfbFJhTkxiMTVoVUNBOFFJRDNYLUNqby12RjVlQ3Jkall0NS1ydzVRb01fOHczMmhXM3hYNVdLRmNweTg3aTlaU2c="
+                #"ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1RjME16QXhMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkuR2duRjJjU0pnRThsbVpqRnVGMWdPTHlzaFdlSnpSOVBJTDFkT1RBQ3B0Z3JqckxnUmo5WU43MHZqOGlGYUdVQzZmUm5mQ2tQWDZUbHBkcUVFX3J6NUE=" 
+
                 payment_url = pay(api_key, total_price, user)
                 
                 if not payment_url:
