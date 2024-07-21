@@ -33,9 +33,9 @@ class Customer_user(AbstractUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
-    def set_currency(self):
-        country = CountryInfo(self.country.name)
-        return country.currencies()[0] if country.currencies() else "Unknown"
+   # def set_currency(self):
+      #  country = CountryInfo(self.country.name)
+       # return country.currencies()[0] if country.currencies() else "Unknown"
 
 
 
