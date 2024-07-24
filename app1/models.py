@@ -27,7 +27,7 @@ class Customer_user(AbstractUser, PermissionsMixin):
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, related_name='users')
     currence=models.CharField(max_length=50)
     def save(self, *args, **kwargs):
-        self.password=make_password(self.password)
+       # self.password=make_password(self.password)
         super().save(*args, **kwargs)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
@@ -132,7 +132,6 @@ class Orders(models.Model):
 class CartModel(models.Model):
     customer = models.OneToOneField(Customer_user, on_delete=models.CASCADE, related_name="cart")
     def __str__(self) -> str:
-        
         return self.customer.username
     
     @property
