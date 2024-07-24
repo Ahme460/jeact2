@@ -22,37 +22,48 @@ from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 from .pymob import pay
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from .serializers import PasswordResetRequestSerializer, PasswordResetSerializer
-
+from django.shortcuts import get_object_or_404
+ 
 User = get_user_model()
-@api_view(['POST'])
-def register(request):
-    data = request.data
-    print(data)
-    serializer = SingUpSerializer(data=data)
-    if serializer.is_valid():
-        if not User.objects.filter(username=data['username']).exists():
-            user = serializer.save()
-            # استخدام send_mail بدلاً من EmailMessage
-            send_mail(
-                subject="Permit to Work",
-                message="Welcome",
-                from_email='info@bantayga.wtf',
-                recipient_list=[user.email],
-                fail_silently=False,
-            )
-            return Response(
-                {'details': 'Your account registered successfully!'},
-                status=status.HTTP_201_CREATED
-            )
+class RegisterAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request, *args, **kwargs):
+        try:
+            countries = Country.objects.all()
+            country_list = [{'id': country.id, 'name': country.name} for country in countries]
+            return Response(country_list, status=status.HTTP_200_OK)
+        except ValidationError as e:
+            return Response({"field": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        print(data)
+        serializer = SingUpSerializer(data=data)
+        if serializer.is_valid():
+            if not User.objects.filter(username=data['username']).exists():
+                user = serializer.save()
+                # استخدام send_mail بدلاً من EmailMessage
+                send_mail(
+                    subject="Permit to Work",
+                    message="Welcome",
+                    from_email='info@bantayga.wtf',
+                    recipient_list=[user.email],
+                    fail_silently=False,
+                )
+                return Response(
+                    {'details': 'Your account registered successfully!'},
+                    status=status.HTTP_201_CREATED
+                )
+            else:
+                return Response(
+                    {'error': 'This email already exists!'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
         else:
-            return Response(
-                {'error': 'This email already exists!'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def login(request):
@@ -190,17 +201,14 @@ class PaymentView(APIView):
             delivery_price = province.delivery_price
 
             if delivery_price:
-                total_price = cart.total_price 
-                #+ delivery_price
+                total_price = cart.total_price + delivery_price
                 api_key="ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1RjME16QXhMQ0p1WVcxbElqb2lNVGN5TVRRNU5EYzROaTQwT0RjeU5qWWlmUS5aY1pMNUNVWTdSRld1S3d6eEhwLXlOS3F0RWUxVEhyZmh5TTdyWmplc1pGU3FjZVZWalptZWRudEZSdHh1MEk1M29sQWZIQkd6dVRLT3lvUWpjTEo5dw=="
                 #api_key="ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1Rnek5URTRMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkud1dHbXNsUlBsYVRXWVRkU2h6dXVfbFJhTkxiMTVoVUNBOFFJRDNYLUNqby12RjVlQ3Jkall0NS1ydzVRb01fOHczMmhXM3hYNVdLRmNweTg3aTlaU2c="
                 #api_key="ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1RjME16QXhMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkuR2duRjJjU0pnRThsbVpqRnVGMWdPTHlzaFdlSnpSOVBJTDFkT1RBQ3B0Z3JqckxnUmo5WU43MHZqOGlGYUdVQzZmUm5mQ2tQWDZUbHBkcUVFX3J6NUE="
                 #api_key ="ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2TnpReU5qWTFMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkuR29Qem90Q1AyRDZrSHRXS2JKUHNNMG9rU1piNlFVbHBWOEdsZFpVOF9iSURnekNQb1FtN1hvdW9CMi04YzNmOG9mVlJJYm82TXhPX0g5RmZsR1U0N0E="
                 #api_key="ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1Rnek5URTRMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkud1dHbXNsUlBsYVRXWVRkU2h6dXVfbFJhTkxiMTVoVUNBOFFJRDNYLUNqby12RjVlQ3Jkall0NS1ydzVRb01fOHczMmhXM3hYNVdLRmNweTg3aTlaU2c="
                 #"ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1RjME16QXhMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkuR2duRjJjU0pnRThsbVpqRnVGMWdPTHlzaFdlSnpSOVBJTDFkT1RBQ3B0Z3JqckxnUmo5WU43MHZqOGlGYUdVQzZmUm5mQ2tQWDZUbHBkcUVFX3J6NUE=" 
-
                 payment_url = pay(api_key, total_price, user)
-                
                 if not payment_url:
                     return Response({"error": "Failed to generate payment URL"}, status=status.HTTP_400_BAD_REQUEST)
                 
@@ -211,8 +219,6 @@ class PaymentView(APIView):
             return Response({'error': 'Cart not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
 class PaymobCallbackView(APIView):
     def post(self, request):
         try:
@@ -236,7 +242,7 @@ class PaymobCallbackView(APIView):
                     location=address.location
                 )
 
-                cart.items.all().delete()
+                #cart.items.all().delete()
                 cart.delete()
 
                 return Response({'message': 'Payment successful and order created'}, status=status.HTTP_200_OK)

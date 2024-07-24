@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 import requests
 #from countryinfo import CountryInfo
 from django.contrib.auth.models import AbstractUser
-
+from django.contrib.auth.hashers import make_password
    
 # نموذج الدول
 class Country(models.Model):
@@ -27,9 +27,8 @@ class Customer_user(AbstractUser, PermissionsMixin):
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, related_name='users')
     currence=models.CharField(max_length=50)
     def save(self, *args, **kwargs):
-        kwargs['using'] = kwargs.get('using', 'default')
+        self.password=make_password(self.password)
         super().save(*args, **kwargs)
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
@@ -50,8 +49,6 @@ class sender_email(models.Model):
     content=models.TextField()
     def __str__(self) -> str:
         self.subject
-        
-  
 
 @receiver(post_save, sender=sender_email)
 def send_message(sender, instance, created, **kwargs):

@@ -8,7 +8,7 @@ router.register('products', ProductViewSet)
 router.register('cart', CartViewSet)
 router.register('contact_us',ContactUsViewSet)
 urlpatterns = [
-    path('sing/', register, name='sing up'),
+    path('sing/', RegisterAPIView.as_view(), name='sing up'),
     path('login/', login, name='login'),
     path('payment/', PaymentView.as_view(), name='payment'),
     path('request-reset-password/', RequestPasswordResetView.as_view(), name='request-reset-password'),
