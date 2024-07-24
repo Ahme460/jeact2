@@ -131,7 +131,10 @@ class Orders(models.Model):
 
 class CartModel(models.Model):
     customer = models.OneToOneField(Customer_user, on_delete=models.CASCADE, related_name="cart")
-
+    def __str__(self) -> str:
+        
+        return self.customer.username
+    
     @property
     def total_price(self):
         return sum([item.product.price * item.quantity for item in self.items.all()])
