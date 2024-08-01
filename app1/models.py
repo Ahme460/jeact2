@@ -124,11 +124,17 @@ class SizesModel(models.Model):
     ]
     product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name="sizes")
     size = models.CharField(max_length=50, null=True, choices=SIZE_SELECT)
-
+    def __str__(self) -> str:
+        return f"{self.size+self.product}"
+    
 
 class ColorsModel(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name="colors")
     color = models.CharField(max_length=50, null=True)
+    
+    def __str__(self) -> str:
+        return f"{self.color+self.product}"
+    
 
 
 class Orders(models.Model):
