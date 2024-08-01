@@ -163,7 +163,7 @@ class Categtyviwset(APIView):
     def get(self,request):
         
         categray=categories.objects.all()
-        serializer = CategraySerializer(categories, many=True)
+        serializer = CategraySerializer(categray, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
         
