@@ -61,12 +61,6 @@ imageio==2.34.2
 imageio-ffmpeg==0.5.1
 inflection==0.5.1
 joblib==1.4.2
-Kivy==2.3.0
-kivy-deps.angle==0.4.0
-kivy-deps.glew==0.3.1
-kivy-deps.gstreamer==0.3.3
-kivy-deps.sdl2==0.7.0
-Kivy-Garden==0.1.5
 kombu==5.3.7
 Levenshtein==0.25.1
 moviepy==1.0.3
