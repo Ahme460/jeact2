@@ -210,3 +210,9 @@ EMAIL_HOST_PASSWORD = "llux mtlk fvot yekd"
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'django-db'  # استخدام قاعدة البيانات كخلفية لحفظ نتائج العمليات
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+
+# Media files (uploads)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
