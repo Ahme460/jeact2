@@ -37,6 +37,10 @@ class AddressAdmin(admin.ModelAdmin):
 class SenderEmailAdmin(admin.ModelAdmin):
     search_fields = ['email']
 
+class Categray_admin(admin.ModelAdmin):
+    search_fields=["name"]
+    
+
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Province, ProvinceAdmin)
 admin.site.register(Customer_user, CustomerUserAdmin)
@@ -49,6 +53,7 @@ admin.site.register(CartItem, CartItemAdmin)
 admin.site.register(ContactUs, ContactUsAdmin)
 admin.site.register(Address, AddressAdmin)
 admin.site.register(sender_email, SenderEmailAdmin)
+admin.site.register(categories, Categray_admin)
 
 
 

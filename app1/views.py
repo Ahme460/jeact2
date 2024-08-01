@@ -157,6 +157,23 @@ class ProductViewSet(ModelViewSet):
         context.update({"request": self.request})
         return context
 
+
+class Categtyviwset(APIView):
+    
+    def get(self,request):
+        
+        categray=categories.objects.all()
+        serializer = CategraySerializer(categories, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+        
+
+
+
+
+
+
+
 class ContactUsViewSet(ModelViewSet):
     queryset = ContactUs.objects.all()
     serializer_class = ContactUsSerializer

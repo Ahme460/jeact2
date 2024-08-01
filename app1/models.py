@@ -8,6 +8,18 @@ import requests
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
    
+
+    
+class categories(models.Model):
+    name=models.CharField(max_length=100)
+    descrtion=models.TextField()
+    
+    def __str__(self) -> str:
+        return self.name
+    
+
+   
+   
 # نموذج الدول
 class Country(models.Model):
     name = models.CharField(max_length=200, unique=True)
@@ -77,6 +89,7 @@ class Products(models.Model):
     ]
     name = models.CharField(max_length=50)
     price = models.FloatField()
+    categray=models.ForeignKey(categories,on_delete=models.CASCADE, related_name='products')
     about_product = models.TextField()
     photo = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -171,7 +184,6 @@ class Address(models.Model):
     detal=models.TextField()
     province = models.ForeignKey(Province, on_delete=models.SET_NULL, null=True, related_name='addresses')
 
-    
     
     
     
