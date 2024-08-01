@@ -125,7 +125,7 @@ class SizesModel(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name="sizes")
     size = models.CharField(max_length=50, null=True, choices=SIZE_SELECT)
     def __str__(self) -> str:
-        return f"{self.size+self.product}"
+        return f"{self.size} {self.product}"
     
 
 class ColorsModel(models.Model):
@@ -133,7 +133,7 @@ class ColorsModel(models.Model):
     color = models.CharField(max_length=50, null=True)
     
     def __str__(self) -> str:
-        return f"{self.color+self.product}"
+        return f"{self.color} {self.product}"
     
 
 
