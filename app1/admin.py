@@ -55,7 +55,7 @@ admin.site.register(Address, AddressAdmin)
 admin.site.register(sender_email, SenderEmailAdmin)
 admin.site.register(categories, Categray_admin)
 
-
+admin.site.register(ProductImage)
 
 #models = [Customer_user, Products, SizesModel, ColorsModel, CartItem, Orders, CartModel,Currence]
 # Register your models here.
