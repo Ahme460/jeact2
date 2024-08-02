@@ -112,10 +112,19 @@ class SizesSer(serializers.ModelSerializer):
         model = SizesModel
         exclude = ['product']
 
+
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ['id', 'image', 'created_at']
+
+
 class ProductSerializer(serializers.ModelSerializer):
     colors = ColorSer(many=True, read_only=True)
     sizes = SizesSer(many=True, read_only=True)
     converted_price = serializers.SerializerMethodField()
+    images = ProductImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Products

@@ -66,15 +66,6 @@ class sender_email(models.Model):
 def send_message(sender, instance, created, **kwargs):
     if created:
         send_email_task(instance.subject, instance.content)
-        
-
-
-
-
-
-
-
-
 
 # نموذج المنتجات
 class Products(models.Model):
@@ -87,11 +78,12 @@ class Products(models.Model):
         ('medium', 'm'),
         ('large', 'l'),
     ]
+    
     name = models.CharField(max_length=50)
     price = models.FloatField()
-    categray=models.ForeignKey(categories,on_delete=models.CASCADE, related_name='products')
+    categray = models.ForeignKey(categories, on_delete=models.CASCADE, related_name='products')
     about_product = models.TextField()
-    photo = models.FileField()
+    photo = models.FileField(upload_to='product_images/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     sale_status = models.CharField(max_length=10, choices=SALE_CHOICES, default='sale')
@@ -114,6 +106,18 @@ class Products(models.Model):
             except Exception as e:
                 return self.price
         return self.price
+
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='product_images/')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Image for {self.product.name}"
+
+
 
 # نموذج الأحجام
 class SizesModel(models.Model):
