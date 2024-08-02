@@ -147,13 +147,13 @@ class CartViewSet(ModelViewSet):
 class ProductViewSet(ModelViewSet):
     queryset = Products.objects.all()
     serializer_class = ProductSerializer
-    #permission_classes = [AllowAny]
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]
+    #permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['colors__color', 'sizes__size']
-    search_fields = ['name', 'details']
-    #filterset_fields = ['colors__color', 'sizes__size', 'categray__id', 'categray__name']
-    #search_fields = ['name', 'details', 'categray__name', 'categray__id']
+    #filterset_fields = ['colors__color', 'sizes__size']
+    #search_fields = ['name', 'details']
+    filterset_fields = ['colors__color', 'sizes__size', 'categray__id', 'categray__name']
+    search_fields = ['name', 'details', 'categray__name', 'categray__id']
     ordering_fields = ['price', 'id']
     def get_serializer_context(self):
         context = super().get_serializer_context()
