@@ -17,6 +17,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .tasks import *
 import time
+from django.db.models import Q
 from .models import *
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
@@ -157,18 +158,26 @@ class ProductViewSet(ModelViewSet):
         context.update({"request": self.request})
         return context
 
-
-class Categtyviwset(APIView):
-    
-    def get(self,request):
+class CategoryViewSet(APIView):
+    def get(self, request):
+        # Get the 'id' parameter from the query parameters
+        category_id = request.query_params.get('id', None)
         
-        categray=categories.objects.all()
-        serializer = CategraySerializer(categray, many=True)
+        # Validate and filter categories based on the 'id' parameter if it exists
+        if category_id is not None:
+            try:
+                category_id = int(category_id)
+                categories_filtered = categories.objects.filter(Q(id=category_id))
+            except ValueError:
+                return Response(
+                    {"error": "Invalid 'id' parameter. It should be a number."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        else:
+            categories_filtered = categories.objects.all()
+        
+        serializer = CategorySerializer(categories_filtered, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-        
-
-
 
 
 

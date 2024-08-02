@@ -15,7 +15,7 @@ urlpatterns = [
     path('reset-password/<uidb64>/<token>/', PasswordResetView.as_view(), name='reset-password'),
     path('api/', include(router.urls)),
     path('payment-callback/', PaymobCallbackView.as_view(), name='payment-callback'),
-    path('categories/', Categtyviwset.as_view(), name='category-list'),
+    path('categories/', CategoryViewSet.as_view(), name='category-list'),
 ]
 
 

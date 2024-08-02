@@ -205,9 +205,9 @@ class ContactUsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CategraySerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True, read_only=True)
+    
     class Meta:
-        model=categories
-        fields='__all__'
-        
+        model = categories
+        fields = '__all__'
