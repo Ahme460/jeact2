@@ -162,11 +162,16 @@ class ProductSerializerDetail(serializers.ModelSerializer):
 
 class CartItemSerializer(serializers.ModelSerializer):
     converted_price = serializers.SerializerMethodField()
+    product_name = serializers.SerializerMethodField()
+    product_photo = serializers.SerializerMethodField()
+    product_details = serializers.SerializerMethodField()
+
     class Meta:
         model = CartItem
-        fields = ['id', 'product', 'quantity', 'size', 'color', 'date_added', 'converted_price']
-        
-
+        fields = [
+            'id', 'product', 'quantity', 'size', 'color', 'date_added', 
+            'converted_price', 'product_name', 'product_photo', 'product_details'
+        ]
     def get_converted_price(self, obj):
         request = self.context.get('request', None)
         if request and request.user.is_authenticated:
@@ -174,10 +179,22 @@ class CartItemSerializer(serializers.ModelSerializer):
             return obj.product.convert_price(user_currency)
         return obj.product.price
 
+    def get_product_name(self, obj):
+        return obj.product.name
+
+    def get_product_photo(self, obj):
+        request = self.context.get('request', None)
+        if request:
+            return request.build_absolute_uri(obj.product.photo.url)
+        return obj.product.photo.url
+
+    def get_product_details(self, obj):
+        return obj.product.details
+
     def create(self, validated_data):
         cart, created = CartModel.objects.get_or_create(customer=self.context['request'].user)
         return CartItem.objects.create(cart=cart, **validated_data)
-
+    
 class CartSer(serializers.ModelSerializer):
     items = CartItemSerializer(many=True, read_only=True)
     total_price = serializers.SerializerMethodField(read_only=True)
