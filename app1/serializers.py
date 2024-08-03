@@ -226,7 +226,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = ColorsModel
-        fields = 'color'
+        fields = ['color']
         
         
         
