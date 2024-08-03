@@ -76,7 +76,7 @@ CORS_ALLOW_METHODS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'https://bantyaga.vercel.app/',
+    'https://bantyaga.vercel.app',
 ]
 
 # السماح برؤوس محددة إذا لزم الأمر
