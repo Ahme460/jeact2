@@ -63,7 +63,7 @@ MIDDLEWARE = [
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
+#CORS_ALLOW_CREDENTIALS = True
 
 # السماح بالطرق المحددة إذا لزم الأمر
 CORS_ALLOW_METHODS = [
