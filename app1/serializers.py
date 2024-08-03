@@ -162,7 +162,7 @@ class ProductSerializerDetail(serializers.ModelSerializer):
 
 class CartItemSerializer(serializers.ModelSerializer):
     converted_price = serializers.SerializerMethodField()
-
+    product = serializers.StringRelatedField()
     class Meta:
         model = CartItem
         fields = ['id', 'product', 'quantity', 'size', 'color', 'date_added', 'converted_price']
@@ -181,7 +181,7 @@ class CartItemSerializer(serializers.ModelSerializer):
 class CartSer(serializers.ModelSerializer):
     items = CartItemSerializer(many=True, read_only=True)
     total_price = serializers.SerializerMethodField(read_only=True)
-
+   
     class Meta:
         model = CartModel
         fields = "__all__"

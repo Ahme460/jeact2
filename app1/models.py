@@ -154,6 +154,7 @@ class Orders(models.Model):
 
 class CartModel(models.Model):
     customer = models.OneToOneField(Customer_user, on_delete=models.CASCADE, related_name="cart")
+    
     def __str__(self) -> str:
         return self.customer.username
     
@@ -163,7 +164,7 @@ class CartModel(models.Model):
 
 
 class CartItem(models.Model):
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE,related_name="product_cart")
     quantity = models.PositiveIntegerField(default=0)
     cart = models.ForeignKey(CartModel, on_delete=models.CASCADE, related_name="items", null=True)
     size = models.CharField(max_length=50)
