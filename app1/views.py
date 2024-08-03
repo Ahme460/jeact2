@@ -12,6 +12,7 @@ from rest_framework.viewsets import ModelViewSet
 import os
 from django.shortcuts import redirect
 import importlib
+from rest_framework.decorators import action
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -124,6 +125,18 @@ class CartViewSet(ModelViewSet):
     def get_queryset(self):
         return CartModel.objects.filter(customer=self.request.user)
 
+    @action(detail=False, methods=['delete'], url_path='remove-item/(?P<product_id>[^/.]+)')
+    def remove_item(self, request, product_id=None):
+        try:
+            cart = CartModel.objects.get(customer=request.user)
+            item = CartItem.objects.get(product__id=product_id, cart=cart)
+            item.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except CartModel.DoesNotExist:
+            return Response({"detail": "Cart not found."}, status=status.HTTP_404_NOT_FOUND)
+        except CartItem.DoesNotExist:
+            return Response({"detail": "Item not found in the cart."}, status=status.HTTP_404_NOT_FOUND)
+    
 #@api_view(['GET'])
 #def user_cart(request, user_id):
  ##  total_price = 0
