@@ -220,3 +220,13 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = categories
         fields = '__all__'
+        
+        
+        
+class ColorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ColorsModel
+        fields = 'color'
+        
+        
+        

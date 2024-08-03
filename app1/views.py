@@ -292,3 +292,14 @@ class DataUserViewSet(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+class Get_color(APIView):
+    def get(self,request):
+        try:    
+            colors=ColorsModel.objects.all()
+            serializer=ColorSerializer(colors,many=True)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error":str(e)},status=status.HTTP_400_BAD_REQUEST)
+        
