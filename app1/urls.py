@@ -16,6 +16,8 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('payment-callback/', PaymobCallbackView.as_view(), name='payment-callback'),
     path('categories/', CategoryViewSet.as_view(), name='category-list'),
+    path("account_data/",DataUserViewSet.as_view(),name="my_data")
+    
 ]
 
 
