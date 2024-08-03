@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
+import os
+from datetime import timedelta
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -43,27 +46,23 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_celery_beat',
     'drf_yasg',
-     'corsheaders',
-    
-
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
- 
 ]
 
+# CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-# السماح برؤوس محددة إذا لزم الأمر
 
 # السماح بالطرق المحددة إذا لزم الأمر
 CORS_ALLOW_METHODS = [
@@ -75,7 +74,18 @@ CORS_ALLOW_METHODS = [
     'OPTIONS',
 ]
 
-
+# السماح برؤوس محددة إذا لزم الأمر
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
 
 ROOT_URLCONF = 'project.urls'
 
@@ -153,39 +163,23 @@ REST_FRAMEWORK = {
     ),
 }
 
-from datetime import timedelta
-
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=600),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
-
 }
+
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-import os
-# from celery import Celery
+# Celery Configuration
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'django-db'  # استخدام قاعدة البيانات كخلفية لحفظ نتائج العمليات
 
-# # إعدادات Celery
-# CELERY_BROKER_URL = 'redis://localhost:6379/0'  # استخدم Redis كوسيط رسائل (يمكنك استخدام وسيط آخر)
-# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-#
-# # تكوين Celery
-# CELERY_BEAT_SCHEDULE = {
-#     # جدولة المهام هنا إذا كنت بحاجة إليها
-# }
-#
-# CELERY_TIMEZONE = 'UTC'
-#
-# # إنشاء مثال Celery
-# celery_app = Celery('project')
-# celery_app.config_from_object('django.conf:settings', namespace='CELERY')
-# celery_app.autodiscover_tasks()
-
+# Swagger Settings
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Basic': {
@@ -196,22 +190,12 @@ SWAGGER_SETTINGS = {
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 DEFAULT_FROM_EMAIL = "bentagwy2121@gmail.com"
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "bentagwy2121@gmail.com"
 EMAIL_HOST_PASSWORD = "llux mtlk fvot yekd" 
-
-# settings.py
-
-# Celery Configuration
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'django-db'  # استخدام قاعدة البيانات كخلفية لحفظ نتائج العمليات
-CORS_ALLOW_ALL_ORIGINS = True
-
-
 
 # Media files (uploads)
 MEDIA_URL = '/media/'
