@@ -162,10 +162,9 @@ class ProductSerializerDetail(serializers.ModelSerializer):
 
 class CartItemSerializer(serializers.ModelSerializer):
     converted_price = serializers.SerializerMethodField()
-    #product = serializers.StringRelatedField()
     class Meta:
         model = CartItem
-        fields = ['id', 'product', 'quantity', 'size', 'color', 'date_added', 'converted_price','name','photo','details']
+        fields = ['id', 'product', 'quantity', 'size', 'color', 'date_added', 'converted_price']
         
 
     def get_converted_price(self, obj):
