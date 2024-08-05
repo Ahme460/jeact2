@@ -355,4 +355,22 @@ class Brovicevew(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-          
+    def post(self, request):
+        try:
+            province_id = request.query_params.get('id', None)
+            if province_id is not None:
+                province_id = int(province_id)
+                province = Province.objects.filter(Q(id=province_id)).first()
+                if province:
+                    delivery_price = province.delivery_price
+                    return Response({"price": delivery_price}, status=status.HTTP_200_OK)
+                else:
+                    return Response({"error": "Province not found"}, status=status.HTTP_404_NOT_FOUND)
+            else:
+                return Response({"error": "Province ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+        except ValueError:
+            return Response({"error": "Invalid Province ID"}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+            
