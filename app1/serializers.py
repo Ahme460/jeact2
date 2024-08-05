@@ -247,3 +247,14 @@ class ColorSerializer(serializers.ModelSerializer):
         
         
         
+        
+class Brovince_ser(serializers.ModelSerializer):
+    class Meta:
+        model = Province
+        fields = '__all__'
+        
+        
+        
+        
+        
+  

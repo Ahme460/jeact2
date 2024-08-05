@@ -18,7 +18,10 @@ urlpatterns = [
     path('categories/', CategoryViewSet.as_view(), name='category-list'),
     path("account_data/",DataUserViewSet.as_view(),name="my_data"),
     path("get_colors",Get_color.as_view(),name="colors"),
-    path("Address/" , AddressView.as_view(), name="addres")
+    path("Address/" , AddressView.as_view(), name="addres"),
+    path("Province/", Brovicevew.as_view(),name="Province"),
+    
+    
 ]
 
 

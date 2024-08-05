@@ -337,3 +337,14 @@ class Get_color(APIView):
         except Exception as e:
             return Response({"error":str(e)},status=status.HTTP_400_BAD_REQUEST)
         
+        
+        
+class Brovicevew(APIView):
+    def get(self,request):   
+        try: 
+            citys=Province.objects.all()
+            serializer=Brovince_ser(citys,many=True)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error":str(e)},status=status.HTTP_400_BAD_REQUEST)
+          
