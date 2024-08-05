@@ -21,7 +21,6 @@ urlpatterns = [
     path("Address/" , AddressView.as_view(), name="addres"),
     path("Province/", Brovicevew.as_view(),name="Province"),
     
-    
 ]
 
 
