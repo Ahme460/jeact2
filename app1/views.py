@@ -202,6 +202,27 @@ class ContactUsViewSet(ModelViewSet):
     queryset = ContactUs.objects.all()
     serializer_class = ContactUsSerializer
     
+    
+    
+class AddressView(APIView):
+
+    def post(self, request):
+        try:
+            data = request.data
+            serializer = AddressSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"success": "done"}, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+      
+  
+  
+    
+    
+    
 class AddressViewSet(ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
@@ -213,7 +234,7 @@ class AddressViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         address = serializer.save(user=self.request.user)
-        
+         
         # Get the province details
         province = address.province
         province_serializer = ProvinceSerializer(province)
