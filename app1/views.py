@@ -348,14 +348,13 @@ class Brovicevew(APIView):
             user = request.user
             country = user.country
             if country is not None:
-                cities = Province.objects.filter(country=country)
-                city_names = [city.name for city in cities]
-                return Response({"cities": city_names}, status=status.HTTP_200_OK)
+                provinces = Province.objects.filter(country=country)
+                serializer = Brovince_ser(provinces, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response({"error": "User does not have an assigned country."}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
     def post(self, request):
         try:
             province_id = request.query_params.get('id', None)
