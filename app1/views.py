@@ -206,9 +206,11 @@ class ContactUsViewSet(ModelViewSet):
     
 class AddressView(APIView):
 
-    def post(self, request):
+     def post(self, request):
         try:
+            user = request.user
             data = request.data
+            data['user'] = user.id  # أضف معرف المستخدم إلى البيانات
             serializer = AddressSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
@@ -217,8 +219,6 @@ class AddressView(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-      
-  
   
     
     
