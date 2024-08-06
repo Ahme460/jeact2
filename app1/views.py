@@ -261,7 +261,7 @@ class PaymentView(APIView):
         user = request.user
         try:
             cart = CartModel.objects.get(customer=user)
-            address = Address.objects.filter(user=user).latest('created_at')
+            address = Address.objects.filter(user=user).order_by('-id').first()
             #address = Address.objects.get(user=user)
             province = address.province
             delivery_price = province.delivery_price
