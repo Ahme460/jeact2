@@ -211,7 +211,11 @@ class AddressView(APIView):
             user = request.user
             data = request.data
             data['user'] = user.id
-            data['country']=user.country
+            if user.country is not None:
+                data['country'] = user.country.name  # الحصول على اسم الدولة كنص
+            else:
+                return Response({"error": "User does not have an assigned country."}, status=status.HTTP_400_BAD_REQUEST)
+            
             serializer = AddressSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
@@ -220,8 +224,6 @@ class AddressView(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-  
-    
     
     
 class AddressViewSet(ModelViewSet):
