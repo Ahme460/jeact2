@@ -210,7 +210,8 @@ class AddressView(APIView):
         try:
             user = request.user
             data = request.data
-            data['user'] = user.id  # أضف معرف المستخدم إلى البيانات
+            data['user'] = user.id
+            data['country']=user.country
             serializer = AddressSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
