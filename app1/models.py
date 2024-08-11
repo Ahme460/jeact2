@@ -92,7 +92,6 @@ class Products(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     sale_status = models.CharField(max_length=10, choices=SALE_CHOICES, default='sale')
     details = models.TextField()
-    count=models.PositiveIntegerField(default=0  )
     discount = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # حقل الخصم كنسبة مئوية
     #size = models.CharField(max_length=50, null=True, choices=SIZE_SELECT)
 
@@ -146,6 +145,7 @@ class SizesModel(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name="sizes")
     size = models.CharField(max_length=50, null=True, choices=SIZE_SELECT)
     descrtions_size_fit=models.TextField(null=True)
+    count=models.PositiveIntegerField(default=0)
     
     def __str__(self) -> str:
         return f"{self.size} {self.product}"
