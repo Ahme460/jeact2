@@ -88,6 +88,14 @@ class Products(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     sale_status = models.CharField(max_length=10, choices=SALE_CHOICES, default='sale')
     details = models.TextField()
+    count=models.PositiveIntegerField(default=0  )
+    discount = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # حقل الخصم كنسبة مئوية
+
+    def get_discounted_price(self):
+        return self.price - (self.price * (self.discount / 100))
+
+    def __str__(self):
+        return self.name
 
     def __str__(self):
         return self.name
@@ -125,9 +133,16 @@ class SizesModel(models.Model):
         ('small', 's'),
         ('medium', 'm'),
         ('large', 'l'),
+        ('Xs','xs'),
+        ('Xl','xl'),
+        ('XXl','xxl')
+        
     ]
     product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name="sizes")
     size = models.CharField(max_length=50, null=True, choices=SIZE_SELECT)
+    inseam =models.TextField(null=True)
+    waist =models.TextField(null=True)
+    
     def __str__(self) -> str:
         return f"{self.size} {self.product}"
     
@@ -197,4 +212,12 @@ class Address(models.Model):
 
     
     
+
+class Social_media(models.Model):
+    name=models.CharField(max_length=50)
+    logo=models.ImageField(upload_to='social_media')
+    link=models.CharField(max_length=500)
+    descrtion=models.TextField()
+
+
     
