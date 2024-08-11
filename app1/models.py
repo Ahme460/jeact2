@@ -77,6 +77,10 @@ class Products(models.Model):
         ('small', 's'),
         ('medium', 'm'),
         ('large', 'l'),
+        ('Xs','xs'),
+        ('Xl','xl'),
+        ('XXl','xxl')
+        
     ]
     
     name = models.CharField(max_length=50)
@@ -90,7 +94,9 @@ class Products(models.Model):
     details = models.TextField()
     count=models.PositiveIntegerField(default=0  )
     discount = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # حقل الخصم كنسبة مئوية
-
+    size = models.CharField(max_length=50, null=True, choices=SIZE_SELECT)
+    descrtions_size_fit=models.TextField(null=True)
+    
     def get_discounted_price(self):
         return self.price - (self.price * (self.discount / 100))
 
