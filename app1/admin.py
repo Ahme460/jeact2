@@ -56,7 +56,7 @@ admin.site.register(ContactUs, ContactUsAdmin)
 admin.site.register(Address, AddressAdmin)
 admin.site.register(sender_email, SenderEmailAdmin)
 admin.site.register(categories, Categray_admin)
-admin.site.register(categories, Categray_admin)
+
 admin.site.register(Social_media, Social_medi)
 
 admin.site.register(ProductImage)
