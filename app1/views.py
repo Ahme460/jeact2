@@ -380,3 +380,60 @@ class Brovicevew(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
             
+class Social_med(APIView):
+    def get(self,request):
+        try:
+            data=Social_media.objects.all()
+            serializer=Social(data,many=True)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"eroot":str(e)},status=status.HTTP_400_BAD_REQUEST)
+        
+        
+class Wep_site(APIView):
+    def get(self,request):
+        try:
+            data=Text_pic_wep.objects.all().first()
+            serializer=Social(data)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"eroot":str(e)},status=status.HTTP_400_BAD_REQUEST)
+        
+class CustomerUserUpdateAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def patch(self, request, *args, **kwargs):
+        user = request.user
+        serializer = CustomerUserUpdateSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    
+    
+class WishlistAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        wishlists = Wishlist.objects.filter(user=request.user)
+        if not wishlists.exists():
+            return Response({"message": "No wishlist items found."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = WishlistSerializer(wishlists, many=True)
+        return Response(serializer.data)
+    def post(self, request, *args, **kwargs):
+        product_id = request.data.get('product_id')
+        product = Products.objects.get(id=product_id)
+        wishlist, created = Wishlist.objects.get_or_create(user=request.user, product=product)
+        if created:
+            return Response({"message": "Product added to wishlist"}, status=status.HTTP_201_CREATED)
+        return Response({"message": "Product already in wishlist"}, status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        product_id = request.data.get('product_id')
+        wishlist = Wishlist.objects.filter(user=request.user, product_id=product_id)
+        if wishlist.exists():
+            wishlist.delete()
+            return Response({"message": "Product removed from wishlist"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "Product not found in wishlist"}, status=status.HTTP_404_NOT_FOUND)

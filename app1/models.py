@@ -121,6 +121,20 @@ class Products(models.Model):
 
 
 
+class Wishlist(models.Model):
+    user = models.ForeignKey(Customer_user, on_delete=models.CASCADE, related_name='wishlists')
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='wishlist_items')
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')  # يمنع إضافة نفس المنتج أكثر من مرة للمستخدم نفسه
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.name}"
+
+
+
+
 class ProductImage(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='product_images/')
@@ -146,6 +160,7 @@ class SizesModel(models.Model):
     size = models.CharField(max_length=50, null=True, choices=SIZE_SELECT)
     descrtions_size_fit=models.TextField(null=True)
     count=models.PositiveIntegerField(default=0)
+    
     
     def __str__(self) -> str:
         return f"{self.size} {self.product}"
@@ -224,4 +239,12 @@ class Social_media(models.Model):
     descrtion=models.TextField()
 
 
+    
+class Text_pic_wep(models.Model):
+    based_pic=models.ImageField(upload_to='pic_wep')
+    logo=models.ImageField(upload_to='pic_wep')
+    about_us=models.TextField()
+    contect_us=models.TextField()
+    trademark=models.CharField(max_length=400)
+    
     

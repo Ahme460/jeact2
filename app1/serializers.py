@@ -255,6 +255,33 @@ class Brovince_ser(serializers.ModelSerializer):
         
         
         
+      
         
+class Social(serializers.ModelSerializer):
+    class Meta:
+        models=Social_media
+        fildes='__all__'
         
+
+
   
+        
+class Wep(serializers.ModelSerializer):
+    class Meta:
+        models=Text_pic_wep
+        fildes='__all__'
+        
+
+class CustomerUserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer_user
+        fields = ['country', 'currence']
+        
+        
+        
+
+class WishlistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wishlist
+        fields = ['id', 'user', 'product', 'added_at']
+        read_only_fields = ['user', 'added_at']
