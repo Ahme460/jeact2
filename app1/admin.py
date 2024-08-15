@@ -13,10 +13,10 @@ class CustomerUserAdmin(admin.ModelAdmin):
     
     # هنا يتم تشفير كلمة المرور عند الحفظ
     def save_model(self, request, obj, form, change):
-        if form.cleaned_data.get('password'):
+        # التحقق إذا كانت كلمة المرور جديدة أو غير مشفرة
+        if 'password' in form.cleaned_data and not obj.password.startswith('pbkdf2_sha256$'):
             obj.password = make_password(form.cleaned_data['password'])
         super().save_model(request, obj, form, change)
-
 class ProductsAdmin(admin.ModelAdmin):
     search_fields = ['name', 'description']
 
