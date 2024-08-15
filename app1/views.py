@@ -160,8 +160,8 @@ class CartViewSet(ModelViewSet):
 class ProductViewSet(ModelViewSet):
     queryset = Products.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [AllowAny]
-    #permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     #filterset_fields = ['colors__color', 'sizes__size']
     #search_fields = ['name', 'details']
