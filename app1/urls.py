@@ -24,6 +24,7 @@ urlpatterns = [
     path("wep_site/",Wep_site.as_view(),name='wep_site'),
     path('user/update/', CustomerUserUpdateAPIView.as_view(), name='user-update'),
     path('wishlist/', WishlistAPIView.as_view(), name='wishlist-api'),
+  path('get-featured-products/', GetFeaturedProductsAPIView.as_view(), name='get_featured_products'),
 ]
 
 

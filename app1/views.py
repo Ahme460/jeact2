@@ -413,6 +413,8 @@ class CustomerUserUpdateAPIView(APIView):
     
     
     
+    
+    
 class WishlistAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -437,3 +439,16 @@ class WishlistAPIView(APIView):
             wishlist.delete()
             return Response({"message": "Product removed from wishlist"}, status=status.HTTP_204_NO_CONTENT)
         return Response({"message": "Product not found in wishlist"}, status=status.HTTP_404_NOT_FOUND)
+    
+    
+    
+
+class GetFeaturedProductsAPIView(APIView):
+
+    def get(self, request):
+        # جلب أول خمس منتجات مميزة
+        featured_products = Products.objects.filter(is_featured=True)[:5]
+        # عمل Serialize للمنتجات
+        serializer = ProductSerializer(featured_products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
