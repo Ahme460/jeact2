@@ -288,8 +288,26 @@ class WishlistSerializer(serializers.ModelSerializer):
         
         
 
+class SizeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SizesModel
+        fields = ['size', 'descrtions_size_fit', 'count']
+
+class ColorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ColorsModel
+        fields = ['color']
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ['image', 'created_at']
+
 class ProductSerializer(serializers.ModelSerializer):
+    sizes = SizeSerializer(many=True, read_only=True)
+    colors = ColorSerializer(many=True, read_only=True)
+    images = ProductImageSerializer(many=True, read_only=True)
+
     class Meta:
         model = Products
         fields = '__all__'
-        
