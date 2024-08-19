@@ -159,7 +159,7 @@ class CartViewSet(ModelViewSet):
     #return Response(status=status.HTTP_204_NO_CONTENT)
 class ProductViewSet(ModelViewSet):
     queryset = Products.objects.all()
-    #serializer_class = ProductSerializer
+    serializer_class = ProductSerializer
     permission_classes = [AllowAny]
     #permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
