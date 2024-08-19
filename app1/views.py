@@ -393,7 +393,7 @@ class Wep_site(APIView):
     def get(self,request):
         try:
             data=Text_pic_wep.objects.all().first()
-            serializer=Social(data)
+            serializer=Wep(data)
             return Response(serializer.data,status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"eroot":str(e)},status=status.HTTP_400_BAD_REQUEST)
