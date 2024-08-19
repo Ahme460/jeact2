@@ -257,11 +257,10 @@ class Brovince_ser(serializers.ModelSerializer):
         
       
         
-class Social(serializers.ModelSerializer):
+class SocialSerializer(serializers.ModelSerializer):
     class Meta:
-        models=Social_media
-        fildes='__all__'
-        
+        model = Social_media
+        fields = '__all__'
 
 
   

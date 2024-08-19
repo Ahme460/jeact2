@@ -380,15 +380,14 @@ class Brovicevew(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
             
-class Social_med(APIView):
-    def get(self,request):
+class SocialMed(APIView):
+    def get(self, request):
         try:
-            data=Social_media.objects.all()
-            serializer=Social(data,many=True)
-            return Response(serializer.data,status=status.HTTP_200_OK)
+            data = Social_media.objects.all()
+            serializer = SocialSerializer(data, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"eroot":str(e)},status=status.HTTP_400_BAD_REQUEST)
-        
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
 class Wep_site(APIView):
     def get(self,request):
