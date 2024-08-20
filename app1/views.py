@@ -423,9 +423,14 @@ class WishlistAPIView(APIView):
             return Response({"message": "No wishlist items found."}, status=status.HTTP_404_NOT_FOUND)
         serializer = WishlistSerializer(wishlists, many=True)
         return Response(serializer.data)
+
     def post(self, request, *args, **kwargs):
         product_id = request.data.get('product_id')
-        product = Products.objects.get(id=product_id)
+        try:
+            product = Products.objects.get(id=product_id)
+        except Products.DoesNotExist:
+            return Response({"error": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
+
         wishlist, created = Wishlist.objects.get_or_create(user=request.user, product=product)
         if created:
             return Response({"message": "Product added to wishlist"}, status=status.HTTP_201_CREATED)
@@ -438,9 +443,6 @@ class WishlistAPIView(APIView):
             wishlist.delete()
             return Response({"message": "Product removed from wishlist"}, status=status.HTTP_204_NO_CONTENT)
         return Response({"message": "Product not found in wishlist"}, status=status.HTTP_404_NOT_FOUND)
-    
-    
-    
 
 class GetFeaturedProductsAPIView(APIView):
 
