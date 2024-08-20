@@ -291,7 +291,13 @@ class CustomerUserUpdateSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
         
 
+class ProductSerializerwish(serializers.ModelSerializer):
+    class Meta:
+        model = Products
+        fields = ['name', 'price', 'categray', 'about_product', 'photo', 'sale_status', 'details', 'discount', 'is_featured']
+
 class WishlistSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
     class Meta:
         model = Wishlist
         fields = ['id', 'user', 'product', 'added_at']
