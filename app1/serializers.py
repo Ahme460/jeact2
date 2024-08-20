@@ -267,9 +267,8 @@ class SocialSerializer(serializers.ModelSerializer):
         
 class Wep(serializers.ModelSerializer):
     class Meta:
-        models=Text_pic_wep
-        fildes='__all__'
-        
+        model = Text_pic_wep  # Corrected typo here
+        fields = '__all__' 
 
 class CustomerUserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
