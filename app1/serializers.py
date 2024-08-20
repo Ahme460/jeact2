@@ -271,11 +271,24 @@ class Wep(serializers.ModelSerializer):
         fields = '__all__' 
 
 class CustomerUserUpdateSerializer(serializers.ModelSerializer):
+    country = serializers.CharField()
+
     class Meta:
         model = Customer_user
         fields = ['country', 'currence']
-        
-        
+
+    def validate_country(self, value):
+        try:
+            country = Country.objects.get(name=value)
+            return country.id
+        except Country.DoesNotExist:
+            raise serializers.ValidationError("Country not found.")
+
+    def update(self, instance, validated_data):
+        country_id = validated_data.pop('country', None)
+        if country_id:
+            instance.country_id = country_id
+        return super().update(instance, validated_data)
         
 
 class WishlistSerializer(serializers.ModelSerializer):
