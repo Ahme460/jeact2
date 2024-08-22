@@ -7,9 +7,7 @@ import requests
 #from countryinfo import CountryInfo
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
-   
-
-    
+from django.utils import timezone
 class categories(models.Model):
     name=models.CharField(max_length=100)
     descrtion=models.TextField()
@@ -250,4 +248,16 @@ class Text_pic_wep(models.Model):
     contect_us_pic=models.ImageField(upload_to='pic_wep',null=True)
     trademark=models.CharField(max_length=400)
     
-    
+class DiscountCode(models.Model):
+    code = models.CharField(max_length=20, unique=True)
+    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2)  # نسبة الخصم
+    valid_from = models.DateTimeField()
+    valid_until = models.DateTimeField()
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.code
+
+    def is_valid(self):
+        now = timezone.now()
+        return self.active and self.valid_from <= now <= self.valid_until
