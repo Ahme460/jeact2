@@ -234,17 +234,20 @@ class Address(models.Model):
 
 class Social_media(models.Model):
     name=models.CharField(max_length=50)
-    logo=models.ImageField(upload_to='social_media')
+    logo=models.ImageField(upload_to='social_media',null=True)
     link=models.CharField(max_length=500)
-    descrtion=models.TextField()
+    descrtion=models.TextField(null=True)
 
 
     
 class Text_pic_wep(models.Model):
     based_pic=models.ImageField(upload_to='pic_wep')
-    logo=models.ImageField(upload_to='pic_wep')
+    based_pic2=models.ImageField(upload_to='pic_wep',null=True)
+    logo=models.ImageField(upload_to='pic_wep',null=True)
+    about_us_pic=models.ImageField(upload_to='pic_wep',null=True)
     about_us=models.TextField()
     contect_us=models.TextField()
+    contect_us=models.ImageField(upload_to='pic_wep',null=True)
     trademark=models.CharField(max_length=400)
     
     
