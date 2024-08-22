@@ -247,7 +247,7 @@ class Text_pic_wep(models.Model):
     about_us_pic=models.ImageField(upload_to='pic_wep',null=True)
     about_us=models.TextField()
     contect_us=models.TextField()
-    contect_us=models.ImageField(upload_to='pic_wep',null=True)
+    contect_us_pic=models.ImageField(upload_to='pic_wep',null=True)
     trademark=models.CharField(max_length=400)
     
     
