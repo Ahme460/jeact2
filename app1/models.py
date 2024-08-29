@@ -18,7 +18,8 @@ class categories(models.Model):
     
 class DiscountCode(models.Model):
     code = models.CharField(max_length=20, unique=True)
-    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2)  # نسبة الخصم
+    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)  # نسبة الخصم
+    discount_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # مبلغ الخصم
     valid_from = models.DateTimeField()
     valid_until = models.DateTimeField()
     active = models.BooleanField(default=True)
@@ -208,7 +209,7 @@ class CartModel(models.Model):
     @property
     def total_price(self):
         total = sum([item.product.discount * item.quantity for item in self.items.all()])
-        if self.discount_code:
+        if self.discount_code and self.discount_code.is_valid():
             if self.discount_code.discount_percentage:
                 total -= total * (self.discount_code.discount_percentage / 100)
             elif self.discount_code.discount_amount:
@@ -219,8 +220,8 @@ class CartItem(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE,related_name="product_cart")
     quantity = models.PositiveIntegerField(default=0)
     cart = models.ForeignKey(CartModel, on_delete=models.CASCADE, related_name="items", null=True)
-    size = models.CharField(max_length=50)
-    color = models.CharField(max_length=50)
+    size = models.CharField(max_length=50,default='none')
+    color = models.CharField(max_length=50,default='none')
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
