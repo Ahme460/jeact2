@@ -125,6 +125,30 @@ class CartViewSet(ModelViewSet):
     def get_queryset(self):
         return CartModel.objects.filter(customer=self.request.user)
 
+    @action(detail=False, methods=['post'], url_path='add-item/(?P<product_id>[^/.]+)')
+    def add_item(self, request, product_id=None):
+        try:
+            cart, created = CartModel.objects.get_or_create(customer=request.user)
+            item, item_created = CartItem.objects.get_or_create(product_id=product_id, cart=cart)
+
+            if not item_created:
+                item.quantity += 1
+                item.save()
+            else:
+                item.quantity = request.data.get('quantity', 1)
+                item.save()
+
+            return Response({"detail": "Item added to cart."}, status=status.HTTP_200_OK)
+        except CartModel.DoesNotExist:
+            return Response({"detail": "Cart not found."}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+
+
+
+
     @action(detail=False, methods=['delete'], url_path='remove-item/(?P<product_id>[^/.]+)')
     def remove_item(self, request, product_id=None):
         try:
