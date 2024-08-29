@@ -256,7 +256,7 @@ class Social_media(models.Model):
 
 
     
-class TextPicWep(models.Model):
+class Text_pic_wep(models.Model):
     based_pic = models.ImageField(upload_to='pic_wep', null=True, blank=True)
     based_pic2 = models.ImageField(upload_to='pic_wep', null=True, blank=True)
     logo = models.ImageField(upload_to='pic_wep', null=True, blank=True)
