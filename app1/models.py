@@ -256,12 +256,12 @@ class Social_media(models.Model):
 
 
     
-class Text_pic_wep(models.Model):
-    based_pic=models.ImageField(upload_to='pic_wep',null=True)
-    based_pic2=models.ImageField(upload_to='pic_wep',null=True)
-    logo=models.ImageField(upload_to='pic_wep',null=True)
-    about_us_pic=models.ImageField(upload_to='pic_wep',null=True)
-    about_us=models.TextField()
-    contect_us=models.TextField()
-    contect_us_pic=models.ImageField(upload_to='pic_wep',null=True)
-    trademark=models.CharField(max_length=400,null=True)
+class TextPicWep(models.Model):
+    based_pic = models.ImageField(upload_to='pic_wep', null=True, blank=True)
+    based_pic2 = models.ImageField(upload_to='pic_wep', null=True, blank=True)
+    logo = models.ImageField(upload_to='pic_wep', null=True, blank=True)
+    about_us_pic = models.ImageField(upload_to='pic_wep', null=True, blank=True)
+    about_us = models.TextField(null=True, blank=True)
+    contect_us = models.TextField(null=True, blank=True)
+    contect_us_pic = models.ImageField(upload_to='pic_wep', null=True, blank=True)
+    trademark = models.CharField(max_length=400, null=True, blank=True)
