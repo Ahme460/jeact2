@@ -105,7 +105,7 @@ class Products(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     sale_status = models.CharField(max_length=10, choices=SALE_CHOICES, default='sale')
     details = models.TextField()
-    discount = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)  # حقل الخصم كنسبة مئوية
+    Discount = models.FloatField() # حقل الخصم كنسبة مئوية
     #size = models.CharField(max_length=50, null=True, choices=SIZE_SELECT)
     is_featured = models.BooleanField(default=False, verbose_name="Featured on Homepage")   
     def get_discounted_price(self):
