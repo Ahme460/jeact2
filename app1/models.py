@@ -15,7 +15,20 @@ class categories(models.Model):
     def __str__(self) -> str:
         return self.name
     
+    
+class DiscountCode(models.Model):
+    code = models.CharField(max_length=20, unique=True)
+    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2)  # نسبة الخصم
+    valid_from = models.DateTimeField()
+    valid_until = models.DateTimeField()
+    active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.code
+
+    def is_valid(self):
+        now = timezone.now()
+        return self.active and self.valid_from <= now <= self.valid_until
    
    
 # نموذج الدول
@@ -186,14 +199,19 @@ class Orders(models.Model):
 
 class CartModel(models.Model):
     customer = models.OneToOneField(Customer_user, on_delete=models.CASCADE, related_name="cart")
-    
+    discount_code = models.ForeignKey(DiscountCode, on_delete=models.SET_NULL, null=True, blank=True)
     def __str__(self) -> str:
         return self.customer.username
     
     @property
     def total_price(self):
-        return sum([item.product.price * item.quantity for item in self.items.all()])
-
+        total = sum([item.product.discount * item.quantity for item in self.items.all()])
+        if self.discount_code:
+            if self.discount_code.discount_percentage:
+                total -= total * (self.discount_code.discount_percentage / 100)
+            elif self.discount_code.discount_amount:
+                total -= self.discount_code.discount_amount
+        return total
 
 class CartItem(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE,related_name="product_cart")
@@ -231,33 +249,19 @@ class Address(models.Model):
     
 
 class Social_media(models.Model):
-    name=models.CharField(max_length=50)
+    name=models.CharField(max_length=50,null=True)
     logo=models.ImageField(upload_to='social_media',null=True)
-    link=models.CharField(max_length=500)
+    link=models.CharField(max_length=500,null=True)
     descrtion=models.TextField(null=True)
 
 
     
 class Text_pic_wep(models.Model):
-    based_pic=models.ImageField(upload_to='pic_wep')
+    based_pic=models.ImageField(upload_to='pic_wep',null=True)
     based_pic2=models.ImageField(upload_to='pic_wep',null=True)
     logo=models.ImageField(upload_to='pic_wep',null=True)
     about_us_pic=models.ImageField(upload_to='pic_wep',null=True)
     about_us=models.TextField()
     contect_us=models.TextField()
     contect_us_pic=models.ImageField(upload_to='pic_wep',null=True)
-    trademark=models.CharField(max_length=400)
-    
-class DiscountCode(models.Model):
-    code = models.CharField(max_length=20, unique=True)
-    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2)  # نسبة الخصم
-    valid_from = models.DateTimeField()
-    valid_until = models.DateTimeField()
-    active = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.code
-
-    def is_valid(self):
-        now = timezone.now()
-        return self.active and self.valid_from <= now <= self.valid_until
+    trademark=models.CharField(max_length=400,null=True)

@@ -209,7 +209,7 @@ class CartSer(serializers.ModelSerializer):
             user_currency = request.user.currence
             total = sum(item.product.convert_price(user_currency) * item.quantity for item in obj.items.all())
             return total
-        return sum(item.product.price * item.quantity for item in obj.items.all())
+        return sum(item.product.discount * item.quantity for item in obj.items.all())
 
     def create(self, validated_data):
         cart, created = CartModel.objects.get_or_create(customer=self.context['request'].user)

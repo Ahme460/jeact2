@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-
+from .exchange_price import exchange
 def generate_random_phone_number():
     prefix = "+2010"
     suffix = ''.join(random.choices(string.digits, k=8))
@@ -20,6 +20,7 @@ def generate_random_name():
     return last_name
 
 def pay(api_key: str, total_price, user):
+    
     try:
         # Retrieve the user's cart and cart items
         cart = CartModel.objects.get(customer=user)
@@ -38,7 +39,7 @@ def pay(api_key: str, total_price, user):
         for item in cart_items:
             items.append({
                 "name": item.product.name,
-                "amount_cents": int(item.product.price * 100),  # Convert price to cents
+                "amount_cents": exchange(int(item.product.price * 100)),  # Convert price to cents
                 "description": item.product.about_product,
                 "quantity": item.quantity
             })
@@ -111,7 +112,8 @@ def pay(api_key: str, total_price, user):
             "expiration": 3600,  # 1 hour expiration
             "order_id": order_id,
             "billing_data": billing_data,
-            "currency": currency,
+            "currency": "EGP",
+            
             #"integration_id": 4603869
             #"integration_id": 4603869
            # # Replace with actual integration ID

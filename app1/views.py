@@ -27,7 +27,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from .serializers import PasswordResetRequestSerializer, PasswordResetSerializer
 from django.shortcuts import get_object_or_404
- 
+from .exchange_price import exchange
 User = get_user_model()
 class RegisterAPIView(APIView):
     permission_classes = [AllowAny]
@@ -268,6 +268,7 @@ class PaymentView(APIView):
 
             if delivery_price:
                 total_price = cart.total_price + delivery_price
+                total_price= exchange(int(total_price))
                 api_key="ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1RjME16QXhMQ0p1WVcxbElqb2lNVGN5TVRRNU5EYzROaTQwT0RjeU5qWWlmUS5aY1pMNUNVWTdSRld1S3d6eEhwLXlOS3F0RWUxVEhyZmh5TTdyWmplc1pGU3FjZVZWalptZWRudEZSdHh1MEk1M29sQWZIQkd6dVRLT3lvUWpjTEo5dw=="
                 #api_key="ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1Rnek5URTRMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkud1dHbXNsUlBsYVRXWVRkU2h6dXVfbFJhTkxiMTVoVUNBOFFJRDNYLUNqby12RjVlQ3Jkall0NS1ydzVRb01fOHczMmhXM3hYNVdLRmNweTg3aTlaU2c="
                 #api_key="ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1RjME16QXhMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkuR2duRjJjU0pnRThsbVpqRnVGMWdPTHlzaFdlSnpSOVBJTDFkT1RBQ3B0Z3JqckxnUmo5WU43MHZqOGlGYUdVQzZmUm5mQ2tQWDZUbHBkcUVFX3J6NUE="
@@ -453,3 +454,34 @@ class GetFeaturedProductsAPIView(APIView):
         serializer = ProductSerializer(featured_products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+    
+    
+
+class ApplyDiscountCodeAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        code = request.data.get('code', None)
+        try:
+            cart = request.user.cart
+            discount_code = DiscountCode.objects.get(code=code, active=True)
+
+            # Check if the discount code is valid
+            if not discount_code.is_valid():
+                return Response({
+                    "error": "The discount code is not valid."
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            # Apply the discount code to the cart
+            cart.discount_code = discount_code
+            cart.save()
+
+            return Response({
+                "total_price_after_discount": cart.total_price
+            }, status=status.HTTP_200_OK)
+        except DiscountCode.DoesNotExist:
+            return Response({
+                "error": "Invalid or inactive discount code."
+            }, status=status.HTTP_400_BAD_REQUEST)
+        except CartModel.DoesNotExist:
+            return Response({
+                "error": "Cart does not exist."
+            }, status=status.HTTP_400_BAD_REQUEST)
