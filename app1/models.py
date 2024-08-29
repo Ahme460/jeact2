@@ -83,6 +83,8 @@ class Products(models.Model):
     SALE_CHOICES = [
         ('sale', 'Sale'),
         ('sale_out', 'Sale Out'),
+        ('sold_out','sold_out'),
+        ('none','none'),
     ]
     SIZE_SELECT = [
         ('small', 's'),
@@ -259,6 +261,7 @@ class Social_media(models.Model):
 class Text_pic_wep(models.Model):
     based_pic = models.ImageField(upload_to='pic_wep', null=True, blank=True)
     based_pic2 = models.ImageField(upload_to='pic_wep', null=True, blank=True)
+    based_pic3 = models.ImageField(upload_to='pic_wep', null=True, blank=True)
     logo = models.ImageField(upload_to='pic_wep', null=True, blank=True)
     about_us_pic = models.ImageField(upload_to='pic_wep', null=True, blank=True)
     about_us = models.TextField(null=True, blank=True)
