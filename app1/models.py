@@ -211,7 +211,7 @@ class CartModel(models.Model):
              
         total=0
         for item in self.items.all():
-            if item.product.Discount==0:
+            if item.product.Discount<=0:
                 total += item.product.price * item.quantity
             else:
                 total+=item.product.Discount * item.quantity
