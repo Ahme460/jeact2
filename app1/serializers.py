@@ -197,19 +197,23 @@ class CartItemSerializer(serializers.ModelSerializer):
     
 class CartSer(serializers.ModelSerializer):
     items = CartItemSerializer(many=True, read_only=True)
+    products=ProductSerializer(many=True)
     total_price = serializers.SerializerMethodField(read_only=True)
+    
    
     class Meta:
         model = CartModel
         fields = "__all__"
+        
 
-    def get_total_price(self, obj):
-        request = self.context.get('request', None)
-        if request and request.user.is_authenticated:
-            user_currency = request.user.currence
-            total = sum(item.product.convert_price(user_currency) * item.quantity for item in obj.items.all())
-            return total
-        return sum(item.product.discount * item.quantity for item in obj.items.all())
+
+    #def get_total_price(self, obj):
+     #   request = self.context.get('request', None)
+      #  if request and request.user.is_authenticated:
+       #     user_currency = request.user.currence
+        #    total = sum(item.product.convert_price(user_currency) * item.quantity for item in obj.items.all())
+         #   return total
+        #return sum(item.product.discount * item.quantity for item in obj.items.all())
 
     def create(self, validated_data):
         cart, created = CartModel.objects.get_or_create(customer=self.context['request'].user)
