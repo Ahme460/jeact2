@@ -205,16 +205,16 @@ class CartModel(models.Model):
     discount_code = models.ForeignKey(DiscountCode, on_delete=models.SET_NULL, null=True, blank=True)
     def __str__(self) -> str:
         return self.customer.username
-    
+     #total = sum([(item.product.price - item.product.Discount) * item.quantity for item in self.items.all()])
     @property
     def total_price(self):
-        #total = sum([(item.product.price - item.product.Discount) * item.quantity for item in self.items.all()])
+             
         total=0
         for item in self.items.all():
             if item.product.Discount==0:
-                total+=item.product.price
+                total += item.product.price * item.quantity
             else:
-                total+=item.product.Discount    
+                total+=item.product.Discount * item.quantity
         if self.discount_code and self.discount_code.is_valid():
             if self.discount_code.discount_percentage:
                 total -= total * (self.discount_code.discount_percentage / 100)
