@@ -216,6 +216,9 @@ class CartSer(serializers.ModelSerializer):
         model = CartModel
         fields = "__all__"
         
+    def get_total_price(self, obj):
+        return obj.total_price
+        
    #products=ProductSerializer(many=True)
     #total_price = serializers.SerializerMethodField(read_only=True)
     
