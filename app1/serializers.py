@@ -158,7 +158,7 @@ class LoginSerializer(serializers.Serializer):
 class ProductSerializerDetail(serializers.ModelSerializer):
     class Meta:
         model = Products
-        fields = ('details', 'name', 'price')
+        fields = '__all__'
 
 class CartItemSerializer(serializers.ModelSerializer):
     converted_price = serializers.SerializerMethodField()
@@ -172,13 +172,19 @@ class CartItemSerializer(serializers.ModelSerializer):
             'id', 'product', 'quantity', 'size', 'color', 'date_added', 
             'converted_price', 'product_name', 'product_photo', 'product_details'
         ]
-    def get_converted_price(self, obj):
-        request = self.context.get('request', None)
-        if request and request.user.is_authenticated:
-            user_currency = request.user.currence
-            return obj.product.convert_price(user_currency)
-        return obj.product.price
+   # def get_converted_price(self, obj):
+        #request = self.context.get('request', None)
+        #if request and request.user.is_authenticated:
+        #    user_currency = request.user.currence
+       #     return obj.product.convert_price(user_currency)
+      # return obj.product.price
 
+    def get_pricee(self,obj):
+        return obj.product.price
+    
+    def get_pricee(self,obj):
+        return obj.product.Discount
+    
     def get_product_name(self, obj):
         return obj.product.name
 
@@ -195,10 +201,15 @@ class CartItemSerializer(serializers.ModelSerializer):
         cart, created = CartModel.objects.get_or_create(customer=self.context['request'].user)
         return CartItem.objects.create(cart=cart, **validated_data)
     
+    
+ 
+    
+    
+    
 class CartSer(serializers.ModelSerializer):
-    items = CartItemSerializer(many=True, read_only=True)
-    products=ProductSerializer(many=True)
-    total_price = serializers.SerializerMethodField(read_only=True)
+    items = CartItemSerializer(many=True, read_only=True)  # Serializing the cart items
+    #products=ProductSerializer(many=True)
+    #total_price = serializers.SerializerMethodField(read_only=True)
     
    
     class Meta:
