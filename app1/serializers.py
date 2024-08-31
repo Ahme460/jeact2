@@ -172,12 +172,12 @@ class CartItemSerializer(serializers.ModelSerializer):
             'id', 'product', 'quantity', 'size', 'color', 'date_added', 
             'converted_price', 'product_name', 'product_photo', 'product_details'
         ]
-   # def get_converted_price(self, obj):
-        #request = self.context.get('request', None)
-        #if request and request.user.is_authenticated:
-        #    user_currency = request.user.currence
-       #     return obj.product.convert_price(user_currency)
-      # return obj.product.price
+    def get_converted_price(self, obj):
+        request = self.context.get('request', None)
+        if request and request.user.is_authenticated:
+            user_currency = request.user.currence
+            return obj.product.convert_price(user_currency)
+        return obj.product.price
 
     def get_pricee(self,obj):
         return obj.product.price
