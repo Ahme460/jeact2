@@ -179,10 +179,10 @@ class CartItemSerializer(serializers.ModelSerializer):
             return obj.product.convert_price(user_currency)
         return obj.product.price
 
-    def get_pricee(self,obj):
+    def get_product_pricee(self,obj):
         return obj.product.price
     
-    def get_discont(self,obj):
+    def get_product_discont(self,obj):
         return obj.product.Discount
     
     def get_product_name(self, obj):
