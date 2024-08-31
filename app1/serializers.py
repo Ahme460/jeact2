@@ -165,12 +165,14 @@ class CartItemSerializer(serializers.ModelSerializer):
     product_name = serializers.SerializerMethodField()
     product_photo = serializers.SerializerMethodField()
     product_details = serializers.SerializerMethodField()
-
+    product_price = serializers.SerializerMethodField()  # أضف هذا الحقل
+    product_Discount = serializers.SerializerMethodField()
     class Meta:
         model = CartItem
         fields = [
             'id', 'product', 'quantity', 'size', 'color', 'date_added', 
-            'converted_price', 'product_name', 'product_photo', 'product_details'
+            'converted_price', 'product_name', 'product_photo', 'product_details',
+            'product_price', 'product_Discount' 
         ]
     def get_converted_price(self, obj):
         request = self.context.get('request', None)
@@ -208,15 +210,15 @@ class CartItemSerializer(serializers.ModelSerializer):
     
 class CartSer(serializers.ModelSerializer):
     items = CartItemSerializer(many=True, read_only=True)  # Serializing the cart items
-    #products=ProductSerializer(many=True)
-    #total_price = serializers.SerializerMethodField(read_only=True)
-    
+ 
    
     class Meta:
         model = CartModel
         fields = "__all__"
         
-
+   #products=ProductSerializer(many=True)
+    #total_price = serializers.SerializerMethodField(read_only=True)
+    
 
     #def get_total_price(self, obj):
      #   request = self.context.get('request', None)
