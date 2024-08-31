@@ -182,7 +182,7 @@ class CartItemSerializer(serializers.ModelSerializer):
     def get_pricee(self,obj):
         return obj.product.price
     
-    def get_pricee(self,obj):
+    def get_discont(self,obj):
         return obj.product.Discount
     
     def get_product_name(self, obj):
