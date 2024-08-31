@@ -208,7 +208,13 @@ class CartModel(models.Model):
     
     @property
     def total_price(self):
-        total = sum([(item.product.price - item.product.Discount) * item.quantity for item in self.items.all()])
+        #total = sum([(item.product.price - item.product.Discount) * item.quantity for item in self.items.all()])
+        total=0
+        for item in self.items.all():
+            if item.product.Discount==0:
+                total+=item.product.price
+            else:
+                total+=item.product.Discount    
         if self.discount_code and self.discount_code.is_valid():
             if self.discount_code.discount_percentage:
                 total -= total * (self.discount_code.discount_percentage / 100)
