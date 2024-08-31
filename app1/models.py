@@ -106,7 +106,7 @@ class Products(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     sale_status = models.CharField(max_length=10, choices=SALE_CHOICES, default='sale')
     details = models.TextField()
-    Discount = models.FloatField() # حقل الخصم كنسبة مئوية
+    Discount = models.FloatField(blank=True,null=True,default=0) # حقل الخصم كنسبة مئوية
     #size = models.CharField(max_length=50, null=True, choices=SIZE_SELECT)
     is_featured = models.BooleanField(default=False, verbose_name="Featured on Homepage")   
     def get_discounted_price(self):
@@ -208,7 +208,7 @@ class CartModel(models.Model):
     
     @property
     def total_price(self):
-        total = sum([item.product.discount * item.quantity for item in self.items.all()])
+        total = sum([(item.product.price - item.product.Discount) * item.quantity for item in self.items.all()])
         if self.discount_code and self.discount_code.is_valid():
             if self.discount_code.discount_percentage:
                 total -= total * (self.discount_code.discount_percentage / 100)
