@@ -29,7 +29,7 @@ class Sender_mail:
                 self.subject,  # Subject
                 self.content,
                 #text_content,  # Plain text content
-                settings.eDEFAULT_FROM_EMAIL,  # From email
+                settings.DEFAULT_FROM_EMAIL,  # From email
                 recipients  # List of all user emails
             )
             msg.attach_alternative(html_content, "text/html")
