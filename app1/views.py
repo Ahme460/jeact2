@@ -32,7 +32,7 @@ from rest_framework.permissions import IsAuthenticated,AllowAny
 from .serializers import PasswordResetRequestSerializer, PasswordResetSerializer
 from django.shortcuts import get_object_or_404
 from .exchange_price import exchange
-from.class_send_email import Sender_mail
+from.class_send_email import SenderMail
 User = get_user_model()
 class RegisterAPIView(APIView):
     permission_classes = [AllowAny]
@@ -60,7 +60,7 @@ class RegisterAPIView(APIView):
                 #     recipient_list=[user.email],
                 #     fail_silently=False,
                 # )
-                Sender_mail(
+                SenderMail(
                     subject="welcome to BANTAYGA",
                     content= "welcome go to my wep site to show new offers"
                     
