@@ -203,6 +203,7 @@ DEFAULT_FROM_EMAIL = "bentagwy2121@gmail.com"
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "bentagwy2121@gmail.com"
 EMAIL_HOST_PASSWORD = "llux mtlk fvot yekd" 
+FRONTEND_URL=''
 
 # Media files (uploads)
 MEDIA_URL = '/media/'

@@ -63,13 +63,17 @@ class Customer_user(AbstractUser, PermissionsMixin):
 
 
 from django.db.models.signals import post_save
-
 from django.core.mail import send_mail
 from django.dispatch import receiver 
 from django.conf import settings
 from .tasks import send_email_task
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
+
 class sender_email(models.Model):
     subject=models.CharField(max_length=100)
+    pic_email=models.ImageField(blank=True,upload_to='email_images/')
     content=models.TextField()
     def __str__(self) -> str:
         self.subject
@@ -77,8 +81,36 @@ class sender_email(models.Model):
 @receiver(post_save, sender=sender_email)
 def send_message(sender, instance, created, **kwargs):
     if created:
-        send_email_task(instance.subject, instance.content)
+        if instance.email_template:
+            # Use the selected email template
+            context = {
+                'title': instance.subject,
+                'body': instance.content,
+                'image_url': instance.pic_email.url,
+            }
 
+            # Render the HTML content using the template
+            html_content = render_to_string('email_template.html', context)
+            text_content = strip_tags(html_content)
+
+            # Get all user email addresses
+            recipients = list(Customer_user.objects.values_list('email', flat=True))
+
+            # Ensure there are recipients
+            if recipients:
+                # Send the email to all users
+                msg = EmailMultiAlternatives(
+                    instance.subject,  # Subject
+                    instance.content,
+                    #text_content,  # Plain text content
+                    settings.DEFAULT_FROM_EMAIL,  # From email
+                    recipients  # List of all user emails
+                )
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
+        else:
+            # Fallback if no template is selected
+            send_email_task(instance.subject, instance.content)
 # نموذج المنتجات
 class Products(models.Model):
     SALE_CHOICES = [

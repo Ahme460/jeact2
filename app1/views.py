@@ -88,6 +88,7 @@ def login(request):
 #     serializer = ProductSerializer(products, many=True)
 #     return Response(serializer.data, status=status.HTTP_200_OK)
 class RequestPasswordResetView(APIView):
+
     def post(self, request, *args, **kwargs):
         serializer = PasswordResetRequestSerializer(data=request.data)
         if serializer.is_valid():
@@ -102,6 +103,10 @@ class PasswordResetView(APIView):
             serializer.save()
             return Response({"detail": "Password has been reset successfully."}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 # @api_view(['GET'])
 # def product_detail(request, pk):
 #     try:
