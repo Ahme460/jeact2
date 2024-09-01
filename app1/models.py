@@ -70,7 +70,7 @@ from .tasks import send_email_task
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
-
+from django.core.files.base import ContentFile
 class sender_email(models.Model):
     subject=models.CharField(max_length=100)
     pic_email=models.ImageField(blank=True,upload_to='email_images/')
@@ -82,33 +82,31 @@ class sender_email(models.Model):
 @receiver(post_save, sender=sender_email)
 def send_message(sender, instance, created, **kwargs):
     if created:
-        
-            # Use the selected email template
-            context = {
-                'title': instance.subject,
-                'body': instance.content,
-                'image_url': instance.pic_email.url,
-            }
+        # Render the HTML content using the template
+        context = {
+            'title': instance.subject,
+            'body': instance.content,
+            'image_url': 'cid:image1'  # Use a CID placeholder for the image
+        }
+        html_content = render_to_string('email_template.html', context)
+        text_content = strip_tags(html_content)
 
-            # Render the HTML content using the template
-            html_content = render_to_string('email_template.html', context)
-            text_content = strip_tags(html_content)
+        # Prepare the image as an attachment
+        image_file = ContentFile(instance.pic_email.read(), instance.pic_email.name)
+        img_cid = 'image1'
 
-            # Get all user email addresses
-            recipients = list(Customer_user.objects.values_list('email', flat=True))
+        # Prepare email
+        msg = EmailMultiAlternatives(
+            instance.subject,  # Subject
+            text_content,  # Plain text content
+            settings.DEFAULT_FROM_EMAIL,  # From email
+            list(Customer_user.objects.values_list('email', flat=True))  # List of all user emails
+        )
+        msg.attach_alternative(html_content, "text/html")
+        msg.attach(image_file, content_type='image/jpeg', filename=instance.pic_email.name)
+        msg.extra_headers = {'Content-ID': f'<{img_cid}>'}
 
-            # Ensure there are recipients
-            if recipients:
-                # Send the email to all users
-                msg = EmailMultiAlternatives(
-                    instance.subject,  # Subject
-                    instance.content,
-                    #text_content,  # Plain text content
-                    settings.DEFAULT_FROM_EMAIL,  # From email
-                    recipients  # List of all user emails
-                )
-                msg.attach_alternative(html_content, "text/html")
-                msg.send()
+        msg.send()
         #else:
             # Fallback if no template is selected
            # send_email_task(instance.subject, instance.content)
