@@ -81,7 +81,7 @@ class sender_email(models.Model):
 @receiver(post_save, sender=sender_email)
 def send_message(sender, instance, created, **kwargs):
     if created:
-        if instance.email_template:
+        
             # Use the selected email template
             context = {
                 'title': instance.subject,
