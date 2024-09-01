@@ -92,7 +92,7 @@ def send_message(sender, instance, created, **kwargs):
         text_content = strip_tags(html_content)
 
         # Prepare the image as an attachment
-        image_file = ContentFile(instance.pic_email.read(), instance.pic_email.name)
+        image_file = instance.pic_email.read()
         img_cid = 'image1'
 
         # Prepare email
@@ -103,7 +103,12 @@ def send_message(sender, instance, created, **kwargs):
             list(Customer_user.objects.values_list('email', flat=True))  # List of all user emails
         )
         msg.attach_alternative(html_content, "text/html")
-        msg.attach(image_file, content_type='image/jpeg', filename=instance.pic_email.name)
+        # Attach image with Content-ID
+        msg.attach(
+            filename=instance.pic_email.name,
+            content=image_file,
+            mimetype='image/jpeg'  # Use the correct MIME type for the image
+        )
         msg.extra_headers = {'Content-ID': f'<{img_cid}>'}
 
         msg.send()
