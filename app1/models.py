@@ -76,7 +76,8 @@ class sender_email(models.Model):
     pic_email=models.ImageField(blank=True,upload_to='email_images/')
     content=models.TextField()
     def __str__(self) -> str:
-        self.subject
+        
+       return self.subject
 
 @receiver(post_save, sender=sender_email)
 def send_message(sender, instance, created, **kwargs):
