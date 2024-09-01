@@ -3,95 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BANTAYGA - Emial</title>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        padding: 0;
-        margin: 0;
-        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-      }
-      a {
-        text-decoration: none;
-      }
-      @media (max-width: 767px) {
-        /* Your styles for mobile devices */
-        main.main {
-          width: 100vw;
-        }
-      }
-      @media (min-width: 768px) {
-        /* Your styles for mobile devices */
-        main.main {
-          width: 600px;
-        }
-      }
-    </style>
+    <title>BANTAYGA - Email</title>
   </head>
-  <body>
-    <main class="main" style="background: black; color: white;">
-      <section style="display: flex; justify-content: center; padding: 1rem">
-        <a href=""><h1 style="background: red; color: white">BANTAYGA</h1></a
-        >
+  <body style="padding: 0; margin: 0; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; background: black; color: white;">
+    <main style="width: 100%; max-width: 600px; margin: auto; background: black; color: white;">
+      <section style="display: flex; justify-content: center; padding: 1rem;">
+        <a href="" style="text-decoration: none;">
+          <h1 style="background: red; color: white; margin: 0; padding: 0.5rem;">BANTAYGA</h1>
+        </a>
       </section>
-      <hr />
-      <section
-        style="
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          padding: 1rem;
-        "
-      >
-      
-      <img
-      src="{{ image_url }}"
-      style="width: 90%; height: 90%"
-      alt="alt"
-    />
-        <h1>NEWS FOR YOU</h1>
-        <p style="margin-top: -0.4rem">
-            {{ title }}
-        </p>
+      <hr style="border: 1px solid white;" />
+      <section style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1rem;">
+        <img src="{{ image_url }}" style="width: 90%; height: auto;" alt="alt" />
+        <h1 style="margin: 0; padding: 0;">NEWS FOR YOU</h1>
+        <p style="margin-top: -0.4rem;">{{ title }}</p>
       </section>
-      <hr />
-      <section style="padding: 1rem">
-        <p>
-            {{ body }}
-        </p>
+      <hr style="border: 1px solid white;" />
+      <section style="padding: 1rem;">
+        <p>{{ body }}</p>
       </section>
-      <section
-        style="
-          display: flex;
-          justify-content: space-between;
-          padding-left: 2rem;
-          padding-right: 2rem;
-          color: white;
-        "
-      >
-        <a href="" style=" color: white">Legal notices</a>
-        <a href="" style=" color: white"
-          >Privacy policy</a
-        >
+      <section style="display: flex; justify-content: space-between; padding: 1rem; color: white;">
+        <a href="" style="color: white;">Legal notices</a>
+        <a href="" style="color: white;">Privacy policy</a>
       </section>
-      <section style="display: flex; justify-content: center">
-        <a
-          href=""
-          style="
-            padding: 0.5rem;
-            margin-top: 1rem;
-            border: 2px solid white;
-            color: white;
-          "
-          >Bantyaga.com</a
-        >
+      <section style="display: flex; justify-content: center; padding: 1rem;">
+        <a href="" style="padding: 0.5rem; margin-top: 1rem; border: 2px solid white; color: white; text-decoration: none;">Bantyaga.com</a>
       </section>
-      <hr />
-      <section style="display: flex; justify-content: center; padding: 0.5rem">
+      <hr style="border: 1px solid white;" />
+      <section style="display: flex; justify-content: center; padding: 0.5rem;">
         <span>@2024 Bantyaga.com</span>
       </section>
     </main>
