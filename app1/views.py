@@ -17,6 +17,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .tasks import *
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
+from django.core.files.base import ContentFile
 import time
 from django.db.models import Q
 from .models import *
@@ -28,6 +32,7 @@ from rest_framework.permissions import IsAuthenticated,AllowAny
 from .serializers import PasswordResetRequestSerializer, PasswordResetSerializer
 from django.shortcuts import get_object_or_404
 from .exchange_price import exchange
+from.class_send_email import Sender_mail
 User = get_user_model()
 class RegisterAPIView(APIView):
     permission_classes = [AllowAny]
@@ -48,13 +53,19 @@ class RegisterAPIView(APIView):
             if not User.objects.filter(username=data['username']).exists():
                 user = serializer.save()
                 # استخدام send_mail بدلاً من EmailMessage
-                send_mail(
-                    subject="Permit to Work",
-                    message="Welcome",
-                    from_email='info@bantayga.wtf',
-                    recipient_list=[user.email],
-                    fail_silently=False,
-                )
+                # send_mail(
+                #     subject="Permit to Work",
+                #     message="Welcome",
+                #     from_email='info@bantayga.wtf',
+                #     recipient_list=[user.email],
+                #     fail_silently=False,
+                # )
+                Sender_mail(
+                    subject="welcome to BANTAYGA",
+                    content= "welcome go to my wep site to show new offers"
+                    
+                ).send_mail(email=data['email'])
+                
                 return Response(
                     {'details': 'Your account registered successfully!'},
                     status=status.HTTP_201_CREATED
