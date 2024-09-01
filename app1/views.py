@@ -64,7 +64,7 @@ class RegisterAPIView(APIView):
                     subject="welcome to BANTAYGA",
                     content= "welcome go to my wep site to show new offers"
                     
-                ).send_mail(email=data['email'])
+                ).send_mail(emails=data['email'])
                 
                 return Response(
                     {'details': 'Your account registered successfully!'},
