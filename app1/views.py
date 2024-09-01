@@ -353,6 +353,12 @@ class PaymobCallbackView(APIView):
                 )
 
                 #cart.items.all().delete()
+                SenderMail(
+                    subject="details your order",
+                    content=order_details
+                    
+                ).send_mail(emails=user.email)
+                
                 cart.delete()
 
                 return Response({'message': 'Payment successful and order created'}, status=status.HTTP_200_OK)
