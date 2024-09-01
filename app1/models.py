@@ -108,9 +108,9 @@ def send_message(sender, instance, created, **kwargs):
                 )
                 msg.attach_alternative(html_content, "text/html")
                 msg.send()
-        else:
+        #else:
             # Fallback if no template is selected
-            send_email_task(instance.subject, instance.content)
+           # send_email_task(instance.subject, instance.content)
 # نموذج المنتجات
 class Products(models.Model):
     SALE_CHOICES = [
