@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'drf_yasg',
     'corsheaders',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -208,3 +209,4 @@ FRONTEND_URL=''
 # Media files (uploads)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+SITE_ID = 1
