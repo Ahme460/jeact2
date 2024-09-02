@@ -82,36 +82,45 @@ class sender_email(models.Model):
 @receiver(post_save, sender=sender_email)
 def send_message(sender, instance, created, **kwargs):
     if created:
-        # Render the HTML content using the template
+        # إعداد Content-ID للصورة
+        image_cid = 'image1'
+
+        # تحضير سياق HTML
         context = {
             'title': instance.subject,
             'body': instance.content,
-            'image_url': 'cid:image1'  # Use a CID placeholder for the image
+            'image_url': f'cid:{image_cid}'  # استخدم Content-ID في القالب
         }
+        
+        # تحميل محتوى HTML
         html_content = render_to_string('email_template.html', context)
         text_content = strip_tags(html_content)
 
-        # Prepare the image as an attachment
-        image_file = instance.pic_email.read()
-        img_cid = 'image1'
-
-        # Prepare email
+        # تحضير البريد الإلكتروني
         msg = EmailMultiAlternatives(
-            instance.subject,  # Subject
-            text_content,  # Plain text content
-            settings.DEFAULT_FROM_EMAIL,  # From email
-            list(Customer_user.objects.values_list('email', flat=True))  # List of all user emails
+            instance.subject,  # عنوان البريد
+            text_content,  # محتوى النص العادي
+            settings.DEFAULT_FROM_EMAIL,  # البريد المرسل
+            list(Customer_user.objects.values_list('email', flat=True))  # قائمة جميع عناوين البريد
         )
         msg.attach_alternative(html_content, "text/html")
-        # Attach image with Content-ID
-        msg.attach(
-            filename=instance.pic_email.name,
-            content=image_file,
-            mimetype='image/jpeg'  # Use the correct MIME type for the image
-        )
-        msg.extra_headers = {'Content-ID': f'<{img_cid}>'}
 
+        # تحميل وإرفاق الصورة باستخدام Content-ID
+        with open(instance.pic_email.path, 'rb') as img:
+            msg.attach(
+                filename=instance.pic_email.name,
+                content=img.read(),
+                mimetype='image/jpeg'
+            )
+            msg.add_related_file(
+                instance.pic_email.path,  # مسار الصورة
+                content_id=image_cid,  # Content-ID للصورة
+                mimetype="image/jpeg"
+            )
+
+        # إرسال البريد الإلكتروني
         msg.send()
+     
         #else:
             # Fallback if no template is selected
            # send_email_task(instance.subject, instance.content)
