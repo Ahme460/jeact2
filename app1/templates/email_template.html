@@ -29,8 +29,7 @@
         box-sizing: border-box;
       }
       .logo {
-        display: flex;
-        justify-content: center;
+        text-align: center; /* تعديل هنا */
         padding: 15px 0;
         border-bottom: 1px solid #fff;
       }
@@ -63,7 +62,8 @@
       }
       .links {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-between; /* لضبط الروابط بالتساوي */
+        align-items: center; /* تأكد من توسيط الروابط عموديًا */
         padding: 14px 0;
         border-bottom: 1px solid #fff;
       }
@@ -71,6 +71,8 @@
         color: white;
         text-decoration: underline;
         font-size: 12px;
+        flex: 1; /* لضمان توزيع المساحة بالتساوي بين الروابط */
+        text-align: center; /* لضبط النص في وسط الرابط */
       }
       .footer {
         text-align: center;
@@ -108,11 +110,7 @@
         <p>Thank you for subscribing to our newsletter</p>
       </div>
       <div class="content-section">
-        <p>{{ body }}
-
-
-
-        </p>
+        <p>{{ body }}</p>
       </div>
       <div class="links">
         <a href="#">Legal notices</a>
