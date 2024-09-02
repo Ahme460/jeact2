@@ -1,38 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BANTAYGA - Email</title>
-  </head>
-  <body style="padding: 0; margin: 0; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; background: black; color: white;">
-    <main style="width: 100%; max-width: 600px; margin: auto; background: black; color: white;">
-      <section style="display: flex; justify-content: center; padding: 1rem;">
-        <a href="" style="text-decoration: none;">
-          <h1 style="background: red; color: white; margin: 0; padding: 0.5rem;">BANTAYGA</h1>
-        </a>
-      </section>
-      <hr style="border: 1px solid white;" />
-      <section style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1rem;">
-        <img src="cid:image1" style="width: 90%; height: auto;" alt="alt" />
-        <h1 style="margin: 0; padding: 0;">NEWS FOR YOU</h1>
-        <p style="margin-top: -0.4rem;">{{ title }}</p>
-      </section>
-      <hr style="border: 1px solid white;" />
-      <section style="padding: 1rem;">
-        <p>{{ body }}</p>
-      </section>
-      <section style="display: flex; justify-content: space-between; padding: 1rem; color: white;">
-        <a href="" style="color: white;">Legal notices</a>
-        <a href="" style="color: white;">Privacy policy</a>
-      </section>
-      <section style="display: flex; justify-content: center; padding: 1rem;">
-        <a href="" style="padding: 0.5rem; margin-top: 1rem; border: 2px solid white; color: white; text-decoration: none;">Bantyaga.com</a>
-      </section>
-      <hr style="border: 1px solid white;" />
-      <section style="display: flex; justify-content: center; padding: 0.5rem;">
-        <span>@2024 Bantyaga.com</span>
-      </section>
-    </main>
-  </body>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bantayga Newsletter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1c1c1c;
+            border: 1px solid #444;
+        }
+        .logo {
+            background-color: #e60000;
+            padding: 10px 0;
+        }
+        .logo img {
+            max-width: 150px;
+        }
+        .content {
+            padding: 20px;
+            border-top: 1px solid #444;
+            border-bottom: 1px solid #444;
+        }
+        .content h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .content p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .content ul {
+            list-style: none;
+            padding: 0;
+        }
+        .content ul li {
+            margin: 10px 0;
+        }
+        .divider {
+            border-bottom: 1px solid #444;
+            margin: 20px 0;
+        }
+        .footer {
+            padding: 20px;
+            font-size: 14px;
+            color: #bbb;
+        }
+        .footer a {
+            color: #bbb;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .footer .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        .footer .btn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+          <h1> Bantayga </h1>
+        </div>
+        <div class="content">
+            <img src="WhatsApp Image 2024-08-29 at 5.14.39 AM.jpeg" alt="Picture" style="width:100%; height:auto;"/>
+            <h1>NEWS FOR YOU</h1>
+            <p>Thank you for subscribing to our newsletter.</p>
+            <div class="divider"></div>
+            <p>You will now be kept up to date with Bantayga's new offers and product arrivals! If you have not yet done so, create an account to enjoy these exclusive services:</p>
+            <ul>
+                <li>Fast Checkout - Safely store your delivery and payment details</li>
+                <li>Wishlist - Save your favorite items</li>
+                <li>Refluent - Re-sell Bantayga paces transparently and sustainably</li>
+                <li>Order - Track and manage purchases and returns</li>
+            </ul>
+            <p>Thank you for your continued interest in Bantayga. For more, go to bantayga.com. Do not reply to this message directly. For any questions or concerns, please contact our client services.</p>
+        </div>
+        <div class="footer">
+            <p>Should you need any further information, please email us by contacting client services. You agree that your data will be transferred outside your country.</p>
+            <a href="#" class="btn">Bantayga.com</a>
+            <p>&copy; 2024 Bantayga.com</p>
+            <p>
+                <a href="#">Legal notices</a> | <a href="#">Privacy policy</a>
+            </p>
+        </div>
+    </div>
+</body>
 </html>
