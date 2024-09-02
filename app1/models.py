@@ -71,6 +71,13 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
 from django.core.files.base import ContentFile
+from email.mime.image import MIMEImage
+
+from django.contrib.sites.models import Site
+from django.urls import reverse
+
+
+
 class sender_email(models.Model):
     subject=models.CharField(max_length=100)
     pic_email=models.ImageField(blank=True,upload_to='email_images/')
@@ -82,44 +89,38 @@ class sender_email(models.Model):
 @receiver(post_save, sender=sender_email)
 def send_message(sender, instance, created, **kwargs):
     if created:
-        # إعداد Content-ID للصورة
-        image_cid = 'image1'
+        # Get the current site URL
+        current_site = Site.objects.get_current()
+        domain = current_site.domain
+        
+        # Construct the absolute URL for the image
+        image_url = f"https://{domain}{instance.pic_email.url}"
 
-        # تحضير سياق HTML
+        # Use the selected email template
         context = {
             'title': instance.subject,
             'body': instance.content,
-            'image_url': f'cid:{image_cid}'  # استخدم Content-ID في القالب
+            'image_url': image_url
         }
-        
-        # تحميل محتوى HTML
+
+        # Render the HTML content using the template
         html_content = render_to_string('email_template.html', context)
         text_content = strip_tags(html_content)
 
-        # تحضير البريد الإلكتروني
-        msg = EmailMultiAlternatives(
-            instance.subject,  # عنوان البريد
-            text_content,  # محتوى النص العادي
-            settings.DEFAULT_FROM_EMAIL,  # البريد المرسل
-            list(Customer_user.objects.values_list('email', flat=True))  # قائمة جميع عناوين البريد
-        )
-        msg.attach_alternative(html_content, "text/html")
+        # Get all user email addresses
+        recipients = list(Customer_user.objects.values_list('email', flat=True))
 
-        # تحميل وإرفاق الصورة باستخدام Content-ID
-        with open(instance.pic_email.path, 'rb') as img:
-            msg.attach(
-                filename=instance.pic_email.name,
-                content=img.read(),
-                mimetype='image/jpeg'
+        # Ensure there are recipients
+        if recipients:
+            # Send the email to all users
+            msg = EmailMultiAlternatives(
+                instance.subject,  # Subject
+                text_content,  # Plain text content
+                settings.DEFAULT_FROM_EMAIL,  # From email
+                recipients  # List of all user emails
             )
-            msg.add_related_file(
-                instance.pic_email.path,  # مسار الصورة
-                content_id=image_cid,  # Content-ID للصورة
-                mimetype="image/jpeg"
-            )
-
-        # إرسال البريد الإلكتروني
-        msg.send()
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
      
         #else:
             # Fallback if no template is selected
