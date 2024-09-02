@@ -62,7 +62,17 @@ class RegisterAPIView(APIView):
                 # )
                 SenderMail(
                     subject="welcome to BANTAYGA",
-                    content= "welcome go to my wep site to show new offers"
+                    content= """
+                    Welcome to Bantyaga!
+
+We're thrilled to have you join our community! We hope you have a fantastic experience filled with valuable insights and opportunities. You'll find a wealth of resources and information to help you achieve your goals.
+
+If you have any questions or need assistance, don't hesitate to reach out to us. We're here to support you.
+
+Thank you for joining, and we look forward to being part of your journey!
+""",
+tem='welcome_email.html'
+
                     
                 ).send_mail(emails=data['email'])
                 
@@ -355,7 +365,9 @@ class PaymobCallbackView(APIView):
                 #cart.items.all().delete()
                 SenderMail(
                     subject="details your order",
-                    content=order_details
+                    content=order_details,
+                    tem='welcome_email.html'
+                    
                     
                 ).send_mail(emails=user.email)
                 

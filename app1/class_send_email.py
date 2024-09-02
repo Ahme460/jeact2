@@ -5,9 +5,10 @@ from django.core.files.base import ContentFile
 from . models import Customer_user
 from django.conf import settings
 class SenderMail:
-    def __init__(self, subject, content) -> None:
+    def __init__(self, subject, content,tem) -> None:
         self.subject = subject
         self.content = content
+        self.tem=tem
         
     def send_mail(self, emails):
         context = {
@@ -16,7 +17,7 @@ class SenderMail:
         }
 
         # Render the HTML content using the template
-        html_content = render_to_string('email_template.html', context)
+        html_content = render_to_string(self.tem, context)
         text_content = strip_tags(html_content)
 
         # Ensure emails is a list

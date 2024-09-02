@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bantayga Newsletter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Roboto", sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      background-color: #000;
+      color: #cacaca;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+    }
+    a {
+      text-decoration: none !important;
+    }
+    .section-border {
+      border-bottom: 1px solid #fff;
+      padding-bottom: 15px;
+      margin-bottom: 25px; /* إضافة مسافة بين الأقسام */
+    }
+    .thanks h1 {
+      font-weight: bold;
+      color: #ffffff;
+      font-size: 16px;
+      margin: 15px 0 10px;
+      text-align: center;
+    }
+    .thanks p {
+      margin: 0;
+      padding: 10px 0;
+      text-align: center;
+    }
+    .content p {
+      margin: 0;
+      padding: 10px 0;
+    }
+    .links a {
+      color: #eaeaea;
+      text-decoration: none;
+      padding: 8px;
+      border: 1px solid #ffffff;
+      font-size: 12px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin: 0 5px;
+    }
+    .footer {
+      text-align: center;
+      color: #eaeaea;
+      padding: 10px 0;
+    }
+    .link {
+      color: #eaeaea;
+      padding: 8.6px;
+      border: 0.43px solid #ffffff;
+      font-size: 12px;
+      border-radius: 3.44px;
+      font-weight: 600;
+      text-align: center;
+      display: block;
+    }
+    .link-container {
+      text-align: center;
+      margin-bottom: 15px; /* إضافة مسافة قبل العنصر */
+    }
+    .section-padding {
+      padding: 20px 15px;
+    }
+  </style>
+</head>
+<body>
+  <table class="container">
+    <tr class="section-border section-padding thanks">
+      <td>
+        <h1>NEWS FOR YOU</h1>
+        <p>Thank you for subscribing to our newsletter</p>
+      </td>
+    </tr>
+    <tr class="section-border section-padding content">
+      <td>
+        <p>{{ body }}</p>
+      </td>
+    </tr>
+    <tr class="section-padding" style="text-align: center;">
+      <td>
+        <a href="#" style="color: white; text-decoration: underline; margin-right: 10px;">Legal notices</a>
+        <a href="#" style="color: white; text-decoration: underline;">Privacy policy</a>
+      </td>
+    </tr>
+    <tr class="section-border link-container">
+      <td>
+        <a href="" class="link">Bantyaga.com</a>
+      </td>
+    </tr>
+    <tr>
+      <td class="footer">
+        <span>&copy; 2024 Bantyaga.com</span>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
