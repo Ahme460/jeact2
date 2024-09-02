@@ -94,7 +94,7 @@ def send_message(sender, instance, created, **kwargs):
         domain = current_site.domain
         
         # Construct the absolute URL for the image
-        image_url = f"https://{domain}{instance.pic_email.url}"
+        image_url = f"https://api.bantayga.wtf/{instance.pic_email.url}"
 
         # Use the selected email template
         context = {
