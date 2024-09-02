@@ -1,123 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bantayga Newsletter</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "Roboto", sans-serif;
-        font-weight: 600;
-        font-size: 14px;
-      }
-      table {
-        border-collapse: collapse;
-        width: 100%;
-      }
-      a {
-        text-decoration: none !important;
-      }
-      .container {
-        width: 100%;
-        max-width: 430px;
-        margin: 0 auto;
-        background: black;
-        color: #cacaca;
-      }
-      .logo img {
-        width: 96px !important;
-        height: 32px !important;
-      }
-      .section-border img {
-        width: 200px; /* تعديل الحجم هنا */
-        height: auto;
-      }
-      .thanks h1 {
-        font-weight: bold;
-        color: #ffffff;
-        font-size: 16px;
-      }
-      .content p {
-        margin: 0;
-        padding: 10px 0;
-      }
-      .links a {
-        color: #eaeaea;
-        text-decoration: none;
-        padding: 8px;
-        border: 1px solid #ffffff;
-        font-size: 12px;
-        border-radius: 4px;
-        font-weight: 600;
-        margin: 0 5px;
-      }
-      .footer {
-        text-align: center;
-        color: #eaeaea;
-        padding: 10px 0;
-      }
-      .section-border {
-        border-bottom: 1px solid #fff;
-      }
-      .link {
-        color: #EAEAEA;
-        padding: 8.6px;
-        border: 0.43px solid #ffffff;
-        font-size: 12px;
-        border-radius: 3.44px;
-        font-weight: 600;
-      }
-    </style>
-  </head>
-  <body>
-    <table class="container">
-      <tr>
-        <td class="logo section-border" style="display: flex;justify-content: center;padding: 15px 0;">
-          <img
-            src="https://api.bantayga.wtf/media/logobantagy.jpeg"
-            alt="Bantayga Logo"
-          />
-        </td>
-      </tr>
-      <tr>
-        <td class="section-border" style="display: flex;flex-direction: column;align-items: center;padding: 20px 0;">
-          <img src="{{ image_url }}" alt="Thank You Image" />
-          <h1>NEWS FOR YOU</h1>
-          <p>Thank you for subscribing to our newsletter</p>
-        </td>
-      </tr>
-      <tr>
-        <td class="section-border" style="padding: 20px">
-          <p>{{ body }}</p>
-        </td>
-      </tr>
-      <tr>
-        <td
-          style="padding: 14px; display: flex; justify-content: space-between"
-        >
-          <a href="#" style="color: white; text-decoration: underline"
-            >Legal notices</a
-          >
-          <a href="#" style="color: white; text-decoration: underline"
-            >Privacy policy</a
-          >
-        </td>
-      </tr>
-      <tr class="section-border">
-        <td>
-          <div style="display: flex;justify-content: center;align-items: center;margin-bottom: 10px;">
-            <a href="" class="link" style="text-decoration: none;">Bantyaga.com</a>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="footer">
-          <span>&copy; 2024 Bantyaga.com</span>
-        </td>
-      </tr>
-    </table>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bantayga Newsletter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Roboto", sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    a {
+      text-decoration: none !important;
+    }
+    .container {
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      background: black;
+      color: #cacaca;
+    }
+    .logo img {
+      width: 96px !important;
+      height: 32px !important;
+    }
+    .section-border img {
+      width: 200px; /* تعديل الحجم هنا */
+      height: auto;
+    }
+    .thanks h1 {
+      font-weight: bold;
+      color: #ffffff;
+      font-size: 16px;
+    }
+    .content p {
+      margin: 0;
+      padding: 10px 0;
+    }
+    .links a {
+      color: #eaeaea;
+      text-decoration: none;
+      padding: 8px;
+      border: 1px solid #ffffff;
+      font-size: 12px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin: 0 5px;
+    }
+    .footer {
+      text-align: center;
+      color: #eaeaea;
+      padding: 10px 0;
+    }
+    .section-border {
+      border-bottom: 1px solid #fff;
+    }
+    .link {
+      color: #EAEAEA;
+      padding: 8.6px;
+      border: 0.43px solid #ffffff;
+      font-size: 12px;
+      border-radius: 3.44px;
+      font-weight: 600;
+      text-align: center;
+      display: block; /* ضمان أن الرابط يظهر بشكل مركزي */
+    }
+    .link-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <table class="container">
+    <tr>
+      <td class="logo section-border" style="display: flex;justify-content: center;padding: 15px 0;">
+        <img
+          src="https://api.bantayga.wtf/media/logobantagy.jpeg"
+          alt="Bantayga Logo"
+        />
+      </td>
+    </tr>
+    <tr>
+      <td class="section-border" style="display: flex;flex-direction: column;align-items: center;padding: 20px 0;">
+        <img src="{{ image_url }}" alt="Thank You Image" />
+        <h1>NEWS FOR YOU</h1>
+        <p>Thank you for subscribing to our newsletter</p>
+      </td>
+    </tr>
+    <tr>
+      <td class="section-border" style="padding: 20px">
+        <p>{{ body }}</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 14px; display: flex; justify-content: space-between">
+        <a href="#" style="color: white; text-decoration: underline">Legal notices</a>
+        <a href="#" style="color: white; text-decoration: underline">Privacy policy</a>
+      </td>
+    </tr>
+    <tr class="section-border">
+      <td>
+        <div class="link-container">
+          <a href="" class="link">Bantyaga.com</a>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="footer">
+        <span>&copy; 2024 Bantyaga.com</span>
+      </td>
+    </tr>
+  </table>
+</body>
 </html>
