@@ -47,11 +47,8 @@ from datetime import datetime
 target_date = datetime(2024, 9, 9)  # تاريخ: 15 سبتمبر 2024
 
 # الحصول على التاريخ الحالي
-current_date = datetime.now()
-if current_date > target_date:
-    print("stoppppp")
-else:
-    urlpatterns = [
+
+urlpatterns = [
     
     path('admin/', admin.site.urls),
     path('', include('app1.urls')) ,
