@@ -20,7 +20,6 @@ def generate_random_name():
     return last_name
 
 def pay(api_key: str, total_price, user):
-    
     try:
         # Retrieve the user's cart and cart items
         cart = CartModel.objects.get(customer=user)
@@ -32,7 +31,6 @@ def pay(api_key: str, total_price, user):
         email = user.email
         first_name = user.first_name
         last_name = generate_random_name()
-        print(first_name)
         
         # Prepare items for the payment request
         items = []
@@ -43,10 +41,7 @@ def pay(api_key: str, total_price, user):
                 "description": item.product.about_product,
                 "quantity": item.quantity
             })
-            
-        print(items)
-       
-
+        
         # Calculate total amount in cents
         total_amount_cents = int(total_price * 100)
         
@@ -55,17 +50,12 @@ def pay(api_key: str, total_price, user):
         
         # Make the request to get the API token
         token_response = re.post(url, json={"api_key": api_key})
-        token_response.raise_for_status()  # Raise an error for bad responses (4xx or 5xx)
+        token_response.raise_for_status()
         
-        #token_data = token_response.json()
-        #api_token = token_data.get("token")
-        api_token = token_response.json().get("token", None)
+        api_token = token_response.json().get("token")
         if not api_token:
             raise ValueError("API token is missing in the response")
         
-        print(type(str(int(total_amount_cents)*100)))
-        print("Token Response:", api_token)  # Debugging statement
-
         # Create the order
         order_url = "https://accept.paymob.com/api/ecommerce/orders"
         order_payload = {
@@ -73,32 +63,26 @@ def pay(api_key: str, total_price, user):
             "delivery_needed": False,
             "amount_cents": str(total_amount_cents),
             "currency": currency,
-            #"merchant_order_id": str(cart.id),
             "items": items
         }
-        print("beeee")
+        
         order_response = re.post(order_url, json=order_payload)
         order_response.raise_for_status()
-        print(order_response.raise_for_status)
         
-        #print("Order Response:", order_data)  # Debugging statement
-
-        order_id =order_response.json().get('id', None)
-        print("_____")
-        print(order_id)
-        print(generate_random_phone_number())
-        print(type(generate_random_phone_number()))
+        order_id = order_response.json().get('id')
+        if not order_id:
+            raise ValueError("Order ID is missing in the response")
+        
         # Generate a payment key
-        
         payment_key_url = "https://accept.paymob.com/api/acceptance/payment_keys"
         billing_data = {
             "apartment": "NA",
-            "email": "ahmeoon1234@gmail.com",
+            "email": email,
             "floor": "NA",
-            "first_name": "ajeee",
+            "first_name": first_name,
             "street": "NA",
             "building": "NA",
-            "phone_number": "+201234575432",#generate_random_phone_number(),
+            "phone_number": generate_random_phone_number(),
             "shipping_method": "NA",
             "postal_code": "NA",
             "city": "NA",
@@ -113,28 +97,24 @@ def pay(api_key: str, total_price, user):
             "order_id": order_id,
             "billing_data": billing_data,
             "currency": "EGP",
-            
-            #"integration_id": 4603869
-            #"integration_id": 4603869
-           # # Replace with actual integration ID
-           "integration_id": 4567561
+            "integration_id": 4567561  # Replace with actual integration ID
         }
-       # print("Payment Key Payload:", payment_key_payload)  # Debugging statement
         
         payment_key_response = re.post(payment_key_url, json=payment_key_payload)
         payment_key_response.raise_for_status()
-        #payment_key_data = payment_key_response.json()
-        payment_key_data =payment_key_response.json().get('token', None)
-        print("Payment Key Response:", payment_key_data)  # Debugging statement
-        print("i,m here")
+        
+        payment_key_data = payment_key_response.json().get('token')
+        if not payment_key_data:
+            raise ValueError("Payment key token is missing in the response")
+        
         link = f"https://accept.paymob.com/api/acceptance/iframes/843753?payment_token={payment_key_data}"
         return link
 
     except re.exceptions.HTTPError as http_err:
-        print(f"HTTP error occurred: {http_err}") 
-    # Log HTTP errors
-        if order_response is not None:
+        print(f"HTTP error occurred: {http_err}")
+        if 'order_response' in locals():
             print(f"Order Response Text: {order_response.text}")
+    except ValueError as val_err:
+        print(f"Value error occurred: {val_err}")
     except Exception as err:
-    
-        print(f"An error occurred: {err}")  # Log other errors
+        print(f"An error occurred: {err}")
