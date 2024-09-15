@@ -154,21 +154,30 @@ class CartViewSet(ModelViewSet):
     @action(detail=False, methods=['post'], url_path='add-item/(?P<product_id>[^/.]+)')
     def add_item(self, request, product_id=None):
         try:
+            # الحصول أو إنشاء عربة التسوق الخاصة بالمستخدم
             cart, created = CartModel.objects.get_or_create(customer=request.user)
+            
+            # محاولة الحصول على عنصر CartItem أو إنشائه إذا لم يكن موجودًا
             item, item_created = CartItem.objects.get_or_create(product_id=product_id, cart=cart)
-
+            
+            # تحديث كمية العنصر بناءً على ما إذا كان العنصر جديدًا أو موجودًا بالفعل
             if not item_created:
-                item.quantity += 1
+                item.quantity += int(request.data.get('quantity', 1))  # تأكد من تحويل الكمية إلى عدد صحيح
                 item.save()
             else:
-                item.quantity = request.data.get('quantity', 1)
+                item.quantity = int(request.data.get('quantity', 1))  # تأكد من تحويل الكمية إلى عدد صحيح
                 item.save()
 
             return Response({"detail": "Item added to cart."}, status=status.HTTP_200_OK)
+        
+        except ValueError:
+            return Response({"detail": "Invalid quantity value."}, status=status.HTTP_400_BAD_REQUEST)
         except CartModel.DoesNotExist:
             return Response({"detail": "Cart not found."}, status=status.HTTP_404_NOT_FOUND)
-
-
+        except CartItem.DoesNotExist:
+            return Response({"detail": "Item not found."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 
@@ -179,13 +188,19 @@ class CartViewSet(ModelViewSet):
     def remove_item(self, request, product_id=None):
         try:
             cart = CartModel.objects.get(customer=request.user)
-            item = CartItem.objects.get(product__id=product_id, cart=cart)
-            item.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            # استخدام filter بدلاً من get للتعامل مع احتمالية وجود أكثر من عنصر
+            items = CartItem.objects.filter(product__id=product_id, cart=cart)
+            
+            # حذف كل العناصر المطابقة
+            if items.exists():
+                items.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            else:
+                return Response({"detail": "Item not found in the cart."}, status=status.HTTP_404_NOT_FOUND)
+                
         except CartModel.DoesNotExist:
             return Response({"detail": "Cart not found."}, status=status.HTTP_404_NOT_FOUND)
-        except CartItem.DoesNotExist:
-            return Response({"detail": "Item not found in the cart."}, status=status.HTTP_404_NOT_FOUND)
+
     
 #@api_view(['GET'])
 #def user_cart(request, user_id):
