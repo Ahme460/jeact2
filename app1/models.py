@@ -252,21 +252,33 @@ class CartModel(models.Model):
     def __str__(self) -> str:
         return self.customer.username
      #total = sum([(item.product.price - item.product.Discount) * item.quantity for item in self.items.all()])
-    @property
-    def total_price(self):
-             
-        total=0
-        for item in self.items.all():
-            if item.product.Discount<=0:
-                total += item.product.price * item.quantity
-            else:
-                total+=item.product.Discount * item.quantity
-        if self.discount_code and self.discount_code.is_valid():
-            if self.discount_code.discount_percentage:
-                total -= total * (self.discount_code.discount_percentage / 100)
-            elif self.discount_code.discount_amount:
-                total -= self.discount_code.discount_amount
-        return total
+@property
+def total_price(self):
+    total = 0
+    for item in self.items.all():
+        # التحقق من وجود سعر المنتج والخصم باستخدام 0 كقيمة افتراضية إذا كان أي منهما None
+        price = item.product.price or 0
+        discount = item.product.Discount or 0
+        quantity = item.quantity or 1
+
+        # إذا لم يكن هناك خصم، يتم استخدام السعر الأصلي
+        if discount <= 0:
+            total += price * quantity
+        else:
+            # إذا كان هناك خصم، يتم استخدامه بدلاً من السعر الأصلي
+            total += discount * quantity
+
+    # إذا كان هناك كود خصم، يتم تطبيقه على المجموع الكلي
+    if self.discount_code and self.discount_code.is_valid():
+        if self.discount_code.discount_percentage:
+            # تطبيق نسبة الخصم
+            total -= total * (self.discount_code.discount_percentage / 100)
+        elif self.discount_code.discount_amount:
+            # تطبيق قيمة الخصم الثابتة
+            total -= self.discount_code.discount_amount
+
+    return total
+
 
 class CartItem(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE,related_name="product_cart")
