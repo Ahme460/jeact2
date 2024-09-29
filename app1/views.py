@@ -558,3 +558,69 @@ class ApplyDiscountCodeAPIView(APIView):
             return Response({
                 "error": "Cart does not exist."
             }, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+class CreatePaymentIntention(APIView):
+    def post(self, request):
+        # Get user data (e.g., from request or your database)
+        user = request.user
+
+        # Define the payment intention request payload
+        payload = {
+            "amount": request.data.get("amount"),
+            "currency": "EGP",
+            "expiration": 5800,
+            "payment_methods": [
+                12, "card"
+            ],
+            "items": [
+                {
+                    "name": "Item name 1",
+                    "amount": request.data.get("amount"),
+                    "description": "Watch",
+                    "quantity": 1
+                }
+            ],
+            "billing_data": {
+                "apartment": "6",
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "street": "938, Al-Jadeed Bldg",
+                "building": "939",
+                "phone_number": "01234956432",
+                "country": "EG",
+                "email": user.email,
+                "floor": "1",
+                "state": "Alkhuwair"
+            },
+            "special_reference": "ABCDE8121",
+            "customer": {
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "email": user.email,
+                "extras": {
+                    "re": "22"
+                }
+            },
+            "extras": {
+                "ee": 22
+            }
+        }
+
+        # Set headers
+        headers = {
+            'Authorization': 'ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1RjME16QXhMQ0p1WVcxbElqb2lNVGN5TVRRNU5EYzROaTQwT0RjeU5qWWlmUS5aY1pMNUNVWTdSRld1S3d6eEhwLXlOS3F0RWUxVEhyZmh5TTdyWmplc1pGU3FjZVZWalptZWRudEZSdHh1MEk1M29sQWZIQkd6dVRLT3lvUWpjTEo5dw==',
+            'Content-Type': 'application/json'
+        }
+
+        # Send request to Paymob API
+        response = requests.post('https://accept.paymob.com/v1/intention/', json=payload, headers=headers)
+
+        if response.status_code == 201:
+            # Handle the response
+            return Response(response.json(), status=status.HTTP_201_CREATED)
+        else:
+            return Response(response.json(), status=response.status_code)

@@ -155,6 +155,10 @@ class Products(models.Model):
     Discount = models.FloatField(blank=True,null=True,default=0) # حقل الخصم كنسبة مئوية
     #size = models.CharField(max_length=50, null=True, choices=SIZE_SELECT)
     is_featured = models.BooleanField(default=False, verbose_name="Featured on Homepage")   
+    count=models.IntegerField(default=1)
+    
+    
+    
     def get_discounted_price(self):
         return self.price - (self.price * (self.discount / 100))
 

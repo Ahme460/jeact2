@@ -43,7 +43,8 @@ def pay(api_key: str, total_price, user):
             })
         
         # Calculate total amount in cents
-        total_amount_cents = int(total_price * 100)
+        total_amount_cents = int(total_price)
+        total_amount_cents=int(total_price*100)
         
         # API endpoint for token generation
         url = "https://accept.paymob.com/api/auth/tokens"
@@ -53,6 +54,8 @@ def pay(api_key: str, total_price, user):
         token_response.raise_for_status()
         
         api_token = token_response.json().get("token")
+        print("pppppppppppppppppp")
+        print(api_token)
         if not api_token:
             raise ValueError("API token is missing in the response")
         
@@ -61,8 +64,8 @@ def pay(api_key: str, total_price, user):
         order_payload = {
             "auth_token": api_token,
             "delivery_needed": False,
-            "amount_cents": str(total_amount_cents),
-            "currency": currency,
+            "amount_cents": total_amount_cents,
+            "currency": "EGP",
             "items": items
         }
         
@@ -76,24 +79,25 @@ def pay(api_key: str, total_price, user):
         # Generate a payment key
         payment_key_url = "https://accept.paymob.com/api/acceptance/payment_keys"
         billing_data = {
-            "apartment": "NA",
-            "email": email,
-            "floor": "NA",
-            "first_name": first_name,
-            "street": "NA",
-            "building": "NA",
-            "phone_number": generate_random_phone_number(),
-            "shipping_method": "NA",
-            "postal_code": "NA",
-            "city": "NA",
-            "country": "NA",
-            "last_name": last_name,
-            "state": "NA"
+            "apartment": "803", 
+            "email": email, 
+            "floor": "1", 
+            "first_name": first_name, 
+            "street": "Main St", 
+            "building": "123", 
+            "phone_number": generate_random_phone_number(), 
+            "shipping_method": "PKG", 
+            "postal_code": "12345", 
+            "city": "Cairo", 
+            "country": "EG", 
+            "last_name": last_name, 
+            "state": "Cairo"
         }
+        
         payment_key_payload = {
             "auth_token": api_token,
-            "amount_cents": str(total_amount_cents),
-            "expiration": 3600,  # 1 hour expiration
+            "amount_cents": total_amount_cents,
+            "expiration": 3600,
             "order_id": order_id,
             "billing_data": billing_data,
             "currency": "EGP",
