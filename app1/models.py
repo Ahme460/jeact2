@@ -157,12 +157,13 @@ class Products(models.Model):
     #size = models.CharField(max_length=50, null=True, choices=SIZE_SELECT)
     is_featured = models.BooleanField(default=False, verbose_name="Featured on Homepage")   
     count=models.IntegerField(default=1)
-    def save(self, force_insert: bool = ..., force_update: bool = ..., using: str | None = ..., update_fields: Iterable[str] | None = ...) -> None:
+    def save(self, *args, **kwargs):
         if self.count <= 0:
-            self.sale_status== "sold_out"
-            
-        return super().save(force_insert, force_update, using, update_fields)
-    
+            self.sale_status = "sold_out"  # Assigning the value properly
+        
+        # Call the parent class's save method without explicitly passing force_insert or force_update
+        super().save(*args, **kwargs)
+        
     
     
     def get_discounted_price(self):
