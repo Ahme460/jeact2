@@ -26,7 +26,9 @@ urlpatterns = [
     path('wishlist/', WishlistAPIView.as_view(), name='wishlist-api'),
   path('get-featured-products/', GetFeaturedProductsAPIView.as_view(), name='get_featured_products'),
   path('apply-discount-code/', ApplyDiscountCodeAPIView.as_view(), name='apply_discount_code'),
-  path("CreatePaymentIntention/",CreatePaymentIntention.as_view())
+  path("CreatePaymentIntention/",CreatePaymentIntention.as_view()),
+  path('newsletter/', NewsletterView.as_view(), name='newsletter'),
+
 ]
 
 

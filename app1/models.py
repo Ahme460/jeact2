@@ -1,3 +1,4 @@
+from typing import Iterable
 from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.core.validators import MinValueValidator
@@ -156,6 +157,11 @@ class Products(models.Model):
     #size = models.CharField(max_length=50, null=True, choices=SIZE_SELECT)
     is_featured = models.BooleanField(default=False, verbose_name="Featured on Homepage")   
     count=models.IntegerField(default=1)
+    def save(self, force_insert: bool = ..., force_update: bool = ..., using: str | None = ..., update_fields: Iterable[str] | None = ...) -> None:
+        if self.count <= 0:
+            self.sale_status== "sold_out"
+            
+        return super().save(force_insert, force_update, using, update_fields)
     
     
     
@@ -337,3 +343,13 @@ class Text_pic_wep(models.Model):
     contect_us = models.TextField(null=True, blank=True)
     contect_us_pic = models.ImageField(upload_to='pic_wep', null=True, blank=True)
     trademark = models.CharField(max_length=400, null=True, blank=True)
+
+
+
+
+
+class Newsletter(models.Model):
+    email = models.EmailField(max_length=254)
+
+    def __str__(self):
+        return self.email

@@ -624,3 +624,13 @@ class CreatePaymentIntention(APIView):
             return Response(response.json(), status=status.HTTP_201_CREATED)
         else:
             return Response(response.json(), status=response.status_code)
+
+
+
+class NewsletterView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = NewsletterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Email saved successfully"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
