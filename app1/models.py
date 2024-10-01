@@ -225,7 +225,9 @@ class SizesModel(models.Model):
         ('large', 'l'),
         ('Xs','xs'),
         ('Xl','xl'),
-        ('XXl','xxl')
+        ('XXl','xxl'),
+        ('none','none')
+        
         
     ]
     product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name="sizes")
