@@ -140,7 +140,8 @@ class Products(models.Model):
         ('large', 'l'),
         ('Xs','xs'),
         ('Xl','xl'),
-        ('XXl','xxl')
+        ('XXl','xxl'),
+        ('none','none')
         
     ]
     
