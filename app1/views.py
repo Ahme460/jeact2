@@ -628,6 +628,7 @@ class CreatePaymentIntention(APIView):
 
 
 class NewsletterView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request, *args, **kwargs):
         serializer = NewsletterSerializer(data=request.data)
         if serializer.is_valid():
