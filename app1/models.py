@@ -15,7 +15,13 @@ class categories(models.Model):
     
     def __str__(self) -> str:
         return self.name
-    
+
+
+class Newsletter(models.Model):
+    email = models.EmailField(max_length=254)
+
+    def __str__(self):
+        return self.email
     
 class DiscountCode(models.Model):
     code = models.CharField(max_length=20, unique=True)
@@ -110,7 +116,13 @@ def send_message(sender, instance, created, **kwargs):
 
         # Get all user email addresses
         recipients = list(Customer_user.objects.values_list('email', flat=True))
-
+        new_leeter=list(Newsletter.objects.values_list("email",flat=True))
+        
+        for x in new_leeter:
+            if x in recipients:
+                continue
+            else:
+                recipients.append(x)
         # Ensure there are recipients
         if recipients:
             # Send the email to all users
@@ -353,8 +365,3 @@ class Text_pic_wep(models.Model):
 
 
 
-class Newsletter(models.Model):
-    email = models.EmailField(max_length=254)
-
-    def __str__(self):
-        return self.email
