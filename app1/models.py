@@ -114,14 +114,15 @@ def send_message(sender, instance, created, **kwargs):
         # Ensure there are recipients
         if recipients:
             # Send the email to all users
-            msg = EmailMultiAlternatives(
-                instance.subject,  # Subject
-                text_content,  # Plain text content
-                settings.DEFAULT_FROM_EMAIL,  # From email
-                recipients  # List of all user emails
-            )
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
+            for i in recipients:
+                msg = EmailMultiAlternatives(
+                    instance.subject,  # Subject
+                    text_content,  # Plain text content
+                    settings.DEFAULT_FROM_EMAIL,  # From email
+                    i  
+                )
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
      
         #else:
             # Fallback if no template is selected
