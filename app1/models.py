@@ -119,7 +119,7 @@ def send_message(sender, instance, created, **kwargs):
                     instance.subject,  # Subject
                     text_content,  # Plain text content
                     settings.DEFAULT_FROM_EMAIL,  # From email
-                    i  
+                    [i]  
                 )
                 msg.attach_alternative(html_content, "text/html")
                 msg.send()
