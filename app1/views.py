@@ -154,31 +154,53 @@ class CartViewSet(ModelViewSet):
     @action(detail=False, methods=['post'], url_path='add-item/(?P<product_id>[^/.]+)')
     def add_item(self, request, product_id=None):
         try:
-            # الحصول أو إنشاء عربة التسوق الخاصة بالمستخدم
+        # الحصول أو إنشاء عربة التسوق الخاصة بالمستخدم
             cart, created = CartModel.objects.get_or_create(customer=request.user)
             
-            # محاولة الحصول على عنصر CartItem أو إنشائه إذا لم يكن موجودًا
-            item, item_created = CartItem.objects.get_or_create(product_id=product_id, cart=cart)
+            # محاولة الحصول على المنتج
+            product = get_object_or_404(Products, id=product_id)
             
-            # تحديث كمية العنصر بناءً على ما إذا كان العنصر جديدًا أو موجودًا بالفعل
+            # الحصول على اللون والحجم المرسلين
+            color = request.data.get('color')
+            size = request.data.get('size')
+            quantity = int(request.data.get('quantity', 1))  # تأكد من تحويل الكمية إلى عدد صحيح
+
+            # التأكد من صحة الحجم واللون إذا تم إرسالهما
+            if color:
+                color_obj = get_object_or_404(ColorsModel, product=product, color=color)
+            if size:
+                size_obj = get_object_or_404(SizesModel, product=product, size=size)
+
+            # البحث عن عنصر CartItem أو إنشائه إذا لم يكن موجودًا بالفعل
+            item, item_created = CartItem.objects.get_or_create(
+                product=product, 
+                cart=cart,
+                defaults={
+                    'quantity': quantity,
+                    'color': color if color else 'none',
+                    'size': size if size else 'none'
+                }
+            )
+
+            # إذا كان العنصر موجودًا بالفعل، تحديث الكمية
             if not item_created:
-                item.quantity += int(request.data.get('quantity', 1))  # تأكد من تحويل الكمية إلى عدد صحيح
-                item.save()
-            else:
-                item.quantity = int(request.data.get('quantity', 1))  # تأكد من تحويل الكمية إلى عدد صحيح
+                item.quantity += quantity
+                item.color = color if color else item.color
+                item.size = size if size else item.size
                 item.save()
 
             return Response({"detail": "Item added to cart."}, status=status.HTTP_200_OK)
         
         except ValueError:
             return Response({"detail": "Invalid quantity value."}, status=status.HTTP_400_BAD_REQUEST)
-        except CartModel.DoesNotExist:
-            return Response({"detail": "Cart not found."}, status=status.HTTP_404_NOT_FOUND)
-        except CartItem.DoesNotExist:
-            return Response({"detail": "Item not found."}, status=status.HTTP_404_NOT_FOUND)
+        except Products.DoesNotExist:
+            return Response({"detail": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
+        except ColorsModel.DoesNotExist:
+            return Response({"detail": f"Color '{color}' not available for this product."}, status=status.HTTP_404_NOT_FOUND)
+        except SizesModel.DoesNotExist:
+            return Response({"detail": f"Size '{size}' not available for this product."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
     @action(detail=False, methods=['delete'], url_path='remove-item/(?P<product_id>[^/.]+)')
     def remove_item(self, request, product_id=None):
