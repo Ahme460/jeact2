@@ -180,10 +180,6 @@ class CartViewSet(ModelViewSet):
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-
-
-
-
     @action(detail=False, methods=['delete'], url_path='remove-item/(?P<product_id>[^/.]+)')
     def remove_item(self, request, product_id=None):
         try:
@@ -201,6 +197,35 @@ class CartViewSet(ModelViewSet):
         except CartModel.DoesNotExist:
             return Response({"detail": "Cart not found."}, status=status.HTTP_404_NOT_FOUND)
 
+    
+class Incersquntity(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def put(self,request):
+        try:
+            product_id=request.data.get("product_id")
+            quantity=request.data.get("quntity")
+            if type(quantity)!= int:
+                return Response({
+                    "eroor":"quantity must be intager"
+                })
+            cart=CartModel.objects.get(user=request.user)
+            product=CartItem.objects.get(cart=cart,product=product_id)
+            product.quantity+=int(quantity)
+            product.save()
+            return Response(
+                {"done":"done"},status=status.HTTP_200_OK
+                
+            )
+        except Exception as e :
+            return Response(
+                {"wrong":str(e)},status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        
+        
+    
+    
     
 #@api_view(['GET'])
 #def user_cart(request, user_id):

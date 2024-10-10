@@ -28,6 +28,7 @@ urlpatterns = [
   path('apply-discount-code/', ApplyDiscountCodeAPIView.as_view(), name='apply_discount_code'),
   path("CreatePaymentIntention/",CreatePaymentIntention.as_view()),
   path('newsletter/', NewsletterView.as_view(), name='newsletter'),
+  path("Incersquntity/", Incersquntity.as_view(), name="Incersquntity")
 
 ]
 
