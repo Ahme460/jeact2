@@ -198,31 +198,39 @@ class CartViewSet(ModelViewSet):
             return Response({"detail": "Cart not found."}, status=status.HTTP_404_NOT_FOUND)
 
     
-class Incersquntity(APIView):
+class IncreaseQuantity(APIView):
     permission_classes = [IsAuthenticated]
     
-    def put(self,request):
+    def put(self, request):
         try:
-            product_id=request.data.get("product_id")
-            quantity=request.data.get("quntity")
-            if type(quantity)!= int:
+            product_id = request.data.get("product_id")
+            quantity = request.data.get("quantity")
+
+            # التحقق من أن quantity عدد صحيح
+            if not isinstance(quantity, int):
                 return Response({
-                    "eroor":"quantity must be intager"
-                })
-            cart=CartModel.objects.get(user=request.user)
-            product=CartItem.objects.get(cart=cart,product=product_id)
-            product.quantity+=int(quantity)
-            product.save()
-            return Response(
-                {"done":"done"},status=status.HTTP_200_OK
-                
-            )
-        except Exception as e :
-            return Response(
-                {"wrong":str(e)},status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        
+                    "error": "Quantity must be an integer"
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            # البحث عن الـ Cart الخاصة بالمستخدم
+            cart = get_object_or_404(CartModel, customer=request.user)
+
+            # البحث عن الـ CartItem الخاصة بالمنتج داخل السلة
+            product_item = get_object_or_404(CartItem, cart=cart, product_id=product_id)
+
+            # زيادة الكمية
+            product_item.quantity += quantity
+            product_item.save()
+
+            return Response({
+                "message": "Quantity increased successfully.",
+                "new_quantity": product_item.quantity
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({
+                "error": str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
         
     
     
