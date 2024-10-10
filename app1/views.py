@@ -217,10 +217,11 @@ class IncreaseQuantity(APIView):
 
             # البحث عن الـ CartItem الخاصة بالمنتج داخل السلة
             product_item = get_object_or_404(CartItem, cart=cart, product_id=product_id)
-
             # زيادة الكمية
-            product_item.quantity += quantity
+
+            product_item.quantity = quantity
             product_item.save()
+
 
             return Response({
                 "message": "Quantity increased successfully.",
