@@ -284,6 +284,10 @@ class CartModel(models.Model):
     discount_code = models.ForeignKey(DiscountCode, on_delete=models.SET_NULL, null=True, blank=True)
     def __str__(self) -> str:
         return self.customer.username
+    
+    class Meta:
+        unique_together = ('customer',)
+        
      #total = sum([(item.product.price - item.product.Discount) * item.quantity for item in self.items.all()])
     @property
     def total_price(self):
