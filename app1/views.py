@@ -616,6 +616,7 @@ class Create_order_Payment_upon_receipt(APIView):
 
             if serializer.is_valid():
                 serializer.save()
+                cart.delete()
                 return Response({"order": "done"}, status=status.HTTP_201_CREATED)
             else:
                 return Response({"data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
