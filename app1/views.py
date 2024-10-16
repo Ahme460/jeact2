@@ -598,6 +598,12 @@ class Create_order_Payment_upon_receipt(APIView):
             # تجميع نص الطلب
             text_order = []
             text_order_str = ''
+            if len(cart_items)==0:
+                return Response({
+                    "opps":"no product in card please add items first"
+                    
+                },status=status.HTTP_400_BAD_REQUEST)
+                
 
             # إضافة كل عنصر في السلة إلى النص
             for i in cart_items:
