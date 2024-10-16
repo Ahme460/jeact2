@@ -269,6 +269,12 @@ class Orders(models.Model):
     phone_user = models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
     location = models.TextField()
+    status=[
+        ("still","Payment upon receipt"),
+        ("paid","paid")
+    ]
+    status_order=models.CharField( max_length=50,choices=status ,default="still")
+    
 
     def __str__(self):
         return self.customer.username if self.customer else 'No Customer'

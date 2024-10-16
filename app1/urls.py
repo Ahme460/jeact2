@@ -28,8 +28,8 @@ urlpatterns = [
   path('apply-discount-code/', ApplyDiscountCodeAPIView.as_view(), name='apply_discount_code'),
   path("CreatePaymentIntention/",CreatePaymentIntention.as_view()),
   path('newsletter/', NewsletterView.as_view(), name='newsletter'),
-  path("Incersquntity/", IncreaseQuantity.as_view(), name="Incersquntity")
-
+  path("Incersquntity/", IncreaseQuantity.as_view(), name="Incersquntity"),
+path('create-order_receipt/', Create_order_Payment_upon_receipt.as_view(), name='create_order'),
 ]
 
 

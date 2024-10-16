@@ -355,3 +355,11 @@ class NewsletterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Newsletter
         fields = ['email']
+        
+        
+class Payment_upon_receipt(serializers.ModelSerializer):
+    class Meta:
+        model=Orders
+        fields=['phone_user','email','location','customer','order']
+        
+        

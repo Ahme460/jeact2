@@ -584,6 +584,48 @@ class GetFeaturedProductsAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     
+
+class Create_order_Payment_upon_receipt(APIView):
+    
+    def post(self, request):
+        user = request.user
+        data = request.data
+        try:
+            # الحصول على سلة التسوق المرتبطة بالمستخدم
+            cart = CartModel.objects.get(customer=user)
+            cart_items = cart.items.all()
+
+            # تجميع نص الطلب
+            text_order = []
+            text_order_str = ''
+
+            # إضافة كل عنصر في السلة إلى النص
+            for i in cart_items:
+                # تحويل المعلومات إلى نصوص مفهومة
+                text_order.append(f"Product: {i.product.name}, Quantity: {i.quantity}, Size: {i.size}, Color: {i.color}")
+
+            # تحويل القائمة إلى سلسلة نصية مع فواصل الأسطر
+            text_order_str = '\n'.join(text_order)
+
+            # إعداد البيانات لطلب الشراء
+            data['customer'] = user.id  # تحويل المستخدم إلى معرف (ID)
+            data['order'] = text_order_str
+
+            # استخدام السيريالايزر للتحقق من صحة البيانات وحفظها
+            serializer = Payment_upon_receipt(data=data)
+
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"order": "done"}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+        except CartModel.DoesNotExist:
+            return Response({"error": "Cart not found for this user"}, status=status.HTTP_404_NOT_FOUND)
+        
+        
+    
+    
     
 
 class ApplyDiscountCodeAPIView(APIView):
