@@ -33,6 +33,7 @@ from .serializers import PasswordResetRequestSerializer, PasswordResetSerializer
 from django.shortcuts import get_object_or_404
 from .exchange_price import exchange
 from.class_send_email import SenderMail
+from.order import send_order_mail
 User = get_user_model()
 class RegisterAPIView(APIView):
     permission_classes = [AllowAny]
@@ -613,6 +614,19 @@ class Create_order_Payment_upon_receipt(APIView):
             # تحويل القائمة إلى سلسلة نصية مع فواصل الأسطر
             text_order_str = '\n'.join(text_order)
 
+            dic_list=[]
+            for j in cart_items:
+                total=j.quantity*j.product.price
+                dic_list.append({
+                    "product": j.product.name,
+                    "quantity": j.quantity,
+                    "price": j.product.price,
+                    "aggregate": total
+                })
+                
+
+
+
             # إعداد البيانات لطلب الشراء
             data['customer'] = user.id  # تحويل المستخدم إلى معرف (ID)
             data['order'] = text_order_str
@@ -623,6 +637,7 @@ class Create_order_Payment_upon_receipt(APIView):
             if serializer.is_valid():
                 serializer.save()
                 cart.delete()
+                send_order_mail(user=request.user.email,list=dic_list)
                 return Response({"order": "done"}, status=status.HTTP_201_CREATED)
             else:
                 return Response({"data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bantayga Newsletter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- تضمين CSS في نفس الملف -->
+  <style>
+    * {
+      background-color: black;
+      color: aliceblue;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* توسيط الفاتورة */
+    .fatora-container {
+      display: flex;
+      justify-content: center; /* توسيط الفاتورة في المنتصف */
+      padding: 20px;
+    }
+
+    .fatora {
+      width: 60%;   /* تحديد عرض مناسب */
+      text-align: center;
+      padding: 30px;
+      background-color: #1a1a1a;
+    }
+
+    /* جدول الفاتورة */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid red;
+      text-align: center;
+    }
+
+    /* إعدادات الفوتر */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #000000;
+      color: aliceblue;
+    }
+
+    /* إعدادات الصورة */
+    img {
+      width: 60px;
+      height: auto; /* ضبط العرض والارتفاع معًا */
+      display: block;
+      margin: 20px auto;
+    }
+
+    /* إعدادات التوسيط للنص */
+    .new {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .new p {
+      margin-top: 10px;
+    }
+
+    /* إعدادات الروابط */
+    .setting {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+    }
+
+    .bottom {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .setting a {
+      text-decoration: none;  /* إزالة الخط السفلي */
+      color: red;       /* تحديد لون الرابط */
+      transition: color 0.3s ease;  /* تأثير انتقال عند تغير اللون */
+    }
+
+    /* تأثير عند تمرير الماوس فوق الرابط */
+    .setting a:hover {
+      color: red;  /* تغير لون الرابط عند تمرير الماوس */
+      text-decoration: underline; /* إضافة خط تحت الرابط عند التمرير */
+    }
+
+    .bottom a {
+      text-decoration: none;         /* إزالة الخط السفلي */
+      color: red;              /* تحديد لون النص */
+      transition: color 0.3s ease;   /* تأثير انتقال اللون */
+      border: 2px solid red;   /* إضافة بوردر حول الرابط */
+      padding: 10px 20px;            /* إضافة مسافة داخلية لتوسيع الرابط */
+      border-radius: 5px;            /* جعل الحواف دائرية */
+      background-color: transparent; /* خلفية شفافة (يمكن تغييرها إذا أردت لون للخلفية) */
+    }
+
+    /* تأثير عند تمرير الماوس فوق الرابط */
+    .bottom a:hover {
+      color: red;  /* تغير لون الرابط عند تمرير الماوس */
+      text-decoration: underline; /* إضافة خط تحت الرابط عند التمرير */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">
+    <img src="https://api.bantayga.wtf/media/logobantagy.jpeg" alt="Bantayga Logo" />
+  </div>
+  <hr>
+
+  <div class="new">
+   <h1>NEWS FOR YOU</h1>
+   <p>Thank you for subscribing to our newsletter</p>
+  </div>
+  <hr>
+
+  <div class="fatora-container">
+    <div class="fatora">
+      <h1>Fatora</h1>
+      <table class="container">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Product Price</th>
+            <th>Total Items</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for item in list %}
+
+          <tr>
+            <td>{{ item.product }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.aggregate }}</td>
+          </tr>
+         
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="setting">
+    <a href="#legal">Legal notices</a>
+    <a href="#privacy" class="privacy">Privacy policy</a>
+  </div>
+  <hr>
+  <div class="bottom">
+    <a href="https://bantayga.wtf/" class="m_2536112392897268653link" target="_blank">Bantyaga.wtf</a>
+  </div>
+
+  <hr>
+  <footer>
+    <span>&copy; 2024 Bantyaga.com</span>
+  </footer>
+</body>
+</html>
