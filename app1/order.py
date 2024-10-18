@@ -7,21 +7,15 @@ def send_order_mail(user,list):
     subject = 'مرحبا بك في موقعنا!'
     from_email = settings.DEFAULT_FROM_EMAIL
     to_email=user.email
-    
-    
-    
-    # تحميل القالب HTML وتعبئته بالبيانات
     html_content = render_to_string(
         
                     'fatora.html',
                     {'list': list}
                                     
                                     )
-    text_content = strip_tags(html_content)  # نص بديل بدون HTML
-    
-    # إنشاء البريد الإلكتروني
+    text_content = strip_tags(html_content)  
     email = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
-    email.attach_alternative(html_content, "text/html")  # إرفاق القالب HTML
+    email.attach_alternative(html_content, "text/html")  
     
-    # إرسال البريد
+
     email.send()
