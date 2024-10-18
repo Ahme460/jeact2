@@ -1,67 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Email Template</title>
-    <style>
-        /* Responsive adjustments */
-        @media screen and (max-width: 600px) {
-            .content {
-                width: 100% !important;
-                display: block !important;
-                padding: 10px !important;
-            }
-            .header, .body, .footer {
-                padding: 20px !important;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bantayga Newsletter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      background-color: #000000; /* اللون الأسود للخلفية */
+      color: #F8F8FF; /* اللون الفاتح للنص */
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    /* توسيط المحتوى */
+    .fatora-container {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .fatora {
+      width: 80%;  
+      max-width: 600px; /* تحديد أقصى عرض لتكون الفاتورة مناسبة على الأجهزة */
+      text-align: center;
+      padding: 30px;
+      background-color: #1C1C1C; /* خلفية رمادية داكنة لتمييز الفاتورة عن الخلفية */
+      border-radius: 8px; /* زوايا دائرية */
+      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* ظل خفيف */
+    }
+
+    /* جدول الفاتورة */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 15px;
+      border: 1px solid #FF4500; /* تغيير اللون إلى برتقالي لتناسب مع التصميم الداكن */
+      text-align: center;
+    }
+
+    /* إعدادات الصورة */
+    .logo {
+      text-align: center;
+      padding: 20px;
+    }
+
+    img {
+      width: 100px; /* تكبير حجم الشعار */
+      height: auto;
+    }
+
+    /* إعدادات التوسيط للنص */
+    .new {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .new h1 {
+      color: #FF4500; /* لون نص برتقالي */
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .new p {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    /* إعدادات الروابط */
+    .setting {
+      display: flex;
+      justify-content: space-around;
+      padding: 20px;
+    }
+
+    .setting a {
+      text-decoration: none;
+      color: #FF4500;
+      transition: color 0.3s ease;
+    }
+
+    .setting a:hover {
+      text-decoration: underline;
+    }
+
+    .bottom {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .bottom a {
+      text-decoration: none;
+      color: #FF4500;
+      transition: color 0.3s ease;
+      border: 2px solid #FF4500;
+      padding: 10px 20px;
+      border-radius: 5px;
+      background-color: transparent;
+    }
+
+    .bottom a:hover {
+      background-color: #FF4500;
+      color: #000000;
+    }
+
+    /* إعدادات الفوتر */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #1C1C1C;
+      color: #F8F8FF;
+      font-size: 14px;
+    }
+
+    /* استعلامات إعلامية للشاشات الصغيرة (مثل الهواتف المحمولة) */
+    @media (max-width: 768px) {
+      .fatora {
+        width: 90%;
+        padding: 15px;
+      }
+
+      table th, table td {
+        font-size: 12px;
+        padding: 8px;
+      }
+
+      footer {
+        padding: 10px;
+      }
+
+      .bottom a {
+        padding: 5px 10px;
+      }
+
+      .setting {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .setting a {
+        margin: 10px 0;
+      }
+    }
+  </style>
 </head>
-<body style="font-family: 'Poppins', Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-            <td align="center" style="padding: 20px 0;">
-                <table class="content" width="600" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse; background-color: #ffffff; border: 1px solid #cccccc;">
-                    <!-- Header -->
-                    <tr>
-                        <td class="header" style="background-color: #345C72; padding: 40px; text-align: center; color: white; font-size: 24px;">
-                            Responsive Email Template
-                        </td>
-                    </tr>
+<body>
 
-                    <!-- Body -->
-                    <tr>
-                        <td class="body" style="padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;">
-                            Hello, All! <br>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, officia!
-                            <br><br>
-                            Praesentium voluptatum pariatur tempora, voluptatibus rem laborum soluta sequi culpa quos autem.
-                        </td>
-                    </tr>
+  <div class="logo">
+    <img src="https://api.bantayga.wtf/media/logobantagy.jpeg" alt="Bantayga Logo" />
+  </div>
+  <hr style="border-color: #FF4500;">
 
-                    <!-- Call to action Button -->
-                    <tr>
-                        <td style="padding: 0px 40px 40px 40px; text-align: center;">
-                            <table cellspacing="0" cellpadding="0" style="margin: auto;">
-                                <tr>
-                                    <td align="center" style="background-color: #345C72; padding: 10px 20px; border-radius: 5px;">
-                                        <a href="https://www.yourwebsite.com" target="_blank" style="color: #ffffff; text-decoration: none; font-weight: bold;">Book a Free Consultation</a>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+  <div class="new">
+   <h1>NEWS FOR YOU</h1>
+   <p>Thank you for subscribing to our newsletter</p>
+  </div>
+  <hr style="border-color: #FF4500;">
 
-                    <!-- Footer -->
-                    <tr>
-                        <td class="footer" style="background-color: #333333; padding: 40px; text-align: center; color: white; font-size: 14px;">
-                            Copyright &copy; 2024 | Your brand name
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+  <div class="fatora-container">
+    <div class="fatora">
+      <h1 style="color: #FF4500;">Fatora</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Product Price</th>
+            <th>Total Items</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for item in list %}
+          <tr>
+            <td>{{ item.product }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.aggregate }}</td>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="setting">
+    <a href="#legal">Legal notices</a>
+    <a href="#privacy">Privacy policy</a>
+  </div>
+  <hr style="border-color: #FF4500;">
+  <div class="bottom">
+    <a href="https://bantayga.wtf/" target="_blank">Bantayga.wtf</a>
+  </div>
+
+  <hr style="border-color: #FF4500;">
+  <footer>
+    <span>&copy; 2024 Bantayga.com</span>
+  </footer>
 </body>
 </html>
+
+
