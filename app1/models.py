@@ -269,6 +269,8 @@ class Orders(models.Model):
     phone_user = models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
     location = models.TextField()
+    total=models.FloatField(default=0)
+    
     status=[
         ("still","Payment upon receipt"),
         ("paid","paid")
