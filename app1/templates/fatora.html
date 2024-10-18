@@ -8,86 +8,46 @@
 
   <style>
     * {
-      background-color: #000000; /* اللون الأسود للخلفية */
-      color: #F8F8FF; /* اللون الفاتح للنص */
+      background-color: black;
+      color: aliceblue;
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Roboto', Arial, sans-serif;
     }
 
-    /* توسيط المحتوى */
-    .fatora-container {
-      display: flex;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .fatora {
-      width: 80%;  
-      max-width: 600px; /* تحديد أقصى عرض لتكون الفاتورة مناسبة على الأجهزة */
-      text-align: center;
-      padding: 30px;
-      background-color: #1C1C1C; /* خلفية رمادية داكنة لتمييز الفاتورة عن الخلفية */
-      border-radius: 8px; /* زوايا دائرية */
-      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* ظل خفيف */
-    }
-
-    /* جدول الفاتورة */
     table {
       width: 100%;
       border-collapse: collapse;
+      margin: 20px 0; /* إضافة مسافة فوق وتحت الجدول */
     }
 
     th, td {
-      padding: 15px;
-      border: 1px solid #FF4500; /* تغيير اللون إلى برتقالي لتناسب مع التصميم الداكن */
+      padding: 10px;
+      border: 1px solid red;
       text-align: center;
     }
 
-    /* إعدادات الصورة */
-    .logo {
+    footer {
       text-align: center;
       padding: 20px;
+      background-color: #000000;
+      color: aliceblue;
     }
 
     img {
-      width: 100px; /* تكبير حجم الشعار */
+      width: 60px;
       height: auto;
+      display: block;
+      margin: 20px auto;
     }
 
-    /* إعدادات التوسيط للنص */
     .new {
       text-align: center;
       padding: 20px;
     }
 
-    .new h1 {
-      color: #FF4500; /* لون نص برتقالي */
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
-
     .new p {
-      font-size: 18px;
       margin-top: 10px;
-    }
-
-    /* إعدادات الروابط */
-    .setting {
-      display: flex;
-      justify-content: space-around;
-      padding: 20px;
-    }
-
-    .setting a {
-      text-decoration: none;
-      color: #FF4500;
-      transition: color 0.3s ease;
-    }
-
-    .setting a:hover {
-      text-decoration: underline;
     }
 
     .bottom {
@@ -96,40 +56,34 @@
       padding: 20px;
     }
 
+    .setting a,
     .bottom a {
       text-decoration: none;
-      color: #FF4500;
+      color: red;
       transition: color 0.3s ease;
-      border: 2px solid #FF4500;
+    }
+
+    .setting a:hover,
+    .bottom a:hover {
+      color: red;
+      text-decoration: underline;
+    }
+
+    .bottom a {
+      border: 2px solid red;
       padding: 10px 20px;
       border-radius: 5px;
       background-color: transparent;
     }
 
-    .bottom a:hover {
-      background-color: #FF4500;
-      color: #000000;
-    }
-
-    /* إعدادات الفوتر */
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #1C1C1C;
-      color: #F8F8FF;
-      font-size: 14px;
-    }
-
-    /* استعلامات إعلامية للشاشات الصغيرة (مثل الهواتف المحمولة) */
     @media (max-width: 768px) {
-      .fatora {
-        width: 90%;
-        padding: 15px;
+      table th, table td {
+        font-size: 12px; /* تقليل حجم الخط في الجداول */
       }
 
-      table th, table td {
-        font-size: 12px;
-        padding: 8px;
+      .fatora-container, .setting, .bottom {
+        flex-direction: column; /* ترتيب العناصر عمودياً */
+        align-items: center; /* محاذاة العناصر في المنتصف */
       }
 
       footer {
@@ -139,73 +93,83 @@
       .bottom a {
         padding: 5px 10px;
       }
+    }
 
-      .setting {
-        flex-direction: column;
-        align-items: center;
+    /* تحسينات للمحتوى داخل الجدول */
+    @media (max-width: 480px) {
+      img {
+        width: 50px; /* تقليل حجم الصورة للأجهزة الصغيرة */
       }
 
-      .setting a {
-        margin: 10px 0;
+      .new h1 {
+        font-size: 18px; /* تقليل حجم الخط لعناوين الأخبار */
+      }
+
+      .new p {
+        font-size: 14px; /* تقليل حجم الخط للنصوص */
       }
     }
+
   </style>
 </head>
 <body>
 
-  <div class="logo">
-    <img src="https://api.bantayga.wtf/media/logobantagy.jpeg" alt="Bantayga Logo" />
-  </div>
-  <hr style="border-color: #FF4500;">
+  <table>
+    <tr>
+      <td>
+        <div class="logo">
+          <img src="https://api.bantayga.wtf/media/logobantagy.jpeg" alt="Bantayga Logo" />
+        </div>
+        <hr>
 
-  <div class="new">
-   <h1>NEWS FOR YOU</h1>
-   <p>Thank you for subscribing to our newsletter</p>
-  </div>
-  <hr style="border-color: #FF4500;">
+        <div class="new">
+          <h1>NEWS FOR YOU</h1>
+          <p>Thank you for subscribing to our newsletter</p>
+        </div>
+        <hr>
 
-  <div class="fatora-container">
-    <div class="fatora">
-      <h1 style="color: #FF4500;">Fatora</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Product Price</th>
-            <th>Total Items</th>
-          </tr>
-        </thead>
-        <tbody>
+        <div class="fatora-container">
+          <div class="fatora">
+            <h1>Fatora</h1>
+            <table class="container">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Product Price</th>
+                  <th>Total Items</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in list %}
+                <tr>
+                  <td>{{ item.product }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ item.price }}</td>
+                  <td>{{ item.aggregate }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-          {% for item in list %}
-          <tr>
-            <td>{{ item.product }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.price }}</td>
-            <td>{{ item.aggregate }}</td>
-          </tr>
-          {% endfor %}
+        <div class="setting">
+          <a href="#legal">Legal notices</a>
+          <a href="#privacy" class="privacy">Privacy policy</a>
+        </div>
+        <hr>
+        <div class="bottom">
+          <a href="https://bantayga.wtf/" class="m_2536112392897268653link" target="_blank">Bantyaga.wtf</a>
+        </div>
 
-        </tbody>
-      </table>
-    </div>
-  </div>
+        <hr>
+        <footer>
+          <span>&copy; 2024 Bantyaga.com</span>
+        </footer>
+      </td>
+    </tr>
+  </table>
 
-  <div class="setting">
-    <a href="#legal">Legal notices</a>
-    <a href="#privacy">Privacy policy</a>
-  </div>
-  <hr style="border-color: #FF4500;">
-  <div class="bottom">
-    <a href="https://bantayga.wtf/" target="_blank">Bantayga.wtf</a>
-  </div>
-
-  <hr style="border-color: #FF4500;">
-  <footer>
-    <span>&copy; 2024 Bantayga.com</span>
-  </footer>
 </body>
 </html>
-
-
