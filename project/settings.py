@@ -134,7 +134,7 @@ DATABASES = {
         'USER': 'ahmed',  # اسم المستخدم
         'PASSWORD': 'ahmed',  # كلمة المرور
         'HOST': 'localhost',  # قاعدة البيانات على نفس السيرفر
-        'PORT': '5432',  # المنفذ الافتراضي لـ PostgreSQL
+        'PORT': '',  # المنفذ الافتراضي لـ PostgreSQL
     }
 }
 
