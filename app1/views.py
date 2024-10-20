@@ -777,7 +777,7 @@ tem='welcome_email.html'
     
 
 from django.http import HttpResponse
-from django.template.loader import get_template
+from django.template.loader import render_to_string
 from xhtml2pdf import pisa
 from django.utils import timezone
 from datetime import timedelta
@@ -791,7 +791,7 @@ def generate_order_pdf(request, order_id):
     time_after_7days = current_time + timedelta(days=7)
 
     # تجهيز الـ template الخاصة بالـ PDF
-    template = get_template('templates/order_pdf_template.html')
+    template = render_to_string('order_pdf_template.html')
     context = {
         'order': order,
         'time_now': current_time,
