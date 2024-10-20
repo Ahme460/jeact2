@@ -38,7 +38,7 @@ class OrdersAdmin(admin.ModelAdmin):
     # إضافة رابط لتوليد PDF في العمود الجديد
     def pdf_link(self, obj):
         url = reverse('admin-generate-pdf', args=[obj.id])
-        return format_html('<a href="{}" target="_blank">Generate PDF</a>', url)
+        return format_html('<a href="{}" target="_blank">Generate receipt</a>', url)
 
     pdf_link.short_description = 'Generate receipt'
 
