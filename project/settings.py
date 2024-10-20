@@ -130,11 +130,11 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bantagy',  # اسم قاعدة البيانات
-        'USER': 'ahmed',  # اسم المستخدم
-        'PASSWORD': 'ahmed',  # كلمة المرور
-        'HOST': 'localhost',  # قاعدة البيانات على نفس السيرفر
-        'PORT': '',  # المنفذ الافتراضي لـ PostgreSQL
+        'NAME': 'bentage',
+        'USER': 'bentageuser',
+        'PASSWORD': 'securepassword',
+        'HOST': 'localhost',  # أو '127.0.0.1'
+        'PORT': '',  # استخدم القيمة الافتراضية
     }
 }
 
