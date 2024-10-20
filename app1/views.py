@@ -789,17 +789,16 @@ def generate_order_pdf(request, order_id):
     order = Orders.objects.get(id=order_id)
     current_time = timezone.now()
     time_after_7days = current_time + timedelta(days=7)
+
+    # تجهيز الـ context الخاص بالقالب
     context = {
         'order': order,
         'time_now': current_time,
         'time_after_7days': time_after_7days,
     }
 
-
-
     # تجهيز الـ template الخاصة بالـ PDF
-    template = render_to_string('order_pdf_template.html',{'order':context})
-  
+    template = render_to_string('order_pdf_template.html', context)
 
     # إنشاء الاستجابة كـ PDF
     response = HttpResponse(content_type='application/pdf')
