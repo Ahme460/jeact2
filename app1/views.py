@@ -791,7 +791,7 @@ def generate_order_pdf(request, order_id):
     time_after_7days = current_time + timedelta(days=7)
 
     # تجهيز الـ template الخاصة بالـ PDF
-    template = get_template('order_pdf_template.html')
+    template = get_template('templates/order_pdf_template.html')
     context = {
         'order': order,
         'time_now': current_time,
