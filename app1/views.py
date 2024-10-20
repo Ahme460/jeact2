@@ -785,10 +785,12 @@ from datetime import timedelta
 from weasyprint import HTML
 
 def generate_order_pdf(request, order_id):
+    # استرجاع الطلب بناءً على ID
     order = Orders.objects.get(id=order_id)
     current_time = timezone.now()
     time_after_7days = current_time + timedelta(days=7)
 
+    # تجهيز الـ template الخاصة بالـ PDF
     template = get_template('order_pdf_template.html')
     context = {
         'order': order,
@@ -797,7 +799,11 @@ def generate_order_pdf(request, order_id):
     }
     html = template.render(context)
 
-    response = HttpResponse(pdf, content_type='application/pdf')
+    # إنشاء الاستجابة كـ PDF
+    response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="order_{order_id}.pdf"'
-    pdf = HTML(string=html).write_pdf(response)
+
+    # تحويل HTML إلى PDF وكتابته إلى الاستجابة
+    HTML(string=html).write_pdf(response)
+
     return response
