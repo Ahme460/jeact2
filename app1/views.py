@@ -784,26 +784,40 @@ from datetime import timedelta
 # دالة لتوليد PDF
 import weasyprint
 
-def generate_order_pdf(request, order_id):
-    # استرجاع الطلب بناءً على ID
+# def generate_order_pdf(request, order_id):
+#     # استرجاع الطلب بناءً على ID
+#     order = Orders.objects.get(id=order_id)
+#     current_time = timezone.now()
+#     time_after_7days = current_time + timedelta(days=7)
+
+#     # تجهيز الـ context الخاص بالقالب
+#     context = {
+#         'order': order,
+#         'time_now': current_time,
+#         'time_after_7days': time_after_7days,
+#     }
+
+#     # تجهيز الـ template الخاصة بالـ PDF
+#     template = render_to_string('order/order_pdf_template.html', context)
+
+#     # إنشاء الاستجابة كـ PDF
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = f'attachment; filename="order_{order_id}.pdf"'
+
+#     # تحويل HTML إلى PDF وكتابته إلى الاستجابة
+#     weasyprint.HTML(string=template).write_pdf(response)
+#     return response
+
+
+def generate_order_html(request, order_id):
     order = Orders.objects.get(id=order_id)
     current_time = timezone.now()
     time_after_7days = current_time + timedelta(days=7)
-
-    # تجهيز الـ context الخاص بالقالب
+    
     context = {
         'order': order,
         'time_now': current_time,
         'time_after_7days': time_after_7days,
     }
-
-    # تجهيز الـ template الخاصة بالـ PDF
-    template = render_to_string('order/order_pdf_template.html', context)
-
-    # إنشاء الاستجابة كـ PDF
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="order_{order_id}.pdf"'
-
-    # تحويل HTML إلى PDF وكتابته إلى الاستجابة
-    weasyprint.HTML(string=template).write_pdf(response)
-    return response
+    
+    return HttpResponse(render_to_string('order/order_pdf_template.html', context))
