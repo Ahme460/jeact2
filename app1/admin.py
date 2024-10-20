@@ -39,7 +39,7 @@ class OrdersAdmin(admin.ModelAdmin):
     def pdf_link(self, obj):
         url = reverse('admin-generate-pdf', args=[obj.id])
         return format_html('<a href="{}" target="_blank">Generate PDF</a>', url)
-    
+
     pdf_link.short_description = 'Generate PDF'
 
     # إضافة رابط عرض مخصص لتوليد PDF في الـ URLs
@@ -49,7 +49,7 @@ class OrdersAdmin(admin.ModelAdmin):
             path('generate-pdf/<int:order_id>/', self.admin_site.admin_view(generate_order_pdf), name='admin-generate-pdf'),
         ]
         return custom_urls + urls
-    
+        
     
 
 class CartModelAdmin(admin.ModelAdmin):
