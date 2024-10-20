@@ -798,7 +798,7 @@ def generate_order_pdf(request, order_id):
     }
 
     # تجهيز الـ template الخاصة بالـ PDF
-    template = render_to_string('order_pdf_template.html', context)
+    template = render_to_string('order/order_pdf_template.html', context)
 
     # إنشاء الاستجابة كـ PDF
     response = HttpResponse(content_type='application/pdf')
