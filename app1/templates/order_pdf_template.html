@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order PDF</title>
+</head>
+<body>
+    <h1>Order #{{ order.order_number }}</h1>
+    <p>Customer: {{ order.customer.email }}</p>
+    <p>Order Details:</p>
+    <ul>
+        {% for item in order.items.all %}
+            <li>{{ item.product.name }} - Quantity: {{ item.quantity }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

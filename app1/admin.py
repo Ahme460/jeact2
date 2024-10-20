@@ -1,7 +1,9 @@
 from django.contrib import admin
 from .models import *
+from django.urls import path
+from django.utils.html import format_html
 from django.contrib.auth.hashers import make_password
-
+from .views import generate_order_pdf
 class CountryAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
@@ -28,6 +30,26 @@ class ColorsModelAdmin(admin.ModelAdmin):
 
 class OrdersAdmin(admin.ModelAdmin):
     search_fields = ['order_number', 'customer__email']
+    
+    def customer_email(self, obj):
+        return obj.customer.email
+    
+    # إضافة رابط لتوليد PDF في العمود الجديد
+    def pdf_link(self, obj):
+        url = reverse('admin-generate-pdf', args=[obj.id])
+        return format_html('<a href="{}" target="_blank">Generate PDF</a>', url)
+    
+    pdf_link.short_description = 'Generate PDF'
+
+    # إضافة رابط عرض مخصص لتوليد PDF في الـ URLs
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('generate-pdf/<int:order_id>/', self.admin_site.admin_view(generate_order_pdf), name='admin-generate-pdf'),
+        ]
+        return custom_urls + urls
+    
+    
 
 class CartModelAdmin(admin.ModelAdmin):
     search_fields = ['user__email']

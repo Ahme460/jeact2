@@ -775,3 +775,21 @@ tem='welcome_email.html'
     
     
     
+
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+# دالة لتوليد PDF
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    response = HttpResponse(content_type='application/pdf')
+    result = pisa.CreatePDF(html, dest=response)
+    if not result.err:
+        return response
+    return HttpResponse('Error while generating PDF')
+
+def generate_order_pdf(request, order_id):
+    order = Orders.objects.get(id=order_id)
+    context = {'order': order}
+    return render_to_pdf('order_pdf_template.html', context)
