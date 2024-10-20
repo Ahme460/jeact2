@@ -797,8 +797,7 @@ def generate_order_pdf(request, order_id):
     }
     html = template.render(context)
 
-    pdf = HTML(string=html).write_pdf()
-
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="order_{order_id}.pdf"'
+    pdf = HTML(string=html).write_pdf(response)
     return response
