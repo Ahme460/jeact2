@@ -36,11 +36,11 @@ class OrdersAdmin(admin.ModelAdmin):
         return obj.customer.email
     
     # إضافة رابط لتوليد PDF في العمود الجديد
-    # def pdf_link(self, obj):
-    #     url = reverse('admin-generate-pdf', args=[obj.id])
-    #     return format_html('<a href="{}" target="_blank">Generate PDF</a>', url)
+    def pdf_link(self, obj):
+        url = reverse('admin-generate-pdf', args=[obj.id])
+        return format_html('<a href="{}" target="_blank">Generate PDF</a>', url)
 
-    # pdf_link.short_description = 'Generate PDF'
+    pdf_link.short_description = 'Generate PDF'
 
     # إضافة رابط عرض مخصص لتوليد PDF في الـ URLs
     def get_urls(self):
