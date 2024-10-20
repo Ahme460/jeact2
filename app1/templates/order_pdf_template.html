@@ -1,18 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order PDF</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser</title>
+    <style>
+        * {
+            background-color: rgb(255, 255, 255);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* توسيط الفاتورة */
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center; /* لتوسيط المحتوى أفقيًا */
+            align-items: center; /* لتوسيع المحتوى عموديًا */
+        }
+
+        .main {
+            border: 2px solid black;
+            width: 60%;
+            height: 90%;
+            display: flex;
+            flex-direction: column; /* لجعل العناصر تحت بعض بشكل عمودي */
+            padding: 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .main img {
+            display: flex;
+            margin: 0 auto;
+            width: 50px;
+            height: 30px;
+            padding-top: 10px;
+        }
+
+        .div_en,
+        .div_ar {
+            color: black;
+            border: 1px solid black;
+            width: 100%;
+            padding: 10px; /* لإضافة مسافة داخلية */
+        }
+
+        .div_en {
+            margin-top: 20px;
+            height: 30%;
+        }
+
+        /* هذا للتأكد من أن آخر عنصر لا يحتوي على هامش سفلي */
+        .div_ar {
+            margin-top: 0;
+            direction: rtl; /* تغيير اتجاه النص */
+            height: 30%;
+        }
+
+        .footer {
+            margin-top: auto; /* لضمان أن الفوتر ينزل لأسفل الصفحة */
+            padding: 10px; /* لإضافة مساحة داخلية */
+            text-align: center; /* لتوسيع النص داخل الفوتر */
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Order #{{ order.order_number }}</h1>
-    <p>Customer: {{ order.customer.email }}</p>
-    <p>Order Details:</p>
-    <ul>
-        {% for item in order.items.all %}
-            <li>{{ item.product.name }} - Quantity: {{ item.quantity }}</li>
-        {% endfor %}
-    </ul>
+    <div class='main'>
+        <img src="https://api.bantayga.wtf/media/logobantagy.jpeg" alt="BANTAYGA Logo">
+
+        <div class="div_en">
+            <h4>name : {{order.order.customer.username}} </h4>
+            <h4>phone : {{order.order.phone}}</h4>
+            <h4>Address :  {{order.order.location}}</h4>
+            <h4>the data of Purchase : {{time_now}} </h4>
+            <h4>Product arrival Date : {{time_after_7day}}</h4>
+        </div>
+        <div class="div_ar">
+            <h4>الاسم : {{order.order.customer.username}}</h4>
+            <h4>الهاتف: {{order.order.phone}}</h4>
+            <h4>العنوان: {{order.order.location}}</h4>
+            <h4>تاريخ النشر :  {{time_now}}  </h4>
+            <h4>تاريخ الوصول : {{time_after_7day}} </h4>
+        </div>
+
+        <div class='footer'>
+            <hr>
+            <footer>
+                &copy; 2024 BANTAYGA
+            </footer>
+        </div>
+    </div>
 </body>
+
 </html>

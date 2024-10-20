@@ -779,14 +779,24 @@ tem='welcome_email.html'
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from django.utils import timezone
+from datetime import timedelta
 # دالة لتوليد PDF
 def generate_order_pdf(request, order_id):
     # استرجاع الطلب بناءً على ID
     order = Orders.objects.get(id=order_id)
-    
+    current_time = timezone.now()
+    time_after_7days = current_time + timedelta(days=7)
     # تجهيز الـ template الخاصة بالـ PDF
     template = get_template('order_pdf_template.html')
-    context = {'order': order}
+    data={
+        "time_now":current_time,
+        "time_after_7day":time_after_7days,
+        "order":order,
+        
+        
+    }
+    context = {'order': data}
     html = template.render(context)
     
     # تحويل HTML إلى PDF
