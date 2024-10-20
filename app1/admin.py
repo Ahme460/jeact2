@@ -29,8 +29,8 @@ class ColorsModelAdmin(admin.ModelAdmin):
     search_fields = ['color']
 
 class OrdersAdmin(admin.ModelAdmin):
-    search_fields = ['number', 'customer__email']
-    list_display = ['number', 'customer_email', 'pdf_link'] 
+    search_fields = ['id', 'customer__email']  # استخدام 'id' بدلاً من 'number'
+    list_display = ['id', 'customer_email', 'pdf_link']  # استخدام 'id' بدلاً من 'number'
     
     def customer_email(self, obj):
         return obj.customer.email
