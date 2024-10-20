@@ -782,28 +782,23 @@ from xhtml2pdf import pisa
 from django.utils import timezone
 from datetime import timedelta
 # دالة لتوليد PDF
-def generate_order_pdf(request, order_id):
-    # استرجاع الطلب بناءً على ID
+from weasyprint import HTML
+
+def generate_pdf_with_weasyprint(request, order_id):
     order = Orders.objects.get(id=order_id)
     current_time = timezone.now()
     time_after_7days = current_time + timedelta(days=7)
-    # تجهيز الـ template الخاصة بالـ PDF
+
     template = get_template('order_pdf_template.html')
-    data={
-        "time_now":current_time,
-        "time_after_7day":time_after_7days,
-        "order":order,
-        
-        
+    context = {
+        'order': order,
+        'time_now': current_time,
+        'time_after_7days': time_after_7days,
     }
-    context = {'order': data}
     html = template.render(context)
-    
-    # تحويل HTML إلى PDF
-    response = HttpResponse(content_type='application/pdf')
+
+    pdf = HTML(string=html).write_pdf()
+
+    response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="order_{order_id}.pdf"'
-    pisa_status = pisa.CreatePDF(html, dest=response)
-    
-    if pisa_status.err:
-        return HttpResponse('Error generating PDF', status=500)
     return response
