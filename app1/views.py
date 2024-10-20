@@ -809,7 +809,7 @@ import weasyprint
 #     return response
 
 
-def generate_order_html(request, order_id):
+def generate_order_pdf(request, order_id):
     order = Orders.objects.get(id=order_id)
     current_time = timezone.now()
     time_after_7days = current_time + timedelta(days=7)
