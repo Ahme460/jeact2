@@ -849,10 +849,12 @@ def generate_order_pdf(request, order_id):
         'order': order,
         'time_now': current_time,
         'time_after_7days': time_after_7days,
-    
     }
+    
+    # تحويل القالب إلى HTML
     html = render_to_string('order/order_pdf_template.html', context)
-    pdf = pdfkit.from_string(html, False)  # False تعني عدم حفظ الملف في القرص
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="output.pdf"'
+    
+    # إرجاع المحتوى HTML كاستجابة
+    response = HttpResponse(html)
+    response['Content-Type'] = 'text/html'
     return response
