@@ -774,8 +774,7 @@ tem='welcome_email.html'
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
-    
-
+import pdfkit
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from xhtml2pdf import pisa
@@ -809,6 +808,36 @@ import weasyprint
 #     return response
 
 
+# def generate_order_pdf(request, order_id):
+#     # استرجاع الطلب بناءً على ID
+#     order = Orders.objects.get(id=order_id)
+#     current_time = timezone.now()
+#     time_after_7days = current_time + timedelta(days=7)
+
+#     # تجهيز البيانات المرسلة للقالب
+#     context = {
+#         'order': order,
+#         'time_now': current_time,
+#         'time_after_7days': time_after_7days,
+#     }
+
+#     # تجهيز الـ template الخاصة بالـ PDF
+#     template = render_to_string('order/order_pdf_template.html', context)
+
+#     # إنشاء الاستجابة كـ PDF
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = f'attachment; filename="order_{order_id}.pdf"'
+
+#     # تحويل HTML إلى PDF وكتابته إلى الاستجابة
+#     pdf = weasyprint.HTML(string=template).write_pdf()
+
+#     # كتابة الـ PDF إلى الاستجابة
+#     response.write(pdf)
+
+#     return response
+
+
+
 def generate_order_pdf(request, order_id):
     # استرجاع الطلب بناءً على ID
     order = Orders.objects.get(id=order_id)
@@ -820,19 +849,10 @@ def generate_order_pdf(request, order_id):
         'order': order,
         'time_now': current_time,
         'time_after_7days': time_after_7days,
+    
     }
-
-    # تجهيز الـ template الخاصة بالـ PDF
-    template = render_to_string('order/order_pdf_template.html', context)
-
-    # إنشاء الاستجابة كـ PDF
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="order_{order_id}.pdf"'
-
-    # تحويل HTML إلى PDF وكتابته إلى الاستجابة
-    pdf = weasyprint.HTML(string=template).write_pdf()
-
-    # كتابة الـ PDF إلى الاستجابة
-    response.write(pdf)
-
+    html = render_to_string('order/order_pdf_template.html', context)
+    pdf = pdfkit.from_string(html, False)  # False تعني عدم حفظ الملف في القرص
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="output.pdf"'
     return response
