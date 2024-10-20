@@ -30,6 +30,7 @@ class ColorsModelAdmin(admin.ModelAdmin):
 
 class OrdersAdmin(admin.ModelAdmin):
     search_fields = ['order_number', 'customer__email']
+    list_display = ['order_number', 'customer_email', 'pdf_link'] 
     
     def customer_email(self, obj):
         return obj.customer.email
