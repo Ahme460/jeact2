@@ -637,11 +637,18 @@ class Create_order_Payment_upon_receipt(APIView):
             serializer = Payment_upon_receipt(data=data)
 
             if serializer.is_valid():
-                serializer.save()
-                for item in cart_items:
-                    item.product.count -= item.quantity  # تقليل العدد بناءً على الكمية المشتراة
-                    item.product.save()
                 
+                for item in cart_items:
+                    if item.product.count - item.quantity >-1:
+                        item.product.count -= item.quantity  # تقليل العدد بناءً على الكمية المشتراة
+                        item.product.save()
+                    else:
+                        return Response({"eroor":"we not have this quantity"})
+                    
+                    
+                
+                
+                serializer.save()
                 cart.delete()
                 
                 

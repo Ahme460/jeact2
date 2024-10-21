@@ -1,35 +1,48 @@
 
-class node:
-    def __init__(self,data):
-        self.data=data
-        self.next=None
+# class node:
+#     def __init__(self,data):
+#         self.data=data
+#         self.next=None
         
         
 
-class linkd_list:
-    def __init__(self):
-        self.head=None
+# class linkd_list:
+#     def __init__(self):
+#         self.head=None
         
-    def add(self,data):
+#     def add(self,data):
         
-        new_index=node(data)
-        if self.head==None:
-            self.head=new_index
-            return
-        last_node =self.head
-        while last_node.next:    
-            last_node =last_node.next
-        last_node.next=new_index
+#         new_index=node(data)
+#         if self.head==None:
+#             self.head=new_index
+#             return
+#         last_node =self.head
+#         while last_node.next:    
+#             last_node =last_node.next
+#         last_node.next=new_index
         
         
-    def printer(self):
-        corunt_value=self.head
-        while corunt_value:
-            print(corunt_value.data)
-            corunt_value=corunt_value.next
+#     def printer(self):
+#         corunt_value=self.head
+#         while corunt_value:
+#             print(corunt_value.data)
+#             corunt_value=corunt_value.next
     
-linked_list = linkd_list()
-linked_list.add(10)
-linked_list.add(20)
-linked_list.add(30)
-linked_list.printer()
+# linked_list = linkd_list()
+# linked_list.add(10)
+# linked_list.add(20)
+# linked_list.add(30)
+# linked_list.printer()
+
+
+
+lista=[1,2,3,4,5]
+def ahmed():
+    for i in lista:
+        if i ==2:
+            return False
+        print(i)
+        
+        
+ahmed()
+        
