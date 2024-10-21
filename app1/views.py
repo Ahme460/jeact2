@@ -643,7 +643,7 @@ class Create_order_Payment_upon_receipt(APIView):
                         item.product.count -= item.quantity  # تقليل العدد بناءً على الكمية المشتراة
                         item.product.save()
                     else:
-                        return Response({"eroor":"we not have this quantity"})
+                        return Response({"eroor":"we not have this quantity"},status=status.HTTP_400_BAD_REQUEST)
                     
                     
                 
