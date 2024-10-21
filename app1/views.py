@@ -626,7 +626,8 @@ class Create_order_Payment_upon_receipt(APIView):
                 
 
 
-
+         
+            
             # إعداد البيانات لطلب الشراء
             data['customer'] = user.id  # تحويل المستخدم إلى معرف (ID)
             data['order'] = text_order_str
@@ -637,8 +638,17 @@ class Create_order_Payment_upon_receipt(APIView):
 
             if serializer.is_valid():
                 serializer.save()
+                for item in cart_items:
+                    item.product.count -= item.quantity  # تقليل العدد بناءً على الكمية المشتراة
+                    item.product.save()
+                
                 cart.delete()
+                
+                
+                
+                
                 send_order_mail(user=user,list=dic_list)
+                
                 return Response({"order": "done"}, status=status.HTTP_201_CREATED)
             else:
                 return Response({"data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
