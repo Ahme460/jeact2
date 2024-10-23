@@ -4,13 +4,14 @@ from django.urls import path
 from django.utils.html import format_html
 from django.contrib.auth.hashers import make_password
 from .views import generate_order_pdf
-class CountryAdmin(admin.ModelAdmin):
+from unfold.admin import ModelAdmin
+class CountryAdmin(ModelAdmin):
     search_fields = ['name']
 
-class ProvinceAdmin(admin.ModelAdmin):
+class ProvinceAdmin(ModelAdmin):
     search_fields = ['name']
 
-class CustomerUserAdmin(admin.ModelAdmin):
+class CustomerUserAdmin(ModelAdmin):
     search_fields = ['email', 'first_name', 'last_name']
     
     # هنا يتم تشفير كلمة المرور عند الحفظ
@@ -19,16 +20,16 @@ class CustomerUserAdmin(admin.ModelAdmin):
         if 'password' in form.cleaned_data and not obj.password.startswith('pbkdf2_sha256$'):
             obj.password = make_password(form.cleaned_data['password'])
         super().save_model(request, obj, form, change)
-class ProductsAdmin(admin.ModelAdmin):
+class ProductsAdmin(ModelAdmin):
     search_fields = ['name', 'description']
 
-class SizesModelAdmin(admin.ModelAdmin):
+class SizesModelAdmin(ModelAdmin):
     search_fields = ['size']
 
-class ColorsModelAdmin(admin.ModelAdmin):
+class ColorsModelAdmin(ModelAdmin):
     search_fields = ['color']
 
-class OrdersAdmin(admin.ModelAdmin):
+class OrdersAdmin(ModelAdmin):
     search_fields = ['id', 'customer__email']  # استخدام 'id' بدلاً من 'number'
     list_display = ['id', 'customer_email', 'pdf_link']  # استخدام 'id' بدلاً من 'number'
     
@@ -52,25 +53,25 @@ class OrdersAdmin(admin.ModelAdmin):
         
     
 
-class CartModelAdmin(admin.ModelAdmin):
+class CartModelAdmin(ModelAdmin):
     search_fields = ['user__email']
 
-class CartItemAdmin(admin.ModelAdmin):
+class CartItemAdmin(ModelAdmin):
     search_fields = ['product__name']
 
-class ContactUsAdmin(admin.ModelAdmin):
+class ContactUsAdmin(ModelAdmin):
     search_fields = ['email', 'message']
 
-class AddressAdmin(admin.ModelAdmin):
+class AddressAdmin(ModelAdmin):
     search_fields = ['user__email', 'address']
 
-class SenderEmailAdmin(admin.ModelAdmin):
+class SenderEmailAdmin(ModelAdmin):
     search_fields = ['email']
 
-class CategrayAdmin(admin.ModelAdmin):
+class CategrayAdmin(ModelAdmin):
     search_fields = ["name"]
 
-class SocialMediAdmin(admin.ModelAdmin):
+class SocialMediAdmin(ModelAdmin):
     search_fields = ["name"]
 
 admin.site.register(Country, CountryAdmin)
