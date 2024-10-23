@@ -234,7 +234,7 @@ SITE_ID = 1
 UNFOLD ={
     
         "SITE_TITLE": "bantayga",
-    "SITE_HEADER": "bantayga_big_sotre",
+    "SITE_HEADER": "bantayga_big_Store",
      "EXTENSIONS": {
         "modeltranslation": {
             "flags": {
