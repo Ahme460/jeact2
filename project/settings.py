@@ -15,6 +15,9 @@ from dotenv import load_dotenv
 import os
 from datetime import timedelta
 
+from django.templatetags.static import static
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -226,3 +229,28 @@ FRONTEND_URL=''
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SITE_ID = 1
+
+
+UNFOLD ={
+    
+        "SITE_TITLE": "bantayga",
+    "SITE_HEADER": "bantayga_big_sotre",
+     "EXTENSIONS": {
+        "modeltranslation": {
+            "flags": {
+                "en": "🇬🇧",
+                "fr": "🇫🇷",
+                "nl": "🇧🇪",
+            },
+        },
+    },
+     
+     
+      "STYLES": [
+        lambda request: static("css/style.css"),
+    ],
+    "SCRIPTS": [
+        lambda request: static("js/script.js"),
+    ],
+    
+}
