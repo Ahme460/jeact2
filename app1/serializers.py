@@ -73,8 +73,10 @@ class PasswordResetSerializer(serializers.Serializer):
 
 class SingUpSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True)
-    country = serializers.CharField(write_only=True)  # معالجة اسم الدولة بدلاً من المعرف
-
+    country = serializers.CharField(write_only=True)
+    username = serializers.CharField(validators=[])
+    # معالجة اسم الدولة بدلاً من المعرف
+    
     class Meta:
         model = User
         fields = ('first_name', 'username', 'email', 'password', 'password2', 'country', 'currence')
