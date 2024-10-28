@@ -621,7 +621,9 @@ class Create_order_Payment_upon_receipt(APIView):
                     "product": j.product.name,
                     "quantity": j.quantity,
                     "price": j.product.price,
-                    "aggregate": total
+                    "aggregate": total,
+                    "name":request.user.username,
+                    
                 })
                 
 
