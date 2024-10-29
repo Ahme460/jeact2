@@ -217,13 +217,38 @@ SWAGGER_SETTINGS = {
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# DEFAULT_FROM_EMAIL = "bentagwy2121@gmail.com"
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = "bentagwy2121@gmail.com"
+# EMAIL_HOST_PASSWORD = "llux mtlk fvot yekd" 
+# FRONTEND_URL=''
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-DEFAULT_FROM_EMAIL = "bentagwy2121@gmail.com"
+EMAIL_HOST = 'smtp.hostinger.com'
+DEFAULT_FROM_EMAIL = "info@bantayga.wtf"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "bentagwy2121@gmail.com"
-EMAIL_HOST_PASSWORD = "llux mtlk fvot yekd" 
+
+EMAIL_HOST_PASSWORD = "Bantayga.wtf1" 
 FRONTEND_URL=''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Media files (uploads)
 MEDIA_URL = '/media/'
