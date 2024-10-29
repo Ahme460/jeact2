@@ -227,7 +227,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
-EMAIL_USE_TLS = True
+EMAIL_USE_SSL = True 
 EMAIL_HOST = 'smtp.hostinger.com'
 DEFAULT_FROM_EMAIL = "info@bantayga.wtf"
 EMAIL_PORT = 465  
