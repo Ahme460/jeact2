@@ -625,7 +625,10 @@ class Create_order_Payment_upon_receipt(APIView):
                     "name":request.user.username,
                     
                 })
-                
+            context = {
+    "list": dic_list,
+    "name": request.user.username  # إضافة اسم المستخدم في الـ context
+}
 
 
          
@@ -656,7 +659,8 @@ class Create_order_Payment_upon_receipt(APIView):
                 
                 
                 
-                send_order_mail(user=user,list=dic_list)
+                send_order_mail(user=user,list=dic_list,name=user.username)
+                
                 
                 return Response({"order": "done"}, status=status.HTTP_201_CREATED)
             else:
