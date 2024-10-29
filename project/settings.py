@@ -224,7 +224,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # EMAIL_HOST_USER = "bentagwy2121@gmail.com"
 # EMAIL_HOST_PASSWORD = "llux mtlk fvot yekd" 
 # FRONTEND_URL=''
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 EMAIL_USE_TLS = True
