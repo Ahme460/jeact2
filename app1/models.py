@@ -55,6 +55,7 @@ class Province(models.Model):
 # تعديل نموذج المستخدم
 class Customer_user(AbstractUser, PermissionsMixin):
     email = models.EmailField(unique=True)
+    username=models.CharField(max_length=100,unique=False)
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, related_name='users')
     currence=models.CharField(max_length=50)
     def save(self, *args, **kwargs):
