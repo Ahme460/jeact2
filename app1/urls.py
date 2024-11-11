@@ -29,12 +29,10 @@ urlpatterns = [
   path("CreatePaymentIntention/",CreatePaymentIntention.as_view()),
   path('newsletter/', NewsletterView.as_view(), name='newsletter'),
   path("Incersquntity/", IncreaseQuantity.as_view(), name="Incersquntity"),
-path('create-order_receipt/', Create_order_Payment_upon_receipt.as_view(), name='create_order'),
- path('generate-pdf/<int:order_id>/', generate_order_pdf, name='admin-generate-pdf'),
-
-
-    path('countries/', CountryListView.as_view(), name='country-list'),
-    path('provinces/', ProvinceListView.as_view(), name='province-list'),
+  path('create-order_receipt/', Create_order_Payment_upon_receipt.as_view(), name='create_order'),
+  path('generate-pdf/<int:order_id>/', generate_order_pdf, name='admin-generate-pdf'),
+  path('countries/', CountryListView.as_view(), name='country-list'),
+  path('provinces/', ProvinceListView.as_view(), name='province-list'),
 
 
 

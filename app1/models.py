@@ -270,6 +270,7 @@ class Orders(models.Model):
     phone_user = models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
     location = models.TextField()
+    city=models.ForeignKey(Province, on_delete=models.CASCADE)
     total=models.FloatField(default=0)
     
     status=[
