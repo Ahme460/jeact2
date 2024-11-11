@@ -632,7 +632,9 @@ class Create_order_Payment_upon_receipt(APIView):
 
 
          
-            dlevery=data['city'].delivery_price
+            city_id = data.get('city')
+            province = Province.objects.get(id=city_id)
+            dlevery = province.delivery_price
             # إعداد البيانات لطلب الشراء
             data['customer'] = user.id  # تحويل المستخدم إلى معرف (ID)
             data['order'] = text_order_str
