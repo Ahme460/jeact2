@@ -632,11 +632,12 @@ class Create_order_Payment_upon_receipt(APIView):
 
 
          
-            
+            dlevery=data['city'].delivery_price
             # إعداد البيانات لطلب الشراء
             data['customer'] = user.id  # تحويل المستخدم إلى معرف (ID)
             data['order'] = text_order_str
-            data['total'] = float(cart.total_price)
+            data['total'] = float(cart.total_price+dlevery)
+            
             
             # استخدام السيريالايزر للتحقق من صحة البيانات وحفظها
             serializer = Payment_upon_receipt(data=data)

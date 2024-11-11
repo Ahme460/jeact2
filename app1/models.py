@@ -304,18 +304,32 @@ class CartModel(models.Model):
 
             # إذا لم يكن هناك خصم، يتم استخدام السعر الأصلي
             if discount <= 0:
+            
                 total += price * quantity
+            
             else:
                 # إذا كان هناك خصم، يتم استخدامه بدلاً من السعر الأصلي
+            
+                
                 total += discount * quantity
-
+            
+            
         # إذا كان هناك كود خصم، يتم تطبيقه على المجموع الكلي
+        
+        
         if self.discount_code and self.discount_code.is_valid():
+            
             if self.discount_code.discount_percentage:
+                
                 # تطبيق نسبة الخصم
+                
                 total -= total * (self.discount_code.discount_percentage / 100)
-            elif self.discount_code.discount_amount:
+            
+            elif self.discount_code.discount_amount:  
+                
                 # تطبيق قيمة الخصم الثابتة
+                
+              
                 total -= self.discount_code.discount_amount
 
         return total
