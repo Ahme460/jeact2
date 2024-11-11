@@ -881,3 +881,18 @@ def generate_order_pdf(request, order_id):
     response = HttpResponse(html)
     response['Content-Type'] = 'text/html'
     return response
+
+
+
+
+class CountryListView(APIView):
+    def get(self, request):
+        countries = Country.objects.all()
+        serializer = CountrySerializer(countries, many=True)
+        return Response(serializer.data)
+
+class ProvinceListView(APIView):
+    def get(self, request):
+        provinces = Province.objects.all()
+        serializer = ProvinceSerializer2(provinces, many=True)
+        return Response(serializer.data)

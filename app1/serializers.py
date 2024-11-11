@@ -365,3 +365,16 @@ class Payment_upon_receipt(serializers.ModelSerializer):
         fields=['phone_user','email','location','customer','order','total']
         
         
+        
+
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = ['id', 'name']
+
+class ProvinceSerializer2(serializers.ModelSerializer):
+    country = CountrySerializer(read_only=True)
+
+    class Meta:
+        model = Province
+        fields = ['id', 'name', 'country', 'delivery_price']
