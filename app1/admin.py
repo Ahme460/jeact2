@@ -22,8 +22,6 @@ class CustomerUserAdmin(ModelAdmin):
         super().save_model(request, obj, form, change)
 class ProductsAdmin(ModelAdmin):
     search_fields = ['name', 'description']
-    list_display = ['name', 'details']  # عرض الحقل في القائمة
-    fields = ['name', 'details']  # الحقول التي ستظهر عند التعديل
 
 class SizesModelAdmin(ModelAdmin):
     search_fields = ['size']
