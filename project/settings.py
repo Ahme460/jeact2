@@ -283,3 +283,10 @@ UNFOLD ={
 
 
 
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 700,
+        'width': 'full',
+    },
+}
