@@ -259,6 +259,11 @@ SITE_ID = 1
 
 UNFOLD ={
     
+    'extra_css': [
+        '/static/unfold/custom_admin.css',  # مسار ملف CSS المخصص
+    ],
+
+    
         "SITE_TITLE": "bantayga",
     "SITE_HEADER": "bantayga_big_Store",
      "EXTENSIONS": {
