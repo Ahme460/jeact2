@@ -233,7 +233,7 @@ DEFAULT_FROM_EMAIL = "info@bantayga.wtf"
 EMAIL_PORT = 465  
 EMAIL_HOST_USER = "info@bantayga.wtf"
 EMAIL_HOST_PASSWORD = "Bantayga.wtf1" 
-FRONTEND_URL=''
+FRONTEND_URL='https://bantayga.wtf'
 
 
 
