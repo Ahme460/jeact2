@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'django.contrib.sites',
+     'ckeditor',
 ]
 
 MIDDLEWARE = [
