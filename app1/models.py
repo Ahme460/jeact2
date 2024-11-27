@@ -168,7 +168,7 @@ class Products(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     sale_status = models.CharField(max_length=10, choices=SALE_CHOICES, default='sale')
-    details = models.TextField() 
+    details = RichTextField()
     Discount = models.FloatField(blank=True,null=True,default=0) # حقل الخصم كنسبة مئوية
     #size = models.CharField(max_length=50, null=True, choices=SIZE_SELECT)
     is_featured = models.BooleanField(default=False, verbose_name="Featured on Homepage")   
