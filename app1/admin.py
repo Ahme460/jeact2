@@ -24,7 +24,7 @@ class ProductsAdmin(ModelAdmin):
     search_fields = ['name', 'description']
 
 class SizesModelAdmin(ModelAdmin):
-    search_fields = ['size']
+    search_fields = ['size','product__name']
 
 class ColorsModelAdmin(ModelAdmin):
     search_fields = ['color']
