@@ -38,6 +38,7 @@ class PasswordResetRequestSerializer(serializers.Serializer):
             f'Click the link to reset your password: {url}',
             settings.DEFAULT_FROM_EMAIL,
             [user.email],
+            
         )
 
 class PasswordResetSerializer(serializers.Serializer):

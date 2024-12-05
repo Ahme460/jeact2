@@ -610,7 +610,14 @@ class Create_order_Payment_upon_receipt(APIView):
             for i in cart_items:
                 # تحويل المعلومات إلى نصوص مفهومة
                 text_order.append(f"Product: {i.product.name}, Quantity: {i.quantity}, Size: {i.size}, Color: {i.color}")
-
+                size=i.size
+                producat=Products.objects.get(id=i.product.id)
+                size_query=SizesModel.objects.get(product=producat,size=size)
+                if size_query.count >= i.quantity:
+                    size_query.count -= i.quantity
+                    size_query.save()
+                else:
+                    raise ValueError("quantity not enough ")
             # تحويل القائمة إلى سلسلة نصية مع فواصل الأسطر
             text_order_str = '\n'.join(text_order)
 
